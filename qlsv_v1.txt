@@ -1,0 +1,100 @@
+CREATE DATABASE QuanLySinhVien;
+USE QuanLySinhVien;
+
+CREATE TABLE tblChucVu (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    tenCV VARCHAR(55)
+);
+
+CREATE TABLE tblKhoa (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    tenKhoa VARCHAR(255)
+);
+
+CREATE TABLE tblThanhVien (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    tblChucVuid INT,
+    tblKhoaid INT,
+    maSV VARCHAR(255) UNIQUE,
+    lop VARCHAR(55),
+    hoTen VARCHAR(255),
+    diaChi VARCHAR(255),
+    ngaySinh VARCHAR(255),
+    FOREIGN KEY (tblChucVuid) REFERENCES tblChucVu(id),
+    FOREIGN KEY (tblKhoaid) REFERENCES tblKhoa(id)
+);
+
+CREATE TABLE tblKiHoc (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    tenKiHoc VARCHAR(255)
+);
+
+CREATE TABLE tblMonHoc (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    tenMH VARCHAR(255),
+    soTc INT
+);
+
+CREATE TABLE tblMonHocDauDiem (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    tenDauDiem VARCHAR(255),
+    heSo INT,
+    tblMonHocid INT,
+    FOREIGN KEY (tblMonHocid) REFERENCES tblMonHoc(id)
+);
+
+CREATE TABLE tblLopHocPhan (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    tblKiHocid INT,
+    tblMonHocid INT,
+    nhomMonHoc VARCHAR(255),
+    siSoToiDa VARCHAR(255),
+    namHoc INT,
+    FOREIGN KEY (tblKiHocid) REFERENCES tblKiHoc(id),
+    FOREIGN KEY (tblMonHocid) REFERENCES tblMonHoc(id)
+);
+
+CREATE TABLE tblThamGia (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    tblThanhVienid INT,
+    tblLopHocPhanid INT,
+    FOREIGN KEY (tblThanhVienid) REFERENCES tblThanhVien(id),
+    FOREIGN KEY (tblLopHocPhanid) REFERENCES tblLopHocPhan(id)
+);
+
+CREATE TABLE tblKetQua (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    tblMonHocDauDiemid INT,
+    tblThamGiaid INT,
+    diem FLOAT,
+    FOREIGN KEY (tblMonHocDauDiemid) REFERENCES tblMonHocDauDiem(id),
+    FOREIGN KEY (tblThamGiaid) REFERENCES tblThamGia(id)
+);
+
+CREATE TABLE tblDiemChu (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    diemChu VARCHAR(255),
+    diemHe10ToiThieu FLOAT,
+    diemHe10ToiDa FLOAT
+);
+
+-- Thêm dữ liệu mẫu
+INSERT INTO tblChucVu (tenCV) VALUES ('Giảng viên'), ('Sinh viên');
+INSERT INTO tblKhoa (tenKhoa) VALUES ('Công nghệ thông tin'), ('Quản trị kinh doanh');
+INSERT INTO tblThanhVien (tblChucVuid, tblKhoaid, maSV, lop, hoTen, diaChi, ngaySinh)
+VALUES (2, 1, 'SV001', 'CNTT1', 'Nguyễn Văn A', 'Hà Nội', '2001-01-01'),
+       (2, 2, 'SV002', 'QTKD1', 'Trần Thị B', 'Hồ Chí Minh', '2000-02-15');
+
+INSERT INTO tblKiHoc (tenKiHoc) VALUES ('Học kỳ 1'), ('Học kỳ 2');
+INSERT INTO tblMonHoc (tenMH, soTc) VALUES ('Toán cao cấp', 3), ('Lập trình Java', 4);
+INSERT INTO tblMonHocDauDiem (tenDauDiem, heSo, tblMonHocid) 
+VALUES ('Điểm giữa kỳ', 40, 1), ('Điểm cuối kỳ', 60, 2);
+
+INSERT INTO tblLopHocPhan (tblKiHocid, tblMonHocid, nhomMonHoc, siSoToiDa, namHoc)
+VALUES (1, 1, 'Nhóm 1', '50', 2023), (2, 2, 'Nhóm 2', '60', 2023);
+
+INSERT INTO tblThamGia (tblThanhVienid, tblLopHocPhanid)
+VALUES (1, 1), (2, 2);
+
+INSERT INTO tblKetQua (tblMonHocDauDiemid, tblThamGiaid, diem)
+VALUES (1, 1, 8.5), (2, 2, 9.0);
