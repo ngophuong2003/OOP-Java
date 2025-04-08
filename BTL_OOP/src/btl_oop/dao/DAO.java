@@ -1,13 +1,8 @@
 
 package btl_oop.dao;
 
-
-import java.sql.SQLException;
 import java.sql.DriverManager;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
 
 public abstract class DAO {
     protected Connection con ;
