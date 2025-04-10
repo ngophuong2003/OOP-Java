@@ -25,7 +25,7 @@ public class BTL_OOP {
         while (running) {
             if (currentUser == null) {
                 menuDangNhap();
-                int choice = getChoice(3,scanner);
+                int choice = getChoice(3);
                 switch (choice) {
                     case 1:
                         loginGUI();
@@ -64,16 +64,28 @@ public class BTL_OOP {
     //===================== LUONG =========================
     private void loginGUI() {
         System.out.println("Đăng nhập");
-        currentUser = new ThanhVienController().getThanhVienById(1);
-//        if(currentUser.getChucVu().getTenCV().equals("Admin")){
-            runAdmin();
-//        }
-//        else if(currentUser.getChucVu().getTenCV().equals("GV")){
-//            
-//        }
-//        else{
-//            
-//        }   
+        System.out.println("Nhập tài khoản: ");
+        String username = scanner.next();
+        System.out.println("Nhập mật khẩu: ");
+        String password = scanner.next();
+        boolean isLogin = thanhVienController.login(username, password);
+        if(isLogin){
+            currentUser = thanhVienController.getThanhVienByMa(username);
+            if(currentUser.getChucVu().getTenCV().equals("Admin")){
+                runAdmin();
+            }
+            else if(currentUser.getChucVu().getTenCV().equals("GV")){
+                runGV();
+                System.out.println("GV");
+            }
+            else{
+                runSV();
+                System.out.println("SV");
+            }   
+        }
+        else{
+            menuDangNhap();
+        }   
     }
    
 
@@ -89,7 +101,7 @@ public class BTL_OOP {
         boolean running = true;
         while (running) {
             menuTrangChuAdmin();
-            int choice = getChoice(5,scanner);
+            int choice = getChoice(5);
             switch (choice) {
                 case 1:
                     quanLySinhVienGUI();
@@ -138,7 +150,7 @@ public class BTL_OOP {
     
     //===================== THANH =========================
     
-    public int getChoice(int maxChoice, Scanner scanner) {
+    public int getChoice(int maxChoice) {
         int choice = -1;
         try {
             choice = Integer.parseInt(scanner.nextLine());
@@ -152,4 +164,11 @@ public class BTL_OOP {
         }
         return choice;
     }
+    
+    public void runGV(){
+    }
+    public void runSV(){
+    }
+    
+    
 }

@@ -5,17 +5,26 @@ public class ThanhVien {
     private int id;
     private ChucVu chucVu;
     private Khoa khoa;
-    private String maSV, lop, hoTen, diaChi, ngaySinh;
+    private String maSV,matKhau, lop, hoTen, diaChi, ngaySinh;
 
-    public ThanhVien(int id, ChucVu chucVu, Khoa khoa, String maSV, String lop, String hoTen, String diaChi, String ngaySinh) {
+    public ThanhVien(int id, ChucVu chucVu, Khoa khoa, String maSV,String matKhau, String lop, String hoTen, String diaChi, String ngaySinh) {
         this.id = id;
         this.chucVu = chucVu;
         this.khoa = khoa;
         this.maSV = maSV;
+        this.matKhau= matKhau;
         this.lop = lop;
         this.hoTen = hoTen;
         this.diaChi = diaChi;
         this.ngaySinh = ngaySinh;
+    }
+
+    public String getMatKhau() {
+        return matKhau;
+    }
+
+    public void setMatKhau(String matKhau) {
+        this.matKhau = matKhau;
     }
 
     public int getId() {
