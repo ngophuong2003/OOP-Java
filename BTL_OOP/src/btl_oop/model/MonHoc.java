@@ -1,22 +1,33 @@
-
 package btl_oop.model;
 
-
 public class MonHoc {
-    private int id, soTc;
-    private String tenMH;
 
-    public MonHoc(int id, int soTc, String tenMH) {
+    private int id, soTc;
+    private String tenMH, maMH;
+
+    public MonHoc(int id,  String tenMH,int soTC, String maMH) {
         this.id = id;
-        this.soTc = soTc;
         this.tenMH = tenMH;
+        this.soTc = soTc;
+        this.maMH = maMH;
+    }
+    public MonHoc(  String tenMH,int soTC, String maMH) {
+        this.tenMH = tenMH;
+        this.soTc = soTc;
+        this.maMH = maMH;
+    }
+    public MonHoc(int id){
+        this.id=id;
+    }
+
+    public String getMaMH() {
+        return maMH;
     }
 
     public int getId() {
         return id;
     }
 
- 
     public int getSoTc() {
         return soTc;
     }
@@ -37,6 +48,5 @@ public class MonHoc {
     public String toString() {
         return "MonHoc{" + "id=" + id + ", soTc=" + soTc + ", tenMH=" + tenMH + '}';
     }
-    
-    
+
 }

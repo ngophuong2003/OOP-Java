@@ -18,6 +18,22 @@ public class ThanhVien {
         this.diaChi = diaChi;
         this.ngaySinh = ngaySinh;
     }
+    
+    public ThanhVien( ChucVu chucVu, Khoa khoa, String maSV,String matKhau, String lop, String hoTen, String diaChi, String ngaySinh) {
+        this.chucVu = chucVu;
+        this.khoa = khoa;
+        this.maSV = maSV;
+        this.matKhau= matKhau;
+        this.lop = lop;
+        this.hoTen = hoTen;
+        this.diaChi = diaChi;
+        this.ngaySinh = ngaySinh;
+    }
+    
+    
+    public ThanhVien(int id){
+        this.id=id;
+    }
 
     public String getMatKhau() {
         return matKhau;

@@ -101,3 +101,11 @@ VALUES (1, 1, 8.5), (2, 2, 9.0);
 
 ALTER TABLE `quanlysinhvien`.`tblthanhvien` 
 ADD COLUMN `matKhau` VARCHAR(255) NOT NULL DEFAULT '1' AFTER `ngaySinh`;
+ALTER TABLE `quanlysinhvien`.`tblkhoa` 
+ADD COLUMN `maKhoa` VARCHAR(45) NOT NULL AFTER `tenKhoa`;
+ALTER TABLE `quanlysinhvien`.`tblmonhoc` 
+ADD COLUMN `maMH` VARCHAR(255) NULL AFTER `soTc`,
+ADD UNIQUE INDEX `maMH_UNIQUE` (`maMH` ASC) VISIBLE;
+
+UPDATE `quanlysinhvien`.`tblmonhoc` SET `maMH` = 'MH001' WHERE (`id` = '1');
+UPDATE `quanlysinhvien`.`tblmonhoc` SET `maMH` = 'MH002' WHERE (`id` = '2');

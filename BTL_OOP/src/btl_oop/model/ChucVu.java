@@ -9,6 +9,9 @@ public class ChucVu {
         this.id = id;
         this.tenCV = tenCV;
     }
+    public ChucVu(int id){
+        this.id=id;
+    }
 
     public int getId() {
         return id;

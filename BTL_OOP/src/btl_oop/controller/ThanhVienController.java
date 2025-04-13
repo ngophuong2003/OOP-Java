@@ -30,7 +30,29 @@ public class ThanhVienController {
     public boolean register(String maSV, String password ){
         return true;
     }
-    
+    public void addGiangVien(ThanhVien thanhvien){
+        ThanhVien tv = thanhVienDAO.getByMa(thanhvien.getMaSV());
+        if(tv.getId()==-1){
+            if(thanhVienDAO.addObject(thanhvien)){
+                System.out.println("Thêm giáo viên thành công!");
+            }
+            else{
+                System.out.println("Thêm thất bại!");
+            }
+        }
+        else{
+            System.out.println("Giáo viên đã tồn tại trong hệ thống!");
+        }
+        
+    }
+    public void deleteGiangVien(int id){
+        if(thanhVienDAO.deleteObject(id)){
+            System.out.println("Xóa giảng viên thành công!");
+        }
+        else{
+            System.out.println("Xóa giảng viên thất bại!");
+        }
+    }
    
     
     

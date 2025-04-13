@@ -24,7 +24,7 @@ public class ThanhVienDAO extends DAO {
             ResultSet rs= st.executeQuery();
             if(rs.next()) {
                 ChucVu chucvu = new ChucVu(rs.getInt("tblChucVuid"),rs.getString("tenCV"));
-                Khoa khoa = new Khoa(rs.getInt("tblKhoaid"),rs.getString("tenKhoa"));
+                Khoa khoa = new Khoa(rs.getInt("tblKhoaid"),rs.getString("tenKhoa"), rs.getString("maKhoa"));
                 ThanhVien thanhvien = new ThanhVien(
                         id, 
                         chucvu,
@@ -58,7 +58,7 @@ public class ThanhVienDAO extends DAO {
             ResultSet rs= st.executeQuery();
             while(rs.next()) {
                 ChucVu chucvu = new ChucVu(rs.getInt("tblChucVuid"),rs.getString("tenCV"));
-                Khoa khoa = new Khoa(rs.getInt("tblKhoaid"),rs.getString("tenKhoa"));
+                Khoa khoa = new Khoa(rs.getInt("tblKhoaid"),rs.getString("tenKhoa"), rs.getString("maKhoa"));
                 ThanhVien thanhvien = new ThanhVien(
                         rs.getInt("id"), 
                         chucvu,
@@ -90,7 +90,7 @@ public class ThanhVienDAO extends DAO {
             ResultSet rs= st.executeQuery();
             if(rs.next()) {
                 ChucVu chucvu = new ChucVu(rs.getInt("tblChucVuid"),rs.getString("tenCV"));
-                Khoa khoa = new Khoa(rs.getInt("tblKhoaid"),rs.getString("tenKhoa"));
+                Khoa khoa = new Khoa(rs.getInt("tblKhoaid"),rs.getString("tenKhoa"), rs.getString("maKhoa"));
                 ThanhVien thanhvien = new ThanhVien(
                         rs.getInt("id"), 
                         chucvu,khoa, 
@@ -103,14 +103,33 @@ public class ThanhVienDAO extends DAO {
                 return  thanhvien; 
             }
         } catch (SQLException e) {
-            System.out.println("Lỗi SQL trong getByMa: " + e.getMessage());   
+            System.out.println("Lỗi SQL trong getByMa: " + e.getMessage());
+            return new ThanhVien (-1);
         }
-        return null;
+        return new ThanhVien(-1);
     }
 
     @Override
-    public boolean addObject(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public boolean addObject(Object thanhVien) {
+        try{
+            ThanhVien tv=(ThanhVien) thanhVien;
+            String sql="insert into tblthanhvien( tblChucVuid, tblKhoaid, maSV, matKhau, lop, hoTen, diaChi, ngaySinh) "
+                    + "values(?,?,?,?,?,?,?,?)";
+            PreparedStatement st=con.prepareStatement(sql);
+            st.setInt(1,tv.getChucVu().getId());
+            st.setInt(2,tv.getKhoa().getId());
+            st.setString(3,tv.getMaSV());
+            st.setString(4,tv.getMatKhau());
+            st.setString(5,tv.getLop());
+            st.setString(6,tv.getHoTen());
+            st.setString(7, tv.getDiaChi());
+            st.setString(8,tv.getNgaySinh());
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e){
+            System.out.println("Lỗi SQL trong addThanhVien"+ e.getMessage());
+            return false;
+        }
     }
 
     @Override
@@ -119,8 +138,17 @@ public class ThanhVienDAO extends DAO {
     }
 
     @Override
-    public boolean deleteObject(int objectId) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public boolean deleteObject(int id) {
+        try{
+            String sql="delete from tblthanhvien where id =?";
+            PreparedStatement st=con.prepareStatement(sql);
+            st.setInt(1, id);
+            st.executeUpdate();
+            return true; 
+        } catch (SQLException e){
+            System.out.println("Lỗi SQL trong deleteThanhVien"+ e.getMessage());
+            return false;
+        }
     }
     
 }
