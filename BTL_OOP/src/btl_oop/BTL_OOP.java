@@ -38,7 +38,7 @@ public class BTL_OOP {
         while (running) {
             if (currentUser == null) {
                 menuDangNhap();
-                int choice = getChoice(4);
+                int choice = getChoice(3);
                 switch (choice) {
                     case 1:
                         loginGUI();
