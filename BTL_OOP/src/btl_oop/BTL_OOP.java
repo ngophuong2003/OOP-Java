@@ -33,23 +33,24 @@ public class BTL_OOP {
         app.run();
     }
 
-    public void run() {
+ public void run() {
         boolean running = true;
         while (running) {
             if (currentUser == null) {
                 menuDangNhap();
-                int choice = getChoice(3);
+                int choice = getChoice(4);
                 switch (choice) {
                     case 1:
                         loginGUI();
                         break;
                     case 2:
-                        registerGUI();
+                        resetMatKhauGUI();
                         break;
-                    case 3:
-                        running = false;
+                     case 3:
+                       running = false;
                         System.out.println("Cảm ơn bạn đã sử dụng hệ thống. Tạm biệt!");
-                        break;
+                        break;    
+                   
                 }
             }
         }
@@ -58,9 +59,10 @@ public class BTL_OOP {
     private void menuDangNhap() {
         System.out.println("\n===== HỆ THỐNG QUẢN LÝ SINH VIÊN =====");
         System.out.println("1. Đăng nhập");
-        System.out.println("2. Đăng ký (chỉ dành cho sinh viên)");
+        System.out.println("2. Quên mật khẩu");
         System.out.println("3. Thoát");
-        System.out.print("Lựa chọn của bạn: ");
+        System.out.print("Lựa chọn của bạn: ");   
+
     }
 
     private void menuTrangChuAdmin() {
@@ -85,24 +87,50 @@ public class BTL_OOP {
         if (isLogin) {
             currentUser = thanhVienController.getThanhVienByMa(username);
             if (currentUser.getChucVu().getTenCV().equals("Admin")) {
+                System.out.println("Xin chào Admin!");
                 runAdmin();
             } else if (currentUser.getChucVu().getTenCV().equals("GV")) {
-                runGV();
-                System.out.println("GV");
+                
+               runGV();
+                System.out.println("Xin chào Giảng viên!");
             } else {
                 runSV();
-                System.out.println("SV");
+                System.out.println("Xin chào Sinh viên!");
             }
         } else {
             menuDangNhap();
+            System.out.println("Tài khoản hoặc mật khẩu sai!");
         }
     }
 
-    private void registerGUI() {
-        System.out.println("Đăng ký");
-    }
+  
 
     //===================== LUONG =========================
+    
+    private void resetMatKhauGUI() {
+    System.out.println("\n===== RESET MẬT KHẨU =====");
+    System.out.print("Nhập mã sinh viên (tên đăng nhập): ");
+    String maSV = scanner.nextLine().trim();
+
+    ThanhVien tv = thanhVienController.getThanhVienByMa(maSV);
+    if (tv.getId() == -1) {
+        System.out.println("Không tìm thấy tài khoản.");
+        return;
+    }
+
+    System.out.print("Nhập mật khẩu mới: ");
+    String newPassword = scanner.nextLine().trim();
+
+    boolean success = thanhVienController.resetMatKhau(maSV, newPassword);
+    if (success) {
+        System.out.println("Mật khẩu đã được cập nhật thành công!");
+        loginGUI();
+    } else {
+        System.out.println("Lỗi khi cập nhật mật khẩu.");
+    }
+}
+  
+    
     //===================== PHUONG =========================
     public void runAdmin() {
         boolean running = true;
