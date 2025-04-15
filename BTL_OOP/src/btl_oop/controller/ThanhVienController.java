@@ -23,13 +23,35 @@ public class ThanhVienController {
         return thanhVienDAO.getAllThanhVienByChucVu(tenCV);
     }
     
-    public boolean login(String maSV, String password){
-        return true;
-    }
     
-    public boolean register(String maSV, String password ){
-        return true;
+    public boolean login(String maSV, String password) {
+        ThanhVien tv = thanhVienDAO.getByMa(maSV);
+        if (tv.getId() == -1) {
+            System.out.println("️Tài khoản không tồn tại!");
+            return false;
+        }
+
+        if (tv.getMatKhau().equals(password)) {
+            System.out.println("Đăng nhập thành công!");
+            return true;
+        } else {
+            System.out.println("Sai mật khẩu!");
+            return false;
+        }
     }
+
+   public boolean resetMatKhau(String maSV, String matKhauMoi) {
+        ThanhVien tv = thanhVienDAO.getByMa(maSV);
+        if (tv.getId() == -1) {
+            System.out.println("Không tìm thấy tài khoản.");
+            return false;
+        }
+        tv.setMatKhau(matKhauMoi);
+        return thanhVienDAO.updateObject(tv);
+    }
+
+    
+  
     public void addGiangVien(ThanhVien thanhvien){
         ThanhVien tv = thanhVienDAO.getByMa(thanhvien.getMaSV());
         if(tv.getId()==-1){
