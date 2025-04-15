@@ -132,10 +132,21 @@ public class ThanhVienDAO extends DAO {
         }
     }
 
-    @Override
-    public boolean updateObject(Object object) {
-        throw new UnsupportedOperationException("Not supported yet.");
+@Override
+public boolean updateObject(Object object) {
+    ThanhVien tv = (ThanhVien) object;
+    try {
+        String sql = "UPDATE tblthanhvien SET matkhau = ? WHERE id = ?";
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setString(1, tv.getMatKhau());
+        st.setInt(2, tv.getId());
+        st.executeUpdate();
+        return true;
+    } catch (SQLException e) {
+        System.out.println("Lỗi cập nhật mật khẩu: " + e.getMessage());
+        return false;
     }
+}
 
     @Override
     public boolean deleteObject(int id) {
