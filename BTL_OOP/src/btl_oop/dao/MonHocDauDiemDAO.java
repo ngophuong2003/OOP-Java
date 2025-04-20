@@ -14,8 +14,8 @@ public class MonHocDauDiemDAO extends DAO {
         return null;
     }
     public List<MonHocDauDiem> getByMonHoc(int monhocid){
-        String sql="select *from tblmonhocdaudiem"
-                + "where tblMonHocid=? ";
+        String sql="select *from tblmonhocdaudiem "
+                + "where tblMonHocid= ? ";
         List<MonHocDauDiem> mhdd=new ArrayList<>();
         try{
             PreparedStatement st=con.prepareStatement(sql);
@@ -28,7 +28,7 @@ public class MonHocDauDiemDAO extends DAO {
             return mhdd;
             
         }catch(SQLException e){
-            System.out.println("Lỗi getByAllMonHoc "+e.getMessage());
+            System.out.println("Lỗi getAllMonHocDauDiemByMonHoc "+e.getMessage());
             return mhdd;
         }
         

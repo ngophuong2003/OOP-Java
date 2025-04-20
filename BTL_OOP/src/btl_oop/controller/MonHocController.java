@@ -2,13 +2,17 @@
 package btl_oop.controller;
 
 import btl_oop.dao.MonHocDAO;
+import btl_oop.dao.MonHocDauDiemDAO;
 import btl_oop.model.MonHoc;
+import btl_oop.model.MonHocDauDiem;
 import java.util.List;
 
 public class MonHocController {
     private MonHocDAO monHocDAO;
+    private MonHocDauDiemDAO monHocDauDiemDAO;
     public MonHocController(){
         this.monHocDAO=new MonHocDAO();
+        this.monHocDauDiemDAO = new MonHocDauDiemDAO();
     }
     public List<MonHoc> getAllMonHoc(){
         return monHocDAO.getAllMonHoc();
@@ -45,6 +49,10 @@ public class MonHocController {
         else{
             System.out.println("Sửa thông tin môn học thất bại!");
         }
+    }
+    
+    public List<MonHocDauDiem> getMonHocDauDiemByMonHoc(int monHocId){
+        return monHocDauDiemDAO.getByMonHoc(monHocId);
     }
     
 }

@@ -4,37 +4,42 @@ package btl_oop.model;
 
 public class ThamGia {
     private int id;
-    private ThanhVien thanhVien;
-    private LopHocPhan lopHocPhan;
+    private int thanhVienId;
+    private int lopHocPhanId;
 
-    public ThamGia(int id, ThanhVien thanhVien, LopHocPhan lopHocPhan) {
+    public ThamGia(int id, int thanhVienId, int lopHocPhanId) {
         this.id = id;
-        this.thanhVien = thanhVien;
-        this.lopHocPhan = lopHocPhan;
+        this.thanhVienId = thanhVienId;
+        this.lopHocPhanId = lopHocPhanId;
+    }
+     public ThamGia(int id) {
+        this.id = -1;
     }
 
     public int getId() {
         return id;
     }
-    public ThanhVien getThanhVien() {
-        return thanhVien;
+
+    public int getThanhVienId() {
+        return thanhVienId;
     }
 
-    public void setThanhVien(ThanhVien thanhVien) {
-        this.thanhVien = thanhVien;
+    public void setThanhVienId(int thanhVienId) {
+        this.thanhVienId = thanhVienId;
     }
 
-    public LopHocPhan getLopHocPhan() {
-        return lopHocPhan;
+    public int getLopHocPhanId() {
+        return lopHocPhanId;
     }
 
-    public void setLopHocPhan(LopHocPhan lopHocPhan) {
-        this.lopHocPhan = lopHocPhan;
+    public void setLopHocPhanId(int lopHocPhanId) {
+        this.lopHocPhanId = lopHocPhanId;
     }
 
     @Override
     public String toString() {
-        return "ThamGia{" + "id=" + id + ", thanhVien=" + thanhVien + ", lopHocPhan=" + lopHocPhan + '}';
+        return "ThamGia{" + "id=" + id + ", thanhVienId=" + thanhVienId + ", lopHocPhanId=" + lopHocPhanId + '}';
     }
-    
+
+   
 }

@@ -2,7 +2,9 @@
 package btl_oop.controller;
 
 import btl_oop.dao.LopHocPhanDAO;
+import btl_oop.dao.MonHocDauDiemDAO;
 import btl_oop.model.LopHocPhan;
+import btl_oop.model.MonHocDauDiem;
 import java.util.List;
 
 
@@ -18,4 +20,5 @@ public class LopHocPhanController {
     public List<LopHocPhan> getLopHocPhanByMonHocKiHoc(int monHocId, String tenKiHoc){
         return lopHocPhanDAO.getAllLopHocPhanByMonHocKiHoc(monHocId, tenKiHoc);
     }
+    
 }

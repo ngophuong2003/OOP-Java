@@ -51,7 +51,7 @@ public class ThanhVienController {
             return false;
         }
         tv.setMatKhau(matKhauMoi);
-        return thanhVienDAO.updateObject(tv);
+        return thanhVienDAO.updateMatKhau(tv);
     }
 
     // ========== Giảng viên ==========

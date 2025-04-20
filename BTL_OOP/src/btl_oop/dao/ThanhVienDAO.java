@@ -192,13 +192,13 @@ public class ThanhVienDAO extends DAO {
                + "ON tv.tblChucVuid = cv.id  "
                + "and tv.tblKhoaid = khoa.id "
                + "and tv.id = tg.tblThanhVienid "
-               + "WHERE cv.tenCV = ?"
+               + "WHERE cv.tenCV = ? "
                + "AND tg.tblLopHocPhanid = ? ";
         List<ThanhVien> thanhVien = new ArrayList<>();
         try{
             PreparedStatement st=con.prepareStatement(sql);
-            st.setInt(1, lopHPId);
-            st.setString(2, tenCV);
+            st.setInt(2, lopHPId);
+            st.setString(1, tenCV);
             ResultSet rs= st.executeQuery();
             while(rs.next()) {
                 ChucVu chucvu = new ChucVu(rs.getInt("tblChucVuid"),rs.getString("tenCV"));

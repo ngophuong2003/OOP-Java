@@ -13,6 +13,12 @@ public class KetQua {
         this.thamGia = thamGia;
         this.diem = diem;
     }
+    
+    public KetQua(MonHocDauDiem monHocDauDiem, ThamGia thamGia, float diem) {
+        this.monHocDauDiem = monHocDauDiem;
+        this.thamGia = thamGia;
+        this.diem = diem;
+    }
 
     public int getId() {
         return id;

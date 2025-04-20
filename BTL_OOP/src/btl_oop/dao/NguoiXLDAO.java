@@ -3,7 +3,9 @@ package btl_oop.dao;
 import btl_oop.model.Diem;
 import btl_oop.model.PhacHoi;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 

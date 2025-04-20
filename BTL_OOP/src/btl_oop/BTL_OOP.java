@@ -2,9 +2,12 @@ package btl_oop;
 
 import btl_oop.controller.*;
 import btl_oop.model.ChucVu;
+import btl_oop.model.KetQua;
 import btl_oop.model.Khoa;
 import btl_oop.model.LopHocPhan;
 import btl_oop.model.MonHoc;
+import btl_oop.model.MonHocDauDiem;
+import btl_oop.model.ThamGia;
 import btl_oop.model.ThanhVien;
 
 import java.util.List;
@@ -20,9 +23,11 @@ public class BTL_OOP {
     private MonHocController monHocController;
     private LopHocPhanController lopHocPhanController;
     private KiHocController kiHocController;
+    private KetQuaController ketQuaController;
 
     private SinhVienController sinhVienController;
     private NguoiXLController nguoiXLController;
+
     public BTL_OOP() {
         scanner = new Scanner(System.in);
         thanhVienController = new ThanhVienController();
@@ -33,6 +38,7 @@ public class BTL_OOP {
         lopHocPhanController = new LopHocPhanController();
         sinhVienController = new SinhVienController();
         nguoiXLController = new NguoiXLController();
+        ketQuaController = new KetQuaController();
     }
 
     public static void main(String[] args) {
@@ -99,7 +105,7 @@ public class BTL_OOP {
             } else if (currentUser.getChucVu().getTenCV().equals("GV")) {
                 runGV();
                 System.out.println("Xin chào Giảng viên!");
-            } else if (currentUser.getChucVu().getTenCV().equals("SV")){
+            } else if (currentUser.getChucVu().getTenCV().equals("SV")) {
                 runSV(currentUser.getMaSV());
                 System.out.println("Xin chào Sinh viên!");
             } else {
@@ -113,9 +119,7 @@ public class BTL_OOP {
         }
     }
 
-
     //===================== LUONG =========================
-
     private void resetMatKhauGUI() {
         System.out.println("\n===== RESET MẬT KHẨU =====");
         System.out.print("Nhập mã sinh viên (tên đăng nhập): ");
@@ -138,7 +142,6 @@ public class BTL_OOP {
             System.out.println("Lỗi khi cập nhật mật khẩu.");
         }
     }
-
 
     //===================== PHUONG =========================
     public void runAdmin() {
@@ -235,20 +238,20 @@ public class BTL_OOP {
     }
 
     private void suaThongTinGiangVienGUI() {
-        List<ThanhVien> tv=thanhVienController.getAllThanhVienByChucVu("GV");
-        for(ThanhVien x:tv){
+        List<ThanhVien> tv = thanhVienController.getAllThanhVienByChucVu("GV");
+        for (ThanhVien x : tv) {
             System.out.println(x);
         }
         System.out.print("Nhập ID giảng viên muốn sửa thông tin:");
-        int idGV=scanner.nextInt();
+        int idGV = scanner.nextInt();
         scanner.nextLine();
-        ThanhVien tvUpdate= thanhVienController.getThanhVienById(idGV);
+        ThanhVien tvUpdate = thanhVienController.getThanhVienById(idGV);
 
         khoaController.getByAllKhoa();
         System.out.println("Khoa hiện tại:" + tvUpdate.getKhoa());
         System.out.print("Nhập mã khoa mới( Enter để bỏ qua):");
         String maKhoa = scanner.nextLine().trim();
-        if(!maKhoa.equals("")){
+        if (!maKhoa.equals("")) {
             Khoa khoa = khoaController.getByMaKhoa(maKhoa);
             tvUpdate.setKhoa(khoa);
         }
@@ -256,35 +259,35 @@ public class BTL_OOP {
         System.out.println("Mật khẩu hiện tại:" + tvUpdate.getMatKhau());
         System.out.print("Nhập mật khẩu mới( Enter để bỏ qua):");
         String matKhau = scanner.nextLine().trim();
-        if(!matKhau.equals("")){
+        if (!matKhau.equals("")) {
             tvUpdate.setMatKhau(matKhau);
         }
 
-        System.out.println("Lớp hiện tại:" +tvUpdate.getLop());
+        System.out.println("Lớp hiện tại:" + tvUpdate.getLop());
         System.out.print("Nhập lớp mới( Enter để bỏ qua):");
-        String lop=scanner.nextLine().trim();
-        if(!lop.equals("")) {
+        String lop = scanner.nextLine().trim();
+        if (!lop.equals("")) {
             tvUpdate.setLop(lop);
         }
 
-        System.out.println("Họ và tên hiện tại:"+tvUpdate.getHoTen());
+        System.out.println("Họ và tên hiện tại:" + tvUpdate.getHoTen());
         System.out.print("Nhập họ và tên mới( Enter để bỏ qua):");
-        String hoTen=scanner.nextLine().trim();
-        if(!hoTen.equals("")) {
+        String hoTen = scanner.nextLine().trim();
+        if (!hoTen.equals("")) {
             tvUpdate.setHoTen(hoTen);
         }
 
-        System.out.println("Địa chỉ hiện tại:"+tvUpdate.getDiaChi());
+        System.out.println("Địa chỉ hiện tại:" + tvUpdate.getDiaChi());
         System.out.print("Nhập địa chỉ mới( Enter để bỏ qua):");
-        String diaChi=scanner.nextLine().trim();
-        if(!diaChi.equals("")) {
+        String diaChi = scanner.nextLine().trim();
+        if (!diaChi.equals("")) {
             tvUpdate.setDiaChi(diaChi);
         }
 
-        System.out.println("Ngày sinh hiện tại:"+tvUpdate.getDiaChi());
+        System.out.println("Ngày sinh hiện tại:" + tvUpdate.getDiaChi());
         System.out.print("Nhập ngày sinh mới( Enter để bỏ qua):");
-        String ngaySinh=scanner.nextLine().trim();
-        if(!ngaySinh.equals("")) {
+        String ngaySinh = scanner.nextLine().trim();
+        if (!ngaySinh.equals("")) {
             tvUpdate.setNgaySinh(ngaySinh);
         }
 
@@ -340,41 +343,43 @@ public class BTL_OOP {
         monHocController.deleteMonHoc(idMH);
 
     }
-    private void suaThongTinMonHocGUI(){
-        List<MonHoc> mh=monHocController.getAllMonHoc();
-        for(MonHoc x:mh){
+
+    private void suaThongTinMonHocGUI() {
+        List<MonHoc> mh = monHocController.getAllMonHoc();
+        for (MonHoc x : mh) {
             System.out.println(x);
         }
         System.out.println("Nhập ID môn học muốn sửa thông tin:");
-        int idMH=scanner.nextInt();
+        int idMH = scanner.nextInt();
         scanner.nextLine();
-        MonHoc mhUpdate=monHocController.getMonHocById(idMH);
+        MonHoc mhUpdate = monHocController.getMonHocById(idMH);
 
         System.out.println("Tên môn học hiện tại:" + mhUpdate.getTenMH());
         System.out.print("Nhập tên môn học mới( Enter để bỏ qua):");
         String tenMH = scanner.nextLine().trim();
-        if(!tenMH.equals("")){
+        if (!tenMH.equals("")) {
             mhUpdate.setTenMH(tenMH);
         }
 
-        System.out.println("Số tín chỉ hiện tại:" +mhUpdate.getSoTc());
+        System.out.println("Số tín chỉ hiện tại:" + mhUpdate.getSoTc());
         System.out.print("Nhập số tín chỉ mới( Enter để bỏ qua):");
-        String soTC=scanner.nextLine().trim();
-        if(!soTC.equals("")) {
-            int t=Integer.parseInt(soTC);
+        String soTC = scanner.nextLine().trim();
+        if (!soTC.equals("")) {
+            int t = Integer.parseInt(soTC);
             mhUpdate.setSoTc(t);
         }
 
         System.out.println("Mã môn học hiện tại:" + mhUpdate.getMaMH());
         System.out.print("Nhập mã môn học mới( Enter để bỏ qua):");
         String maMH = scanner.nextLine().trim();
-        if(!maMH.equals("")){
+        if (!maMH.equals("")) {
             mhUpdate.setMaMH(maMH);
         }
 
         System.out.println(mhUpdate);
         monHocController.updateMonHoc(mhUpdate);
     }
+
     private void quanLyDiemGUI() {
         boolean running = true;
         while (running) {
@@ -396,43 +401,22 @@ public class BTL_OOP {
             }
         }
     }
+
     private void themDiemMonHocGUI() {
-        hienThiDanhSachSinhVienThuocLopHocPhan();
-
-        System.out.print("Nhập Id sinh viên phần muốn thêm điểm: ");
-        int svId = scanner.nextInt();
-        scanner.nextLine();
-
-
-
-
-
-
-
-//       1
-    }
-    private void xoaDiemMonHocGUI() {
-        hienThiDanhSachSinhVienThuocLopHocPhan();
-    }
-    private void suaDiemMonHocGUI() {
-        hienThiDanhSachSinhVienThuocLopHocPhan();
-    }
-
-    private void hienThiDanhSachSinhVienThuocLopHocPhan(){
         kiHocController.getAllKiHoc();
         System.out.print("Nhập tên kì học: ");
         String tenKiHoc = scanner.nextLine();
 
         List<MonHoc> monHoc = monHocController.getAllMonHoc();
-        for(MonHoc x:monHoc){
+        for (MonHoc x : monHoc) {
             System.out.println(x);
         }
         System.out.print("Nhập Id môn học muốn thêm điểm: ");
         int monHocId = scanner.nextInt();
         scanner.nextLine();
 
-        List<LopHocPhan>  lhp = lopHocPhanController.getLopHocPhanByMonHocKiHoc(monHocId, tenKiHoc);
-        for(LopHocPhan x:lhp){
+        List<LopHocPhan> lhp = lopHocPhanController.getLopHocPhanByMonHocKiHoc(monHocId, tenKiHoc);
+        for (LopHocPhan x : lhp) {
             System.out.println(x);
         }
 
@@ -440,9 +424,93 @@ public class BTL_OOP {
         int lopHocPhanId = scanner.nextInt();
         scanner.nextLine();
 
-        System.out.println("Danh sách sinh viên thuộc lớp học phần: "+ lopHocPhanId);
+        System.out.println("Danh sách sinh viên thuộc lớp học phần: " + lopHocPhanId);
         List<ThanhVien> tv = thanhVienController.getThanhVienThamGiaLopHocPhan(lopHocPhanId, "SV");
-        for(ThanhVien x:tv){
+        for (ThanhVien x : tv) {
+            System.out.println(x);
+        }
+
+        System.out.print("Nhập Id sinh viên phần muốn thêm điểm: ");
+        int svId = scanner.nextInt();
+        scanner.nextLine();
+
+        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(monHocId, lopHocPhanId);
+
+        List<MonHocDauDiem> mhdd = monHocController.getMonHocDauDiemByMonHoc(monHocId);
+        System.out.println("Nhập lần lượt theo các đầu điểm sau: ");
+        for (MonHocDauDiem x : mhdd) {
+            float diemNhap = 0;
+            boolean hopLe = false;
+            while (!hopLe) {
+                System.out.print(x.getTenDauDiem() + " " + x.getHeSo() + ": ");
+                try {
+                    diemNhap = Float.parseFloat(scanner.nextLine());
+                    hopLe = true;
+                } catch (NumberFormatException e) {
+                    System.out.println("Vui lòng nhập số hợp lệ (ví dụ: 8.5).");
+                }
+            }
+            KetQua kq = new KetQua(x, tg, diemNhap);
+            ketQuaController.themKetQua(kq);
+        }
+        System.out.println("Thêm xong!");
+
+    }
+
+    private void xoaDiemMonHocGUI() {
+        kiHocController.getAllKiHoc();
+        System.out.print("Nhập tên kì học: ");
+        String tenKiHoc = scanner.nextLine();
+
+        List<MonHoc> monHoc = monHocController.getAllMonHoc();
+        for (MonHoc x : monHoc) {
+            System.out.println(x);
+        }
+        System.out.print("Nhập Id môn học muốn thêm điểm: ");
+        int monHocId = scanner.nextInt();
+        scanner.nextLine();
+
+        List<LopHocPhan> lhp = lopHocPhanController.getLopHocPhanByMonHocKiHoc(monHocId, tenKiHoc);
+        for (LopHocPhan x : lhp) {
+            System.out.println(x);
+        }
+
+        System.out.print("Nhập Id lớp học phần muốn thêm điểm: ");
+        int lopHocPhanId = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.println("Danh sách sinh viên thuộc lớp học phần: " + lopHocPhanId);
+        List<ThanhVien> tv = thanhVienController.getThanhVienThamGiaLopHocPhan(lopHocPhanId, "SV");
+        for (ThanhVien x : tv) {
+            System.out.println(x);
+        }
+    }
+
+    private void suaDiemMonHocGUI() {
+        kiHocController.getAllKiHoc();
+        System.out.print("Nhập tên kì học: ");
+        String tenKiHoc = scanner.nextLine();
+
+        List<MonHoc> monHoc = monHocController.getAllMonHoc();
+        for (MonHoc x : monHoc) {
+            System.out.println(x);
+        }
+        System.out.print("Nhập Id môn học muốn thêm điểm: ");
+        int monHocId = scanner.nextInt();
+        scanner.nextLine();
+
+        List<LopHocPhan> lhp = lopHocPhanController.getLopHocPhanByMonHocKiHoc(monHocId, tenKiHoc);
+        for (LopHocPhan x : lhp) {
+            System.out.println(x);
+        }
+
+        System.out.print("Nhập Id lớp học phần muốn thêm điểm: ");
+        int lopHocPhanId = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.println("Danh sách sinh viên thuộc lớp học phần: " + lopHocPhanId);
+        List<ThanhVien> tv = thanhVienController.getThanhVienThamGiaLopHocPhan(lopHocPhanId, "SV");
+        for (ThanhVien x : tv) {
             System.out.println(x);
         }
     }
@@ -466,6 +534,7 @@ public class BTL_OOP {
         System.out.println("4. Thoát");
         System.out.print("Lựa chọn của bạn: ");
     }
+
     private void menuQuanLyDiem() {
         System.out.println("\n===== HỆ THỐNG QUẢN LÝ ĐIỂM SINH VIÊN =====");
         System.out.println("===== QUẢN LÝ ĐIỂM SINH VIÊN =====");
@@ -490,97 +559,104 @@ public class BTL_OOP {
             System.out.print("Lựa chọn của bạn: ");
             int choice = getChoice(5);
             switch (choice) {
-                case 1: themSinhVienGUI(); break;
-                case 2: suaThongTinSinhVienGUI(); break;
-                case 3: xoaSinhVienGUI(); break;
-                case 4: xemDanhSachSinhVien(); break;
-                case 5: running = false; break;
+                case 1:
+                    themSinhVienGUI();
+                    break;
+                case 2:
+                    suaThongTinSinhVienGUI();
+                    break;
+                case 3:
+                    xoaSinhVienGUI();
+                    break;
+                case 4:
+                    xemDanhSachSinhVien();
+                    break;
+                case 5:
+                    running = false;
+                    break;
             }
+        }
     }
-}
+
     //Usecase Thêm,sửa,xóa,xem danh sách sinh viên
     private void xemDanhSachSinhVien() {
-    List<ThanhVien> list = thanhVienController.getAllThanhVienByChucVu("Sinh viên");
-     System.out.println("===== Danh sách sinh viên =====");
-    for (ThanhVien sv : list) {
-         System.out.println("Mã SV: " + sv.getMaSV() +
-                           " | Họ tên: " + sv.getHoTen() +
-                           " | Lớp: " + sv.getLop() +
-                           " | Ngày sinh: " + sv.getNgaySinh());
-    }
-}
-
-
-private void themSinhVienGUI() {
-    khoaController.getByAllKhoa();
-    System.out.print("Nhập mã khoa cho sinh viên: ");
-    String maKhoa = scanner.nextLine().trim();
-
-    System.out.print("Nhập mã sinh viên: ");
-    String maSV = scanner.nextLine().trim();
-
-    System.out.print("Nhập mật khẩu cho sinh viên: ");
-    String matKhau = scanner.nextLine().trim();
-
-    System.out.print("Nhập tên lớp cho sinh viên: ");
-    String lop = scanner.nextLine().trim();
-
-    System.out.print("Nhập họ tên sinh viên: ");
-    String hoTen = scanner.nextLine().trim();
-
-    System.out.print("Nhập địa chỉ của sinh viên: ");
-    String diaChi = scanner.nextLine().trim();
-
-    System.out.print("Nhập ngày sinh cảu sinh viên: ");
-    String ngaySinh = scanner.nextLine().trim();
-
-    ChucVu chucvuSinhvien = chucVuController.getByMa("Sinh Viên");
-    Khoa khoa = khoaController.getByMaKhoa(maKhoa);
-    ThanhVien sv = new ThanhVien(chucvuSinhvien, khoa, maSV, matKhau, lop, hoTen, diaChi, ngaySinh);
-    thanhVienController.addSinhVien(sv);
-}
-
-private void suaThongTinSinhVienGUI() {
-    xemDanhSachSinhVien();
-    System.out.print("Nhập mã sinh viên muốn sửa: ");
-    String maSV = scanner.nextLine().trim();
-
-    ThanhVien sv = thanhVienController.getThanhVienByMa(maSV);
-    if (sv.getId() == -1) {
-        System.out.println("Không tìm thấy sinh viên!");
-        return;
+        List<ThanhVien> list = thanhVienController.getAllThanhVienByChucVu("Sinh viên");
+        System.out.println("===== Danh sách sinh viên =====");
+        for (ThanhVien sv : list) {
+            System.out.println("Mã SV: " + sv.getMaSV()
+                    + " | Họ tên: " + sv.getHoTen()
+                    + " | Lớp: " + sv.getLop()
+                    + " | Ngày sinh: " + sv.getNgaySinh());
+        }
     }
 
-    System.out.print("Nhập địa chỉ mới: ");
-    String diaChi = scanner.nextLine().trim();
+    private void themSinhVienGUI() {
+        khoaController.getByAllKhoa();
+        System.out.print("Nhập mã khoa cho sinh viên: ");
+        String maKhoa = scanner.nextLine().trim();
 
-    System.out.print("Nhập lớp mới: ");
-    String lop = scanner.nextLine().trim();
+        System.out.print("Nhập mã sinh viên: ");
+        String maSV = scanner.nextLine().trim();
 
-    System.out.print("Nhập ngày sinh mới: ");
-    String ngaySinh = scanner.nextLine().trim();
+        System.out.print("Nhập mật khẩu cho sinh viên: ");
+        String matKhau = scanner.nextLine().trim();
 
-    sv.setDiaChi(diaChi);
-    sv.setLop(lop);
-    thanhVienController.updateSinhVien(maSV,diaChi,lop,ngaySinh);
-}
+        System.out.print("Nhập tên lớp cho sinh viên: ");
+        String lop = scanner.nextLine().trim();
 
+        System.out.print("Nhập họ tên sinh viên: ");
+        String hoTen = scanner.nextLine().trim();
 
-private void xoaSinhVienGUI() {
-    xemDanhSachSinhVien();
-    System.out.print("Nhập mã sinh viên muốn xóa: ");
-    String maSV = scanner.nextLine().trim();
+        System.out.print("Nhập địa chỉ của sinh viên: ");
+        String diaChi = scanner.nextLine().trim();
 
-    ThanhVien Sv = thanhVienController.getThanhVienByMa(maSV);
-    if (Sv.getId() == -1) {
-        System.out.println("Không tìm thấy sinh viên!");
-        return;
+        System.out.print("Nhập ngày sinh cảu sinh viên: ");
+        String ngaySinh = scanner.nextLine().trim();
+
+        ChucVu chucvuSinhvien = chucVuController.getByMa("Sinh Viên");
+        Khoa khoa = khoaController.getByMaKhoa(maKhoa);
+        ThanhVien sv = new ThanhVien(chucvuSinhvien, khoa, maSV, matKhau, lop, hoTen, diaChi, ngaySinh);
+        thanhVienController.addSinhVien(sv);
     }
 
-    thanhVienController.deleteSinhVientheoMa(Sv.getMaSV());
-}
+    private void suaThongTinSinhVienGUI() {
+        xemDanhSachSinhVien();
+        System.out.print("Nhập mã sinh viên muốn sửa: ");
+        String maSV = scanner.nextLine().trim();
 
+        ThanhVien sv = thanhVienController.getThanhVienByMa(maSV);
+        if (sv.getId() == -1) {
+            System.out.println("Không tìm thấy sinh viên!");
+            return;
+        }
 
+        System.out.print("Nhập địa chỉ mới: ");
+        String diaChi = scanner.nextLine().trim();
+
+        System.out.print("Nhập lớp mới: ");
+        String lop = scanner.nextLine().trim();
+
+        System.out.print("Nhập ngày sinh mới: ");
+        String ngaySinh = scanner.nextLine().trim();
+
+        sv.setDiaChi(diaChi);
+        sv.setLop(lop);
+        thanhVienController.updateSinhVien(maSV, diaChi, lop, ngaySinh);
+    }
+
+    private void xoaSinhVienGUI() {
+        xemDanhSachSinhVien();
+        System.out.print("Nhập mã sinh viên muốn xóa: ");
+        String maSV = scanner.nextLine().trim();
+
+        ThanhVien Sv = thanhVienController.getThanhVienByMa(maSV);
+        if (Sv.getId() == -1) {
+            System.out.println("Không tìm thấy sinh viên!");
+            return;
+        }
+
+        thanhVienController.deleteSinhVientheoMa(Sv.getMaSV());
+    }
 
     //===================== THANH =========================
     public int getChoice(int maxChoice) {
@@ -602,11 +678,11 @@ private void xoaSinhVienGUI() {
     }
 
     //===================== PHUC =========================
-
     public void runSV(String maSV) {
         sinhVienController.start(maSV);
     }
-    public void runXL(){
+
+    public void runXL() {
         nguoiXLController.start();
     }
 }
