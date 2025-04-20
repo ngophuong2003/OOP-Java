@@ -109,3 +109,22 @@ ADD UNIQUE INDEX `maMH_UNIQUE` (`maMH` ASC) VISIBLE;
 
 UPDATE `quanlysinhvien`.`tblmonhoc` SET `maMH` = 'MH001' WHERE (`id` = '1');
 UPDATE `quanlysinhvien`.`tblmonhoc` SET `maMH` = 'MH002' WHERE (`id` = '2');
+
+-- Phúc
+-- Thêm bảng phản hồi
+CREATE TABLE tblPhucKhao (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    maSV VARCHAR(255),
+    tblKetQuaId INT,
+    noiDungPK VARCHAR(500),
+    noiDungXL VARCHAR(500) DEFAULT 'Chưa xử lý',
+    trangThaiXL VARCHAR(50) DEFAULT 'Chưa xử lý',
+    FOREIGN KEY (tblKetQuaId) REFERENCES tblKetQua(id),
+    FOREIGN KEY (maSV) REFERENCES tblThanhVien(maSV)
+);
+
+-- Thêm cột điểm thang 4
+ALTER TABLE tblDiemChu ADD COLUMN diemthang4 FLOAT;
+
+-- Cập nhật kiểu dữ liệu cho trường ngaySinh nếu cần
+-- ALTER TABLE tblThanhVien MODIFY COLUMN ngaySinh DATE;

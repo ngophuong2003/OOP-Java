@@ -1,13 +1,11 @@
 package btl_oop;
 
-import btl_oop.controller.ChucVuController;
-import btl_oop.controller.KhoaController;
-import btl_oop.controller.MonHocController;
-import btl_oop.controller.ThanhVienController;
+import btl_oop.controller.*;
 import btl_oop.model.ChucVu;
 import btl_oop.model.Khoa;
 import btl_oop.model.MonHoc;
 import btl_oop.model.ThanhVien;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,13 +17,14 @@ public class BTL_OOP {
     private KhoaController khoaController;
     private ChucVuController chucVuController;
     private MonHocController monHocController;
-
+    private SinhVienController sinhVienController;
     public BTL_OOP() {
         scanner = new Scanner(System.in);
         thanhVienController = new ThanhVienController();
         khoaController = new KhoaController();
         chucVuController = new ChucVuController();
         monHocController = new MonHocController();
+        sinhVienController = new SinhVienController();
     }
 
     public static void main(String[] args) {
@@ -33,7 +32,7 @@ public class BTL_OOP {
         app.run();
     }
 
- public void run() {
+    public void run() {
         boolean running = true;
         while (running) {
             if (currentUser == null) {
@@ -46,11 +45,11 @@ public class BTL_OOP {
                     case 2:
                         resetMatKhauGUI();
                         break;
-                     case 3:
-                       running = false;
+                    case 3:
+                        running = false;
                         System.out.println("Cảm ơn bạn đã sử dụng hệ thống. Tạm biệt!");
-                        break;    
-                   
+                        break;
+
                 }
             }
         }
@@ -61,7 +60,7 @@ public class BTL_OOP {
         System.out.println("1. Đăng nhập");
         System.out.println("2. Quên mật khẩu");
         System.out.println("3. Thoát");
-        System.out.print("Lựa chọn của bạn: ");   
+        System.out.print("Lựa chọn của bạn: ");
 
     }
 
@@ -90,11 +89,11 @@ public class BTL_OOP {
                 System.out.println("Xin chào Admin!");
                 runAdmin();
             } else if (currentUser.getChucVu().getTenCV().equals("GV")) {
-                
-               runGV();
+
+                runGV();
                 System.out.println("Xin chào Giảng viên!");
             } else {
-                runSV();
+                runSV(currentUser.getMaSV());
                 System.out.println("Xin chào Sinh viên!");
             }
         } else {
@@ -103,34 +102,33 @@ public class BTL_OOP {
         }
     }
 
-  
 
     //===================== LUONG =========================
-    
+
     private void resetMatKhauGUI() {
-    System.out.println("\n===== RESET MẬT KHẨU =====");
-    System.out.print("Nhập mã sinh viên (tên đăng nhập): ");
-    String maSV = scanner.nextLine().trim();
+        System.out.println("\n===== RESET MẬT KHẨU =====");
+        System.out.print("Nhập mã sinh viên (tên đăng nhập): ");
+        String maSV = scanner.nextLine().trim();
 
-    ThanhVien tv = thanhVienController.getThanhVienByMa(maSV);
-    if (tv.getId() == -1) {
-        System.out.println("Không tìm thấy tài khoản.");
-        return;
+        ThanhVien tv = thanhVienController.getThanhVienByMa(maSV);
+        if (tv.getId() == -1) {
+            System.out.println("Không tìm thấy tài khoản.");
+            return;
+        }
+
+        System.out.print("Nhập mật khẩu mới: ");
+        String newPassword = scanner.nextLine().trim();
+
+        boolean success = thanhVienController.resetMatKhau(maSV, newPassword);
+        if (success) {
+            System.out.println("Mật khẩu đã được cập nhật thành công!");
+            loginGUI();
+        } else {
+            System.out.println("Lỗi khi cập nhật mật khẩu.");
+        }
     }
 
-    System.out.print("Nhập mật khẩu mới: ");
-    String newPassword = scanner.nextLine().trim();
 
-    boolean success = thanhVienController.resetMatKhau(maSV, newPassword);
-    if (success) {
-        System.out.println("Mật khẩu đã được cập nhật thành công!");
-        loginGUI();
-    } else {
-        System.out.println("Lỗi khi cập nhật mật khẩu.");
-    }
-}
-  
-    
     //===================== PHUONG =========================
     public void runAdmin() {
         boolean running = true;
@@ -250,7 +248,8 @@ public class BTL_OOP {
             }
         }
     }
-    private void themMonHocGUI(){
+
+    private void themMonHocGUI() {
         System.out.print("Nhập tên môn học:");
         String tenMH = scanner.nextLine().trim();
 
@@ -260,11 +259,12 @@ public class BTL_OOP {
 
         System.out.print("Nhập mã môn học:");
         String maMH = scanner.nextLine().trim();
-        MonHoc mh = new MonHoc(tenMH,soTC,maMH);
+        MonHoc mh = new MonHoc(tenMH, soTC, maMH);
         monHocController.addMonHoc(mh);
     }
-    private void xoaMonHocGUI(){
-        List<MonHoc> mh=monHocController.getAllMonHoc();
+
+    private void xoaMonHocGUI() {
+        List<MonHoc> mh = monHocController.getAllMonHoc();
         for (MonHoc x : mh) {
             System.out.println(x);
         }
@@ -272,10 +272,11 @@ public class BTL_OOP {
         int idMH = scanner.nextInt();
         scanner.nextLine();
         monHocController.deleteMonHoc(idMH);
-        
+
     }
-    private void suaThongTinMonHocGUI(){
-        
+
+    private void suaThongTinMonHocGUI() {
+
     }
 
     private void quanLyDiemGUI() {
@@ -292,6 +293,7 @@ public class BTL_OOP {
         System.out.println("4. Thoát");
         System.out.print("Lựa chọn của bạn: ");
     }
+
     private void menuQuanLiMonHoc() {
         System.out.println("\n===== HỆ THỐNG QUẢN LÝ ĐIỂM SINH VIÊN =====");
         System.out.println("===== QUẢN LÍ MÔN HỌC =====");
@@ -327,7 +329,12 @@ public class BTL_OOP {
     public void runGV() {
     }
 
-    public void runSV() {
-    }
+    //===================== PHUC =========================
 
+    public void runSV(String maSV) {
+        sinhVienController.start(maSV);
+    }
+    public void runXL(){
+
+    }
 }
