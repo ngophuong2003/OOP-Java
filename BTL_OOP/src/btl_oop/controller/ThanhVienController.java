@@ -23,6 +23,11 @@ public class ThanhVienController {
         return thanhVienDAO.getAllThanhVienByChucVu(tenCV);
     }
     
+    public List<ThanhVien> getThanhVienThamGiaLopHocPhan(int lopHocPhanId, String tenCV){
+        List<ThanhVien> tv = thanhVienDAO.getThanhVienThamGiaLopHocPhan(lopHocPhanId, tenCV);
+        return tv;
+    }
+    
     public boolean login(String maSV, String password){
         return true;
     }
@@ -51,6 +56,14 @@ public class ThanhVienController {
         }
         else{
             System.out.println("Xóa giảng viên thất bại!");
+        }
+    }
+    public void updateGiangVien(ThanhVien thanhvien){
+        if(thanhVienDAO.updateObject(thanhvien)){
+            System.out.println("Sửa thông tin giảng viên thành công");
+        }
+        else{
+            System.out.println("Sửa thông tin giảng viên thất bại!");
         }
     }
    

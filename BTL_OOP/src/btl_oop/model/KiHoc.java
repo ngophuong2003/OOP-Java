@@ -8,6 +8,9 @@ public class KiHoc {
         this.id=id;
         this.tenKiHoc=tenKiHoc;
     }
+    public KiHoc(int id){
+        this.id=id;
+    }
 
     public int getId() {
         return id;

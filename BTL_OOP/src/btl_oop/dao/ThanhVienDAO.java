@@ -133,8 +133,26 @@ public class ThanhVienDAO extends DAO {
     }
 
     @Override
-    public boolean updateObject(Object object) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean updateObject(Object thanhvien) {
+        try{
+            ThanhVien tv=(ThanhVien) thanhvien;
+            String sql= "update tblthanhvien set tblChucVuid=?, tblKhoaid=?,maSV=?,matKhau=?,lop=?,hoTen=?,diaChi=?,ngaySinh=? where id=? ";
+            PreparedStatement st=con.prepareStatement(sql);
+            st.setInt(1,tv.getChucVu().getId());
+            st.setInt(2, tv.getKhoa().getId());
+            st.setString(3,tv.getMaSV());
+            st.setString(4,tv.getMatKhau());
+            st.setString(5,tv.getLop());
+            st.setString(6,tv.getHoTen());
+            st.setString(7,tv.getDiaChi());
+            st.setString(8,tv.getNgaySinh());
+            st.setInt(9, tv.getId());
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e ){
+            System.out.println("Lỗi SQL trong updateThanhVien"+ e.getMessage());
+            return false;
+        }
     }
 
     @Override
@@ -149,6 +167,43 @@ public class ThanhVienDAO extends DAO {
             System.out.println("Lỗi SQL trong deleteThanhVien"+ e.getMessage());
             return false;
         }
+    }
+    
+    public List<ThanhVien> getThanhVienThamGiaLopHocPhan(int lopHPId, String tenCV){
+         String sql ="SELECT * FROM tblthanhvien as tv "
+               + "JOIN tblchucvu as cv "
+               + "JOIN tblkhoa as khoa "
+               + "JOIN tblthamgia as tg "
+               + "ON tv.tblChucVuid = cv.id  "
+               + "and tv.tblKhoaid = khoa.id "
+               + "and tv.id = tg.tblThanhVienid "
+               + "WHERE cv.tenCV = ?"
+               + "AND tg.tblLopHocPhanid = ? ";
+        List<ThanhVien> thanhVien = new ArrayList<>();
+        try{
+            PreparedStatement st=con.prepareStatement(sql);
+            st.setInt(1, lopHPId);
+            st.setString(2, tenCV);
+            ResultSet rs= st.executeQuery();
+            while(rs.next()) {
+                ChucVu chucvu = new ChucVu(rs.getInt("tblChucVuid"),rs.getString("tenCV"));
+                Khoa khoa = new Khoa(rs.getInt("tblKhoaid"),rs.getString("tenKhoa"), rs.getString("maKhoa"));
+                ThanhVien thanhvien = new ThanhVien(
+                        rs.getInt("id"), 
+                        chucvu,
+                        khoa, 
+                        rs.getString("maSV"), 
+                        rs.getString("matKhau"), 
+                        rs.getString("lop"), 
+                        rs.getString("hoTen"), 
+                        rs.getString("diaChi"), 
+                        rs.getString("ngaySinh"));
+                thanhVien.add(thanhvien);
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi getThanhVienThamGiaLopHocPhan " + e.getMessage());
+        }
+        return thanhVien;
     }
     
 }

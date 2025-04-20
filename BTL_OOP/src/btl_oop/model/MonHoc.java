@@ -2,18 +2,20 @@ package btl_oop.model;
 
 public class MonHoc {
 
-    private int id, soTc;
-    private String tenMH, maMH;
+    private int id;
+    private String tenMH;
+    private int soTc;
+    private String maMH;
 
     public MonHoc(int id,  String tenMH,int soTC, String maMH) {
         this.id = id;
         this.tenMH = tenMH;
-        this.soTc = soTc;
+        this.soTc = soTC;
         this.maMH = maMH;
     }
     public MonHoc(  String tenMH,int soTC, String maMH) {
         this.tenMH = tenMH;
-        this.soTc = soTc;
+        this.soTc = soTC;
         this.maMH = maMH;
     }
     public MonHoc(int id){
@@ -22,6 +24,9 @@ public class MonHoc {
 
     public String getMaMH() {
         return maMH;
+    }
+    public void setMaMH(String maMH){
+        this.maMH=maMH;
     }
 
     public int getId() {
@@ -46,7 +51,12 @@ public class MonHoc {
 
     @Override
     public String toString() {
-        return "MonHoc{" + "id=" + id + ", soTc=" + soTc + ", tenMH=" + tenMH + '}';
+        return "MonHoc{" + "id=" + id + ", tenMH=" + tenMH + ", soTc=" + soTc + ", maMH=" + maMH + '}';
     }
+
+   
+
+   
+   
 
 }

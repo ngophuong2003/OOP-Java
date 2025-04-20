@@ -1,15 +1,18 @@
 
 package btl_oop.model;
 
+import java.util.List;
+
 
 public class LopHocPhan {
     private int id;
     private KiHoc kiHoc;
     private MonHoc monHoc;
-    private String nhomMonHoc, siSoToiDa;
+    private String nhomMonHoc;
+    private int siSoToiDa;
     private int namHoc;
 
-    public LopHocPhan(int id, KiHoc kiHoc, MonHoc monHoc, String nhomMonHoc, String siSoToiDa, int namHoc) {
+    public LopHocPhan(int id, KiHoc kiHoc, MonHoc monHoc, String nhomMonHoc, int siSoToiDa, int namHoc) {
         this.id = id;
         this.kiHoc = kiHoc;
         this.monHoc = monHoc;
@@ -17,12 +20,7 @@ public class LopHocPhan {
         this.siSoToiDa = siSoToiDa;
         this.namHoc = namHoc;
     }
-
-    public int getId() {
-        return id;
-    }
-
-
+    
     public KiHoc getKiHoc() {
         return kiHoc;
     }
@@ -47,11 +45,11 @@ public class LopHocPhan {
         this.nhomMonHoc = nhomMonHoc;
     }
 
-    public String getSiSoToiDa() {
+    public int getSiSoToiDa() {
         return siSoToiDa;
     }
 
-    public void setSiSoToiDa(String siSoToiDa) {
+    public void setSiSoToiDa(int siSoToiDa) {
         this.siSoToiDa = siSoToiDa;
     }
 
@@ -67,6 +65,5 @@ public class LopHocPhan {
     public String toString() {
         return "LopHocPhan{" + "id=" + id + ", kiHoc=" + kiHoc + ", monHoc=" + monHoc + ", nhomMonHoc=" + nhomMonHoc + ", siSoToiDa=" + siSoToiDa + ", namHoc=" + namHoc + '}';
     }
-    
     
 }

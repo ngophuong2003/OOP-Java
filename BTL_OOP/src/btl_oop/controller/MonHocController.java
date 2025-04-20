@@ -13,6 +13,9 @@ public class MonHocController {
     public List<MonHoc> getAllMonHoc(){
         return monHocDAO.getAllMonHoc();
     }
+     public MonHoc getMonHocById(int monHocId){
+        return (MonHoc) monHocDAO.getById(monHocId);
+    }
     public void addMonHoc(MonHoc monHoc){
         MonHoc mh=monHocDAO.getByMa(monHoc.getMaMH());
         if(mh.getId()==-1){
@@ -33,6 +36,14 @@ public class MonHocController {
         }
         else{
             System.out.println("Xóa môn học thất bại!");
+        }
+    }
+    public void updateMonHoc(MonHoc monHoc){
+        if(monHocDAO.updateObject(monHoc)){
+            System.out.println("Sửa thông tin môn học thành công!");
+        }
+        else{
+            System.out.println("Sửa thông tin môn học thất bại!");
         }
     }
     

@@ -52,7 +52,7 @@ public class MonHocDAO extends DAO {
             PreparedStatement st = con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                MonHoc mh = new MonHoc(rs.getInt("id"), rs.getString("tenMH"), rs.getInt("soTC"), rs.getString("maMH"));
+                MonHoc mh = new MonHoc(rs.getInt("id"), rs.getString("tenMH"), rs.getInt("soTc"), rs.getString("maMH"));
                 monHoc.add(mh);
             }
         } catch (SQLException e) {
@@ -81,8 +81,21 @@ public class MonHocDAO extends DAO {
     }
 
     @Override
-    public boolean updateObject(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean updateObject(Object monHoc) {
+        try{
+            MonHoc mh= (MonHoc) monHoc;
+            String sql="update tblmonhoc set tenMH=?, soTC=?, maMH=? where id=?";
+            PreparedStatement st=con.prepareStatement(sql);
+            st.setString(1,mh.getTenMH());
+            st.setInt(2,mh.getSoTc());
+            st.setString(3,mh.getMaMH());
+            st.setInt(4, mh.getId());
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e ){
+            System.out.println("Lỗi SQL trong updateThanhVien" + e.getMessage());
+            return false;
+        }
     }
 
     @Override

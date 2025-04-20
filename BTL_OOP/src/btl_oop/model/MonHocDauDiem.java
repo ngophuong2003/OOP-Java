@@ -8,11 +8,10 @@ public class MonHocDauDiem {
     private int heSo;
     private MonHoc monHoc;
 
-    public MonHocDauDiem(int id, String tenDauDiem, int heSo, MonHoc monHoc) {
+    public MonHocDauDiem(int id, String tenDauDiem, int heSo) {
         this.id = id;
         this.tenDauDiem = tenDauDiem;
         this.heSo = heSo;
-        this.monHoc = monHoc;
     }
 
     public int getId() {
