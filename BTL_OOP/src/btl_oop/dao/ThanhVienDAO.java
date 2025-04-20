@@ -155,6 +155,21 @@ public class ThanhVienDAO extends DAO {
         }
     }
 
+    public boolean updateMatKhau(Object object) {
+        ThanhVien tv = (ThanhVien) object;
+        try {
+            String sql = "UPDATE tblthanhvien SET matkhau = ? WHERE id = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, tv.getMatKhau());
+            st.setInt(2, tv.getId());
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Lỗi cập nhật mật khẩu: " + e.getMessage());
+            return false;
+        }
+    }
+
     @Override
     public boolean deleteObject(int id) {
         try{
@@ -189,14 +204,14 @@ public class ThanhVienDAO extends DAO {
                 ChucVu chucvu = new ChucVu(rs.getInt("tblChucVuid"),rs.getString("tenCV"));
                 Khoa khoa = new Khoa(rs.getInt("tblKhoaid"),rs.getString("tenKhoa"), rs.getString("maKhoa"));
                 ThanhVien thanhvien = new ThanhVien(
-                        rs.getInt("id"), 
+                        rs.getInt("id"),
                         chucvu,
-                        khoa, 
-                        rs.getString("maSV"), 
-                        rs.getString("matKhau"), 
-                        rs.getString("lop"), 
-                        rs.getString("hoTen"), 
-                        rs.getString("diaChi"), 
+                        khoa,
+                        rs.getString("maSV"),
+                        rs.getString("matKhau"),
+                        rs.getString("lop"),
+                        rs.getString("hoTen"),
+                        rs.getString("diaChi"),
                         rs.getString("ngaySinh"));
                 thanhVien.add(thanhvien);
             }
@@ -205,5 +220,5 @@ public class ThanhVienDAO extends DAO {
         }
         return thanhVien;
     }
-    
+
 }

@@ -1,4 +1,3 @@
-
 package btl_oop.dao;
 
 import java.sql.DriverManager;
@@ -12,7 +11,7 @@ public abstract class DAO {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 String url = "jdbc:mysql://localhost:3306/quanlysinhvien?autoReconnect=true&useSSL=false";
                 String username = "root";
-                String password = "123456";
+                String password = "1234";
                 con = DriverManager.getConnection(url,username,password);
  //               System.out.println("sucessfully");
             }
