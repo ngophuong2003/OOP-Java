@@ -18,6 +18,7 @@ public class BTL_OOP {
     private ChucVuController chucVuController;
     private MonHocController monHocController;
     private SinhVienController sinhVienController;
+    private NguoiXLController nguoiXLController;
     public BTL_OOP() {
         scanner = new Scanner(System.in);
         thanhVienController = new ThanhVienController();
@@ -25,6 +26,7 @@ public class BTL_OOP {
         chucVuController = new ChucVuController();
         monHocController = new MonHocController();
         sinhVienController = new SinhVienController();
+        nguoiXLController = new NguoiXLController();
     }
 
     public static void main(String[] args) {
@@ -89,12 +91,14 @@ public class BTL_OOP {
                 System.out.println("Xin chào Admin!");
                 runAdmin();
             } else if (currentUser.getChucVu().getTenCV().equals("GV")) {
-
                 runGV();
                 System.out.println("Xin chào Giảng viên!");
-            } else {
+            } else if (currentUser.getChucVu().getTenCV().equals("SV")){
                 runSV(currentUser.getMaSV());
                 System.out.println("Xin chào Sinh viên!");
+            } else {
+                runXL();
+                System.out.println("Xin chào Người XL!");
             }
         } else {
             menuDangNhap();
@@ -335,6 +339,6 @@ public class BTL_OOP {
         sinhVienController.start(maSV);
     }
     public void runXL(){
-
+        nguoiXLController.start();
     }
 }
