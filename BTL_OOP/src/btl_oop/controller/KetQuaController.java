@@ -1,18 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package btl_oop.controller;
 
 import btl_oop.dao.KetQuaDAO;
 import btl_oop.dao.ThamGiaDAO;
 import btl_oop.model.KetQua;
 import btl_oop.model.ThamGia;
+import java.util.List;
 
-/**
- *
- * @author Ngo Phuong
- */
+
 public class KetQuaController {
     private KetQuaDAO ketQuaDAO;
     private ThamGiaDAO thamGiaDAO;
@@ -34,7 +29,26 @@ public class KetQuaController {
             System.out.println("Thêm thất bại");
         }
     }
-    
+    public List<KetQua> getAllKetQuaByThamGiaAndMonHocId(int thamGiaid, int monHocid){
+        return ketQuaDAO.getAllKetQuaByThamGiaAndMonHocId(thamGiaid, monHocid);
+    }
+    public void xoaKetQua(int id){
+        if(ketQuaDAO.deleteObject(id)){
+            System.out.println("Xóa thành công!");
+        }
+        else{
+            System.out.println("Xóa thất bại!");
+        }
+    }
+    public void suaKetQua(KetQua kq){
+        if(ketQuaDAO.updateObject(kq)){
+            System.out.println("Sửa điểm thành công!");
+            System.out.println(kq);
+        }
+        else{
+            System.out.println("Sửa điểm thất bại!");
+        }
+    }
     
     
 }

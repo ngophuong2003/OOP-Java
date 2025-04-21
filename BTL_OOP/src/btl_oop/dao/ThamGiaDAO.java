@@ -1,17 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package btl_oop.dao;
 
 import btl_oop.model.ThamGia;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- *
- * @author Ngo Phuong
- */
 public class ThamGiaDAO extends DAO{
 
     public ThamGia getByThanhVienAndLopHocPhan(int thanhVienId, int lopHocPhanId){

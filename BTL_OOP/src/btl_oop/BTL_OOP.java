@@ -70,7 +70,7 @@ public class BTL_OOP {
     }
 
     private void menuDangNhap() {
-        System.out.println("\n===== HỆ THỐNG QUẢN LÝ SINH VIÊN =====");
+        System.out.println("\n===== HỆ THỐNG QUẢN LÝ HỌC TẬP =====");
         System.out.println("1. Đăng nhập");
         System.out.println("2. Quên mật khẩu");
         System.out.println("3. Thoát");
@@ -79,7 +79,7 @@ public class BTL_OOP {
     }
 
     private void menuTrangChuAdmin() {
-        System.out.println("\n===== HỆ THỐNG QUẢN LÝ SINH VIÊN =====");
+        System.out.println("\n===== HỆ THỐNG QUẢN LÝ HỌC TẬP =====");
         System.out.println("===== TRANG CHỦ ADMIN =====");
         System.out.println("1. Quản lý sinh viên");
         System.out.println("2. Quản lý giảng viên");
@@ -430,7 +430,7 @@ public class BTL_OOP {
             System.out.println(x);
         }
 
-        System.out.print("Nhập Id sinh viên phần muốn thêm điểm: ");
+        System.out.print("Nhập Id sinh viên muốn thêm điểm: ");
         int svId = scanner.nextInt();
         scanner.nextLine();
 
@@ -466,7 +466,7 @@ public class BTL_OOP {
         for (MonHoc x : monHoc) {
             System.out.println(x);
         }
-        System.out.print("Nhập Id môn học muốn thêm điểm: ");
+        System.out.print("Nhập Id môn học muốn xóa điểm: ");
         int monHocId = scanner.nextInt();
         scanner.nextLine();
 
@@ -475,7 +475,7 @@ public class BTL_OOP {
             System.out.println(x);
         }
 
-        System.out.print("Nhập Id lớp học phần muốn thêm điểm: ");
+        System.out.print("Nhập Id lớp học phần muốn xóa điểm: ");
         int lopHocPhanId = scanner.nextInt();
         scanner.nextLine();
 
@@ -484,6 +484,19 @@ public class BTL_OOP {
         for (ThanhVien x : tv) {
             System.out.println(x);
         }
+        System.out.print("Nhập Id sinh viên muốn xóa điểm: ");
+        int svId = scanner.nextInt();
+        scanner.nextLine();
+        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(monHocId, lopHocPhanId);
+        System.out.println("Kết quả các đầu điểm môn học của sinh viên: ");
+        List<KetQua> kq=ketQuaController.getAllKetQuaByThamGiaAndMonHocId(tg.getId(),monHocId );
+        for(KetQua x:kq){
+            System.out.println(x);
+        }
+        System.out.println("Nhập Id kết quả đầu điểm muốn xóa: ");
+        int kqid=scanner.nextInt();
+        scanner.nextLine();
+        ketQuaController.xoaKetQua(kqid);
     }
 
     private void suaDiemMonHocGUI() {
@@ -495,7 +508,7 @@ public class BTL_OOP {
         for (MonHoc x : monHoc) {
             System.out.println(x);
         }
-        System.out.print("Nhập Id môn học muốn thêm điểm: ");
+        System.out.print("Nhập Id môn học muốn sửa điểm: ");
         int monHocId = scanner.nextInt();
         scanner.nextLine();
 
@@ -504,7 +517,7 @@ public class BTL_OOP {
             System.out.println(x);
         }
 
-        System.out.print("Nhập Id lớp học phần muốn thêm điểm: ");
+        System.out.print("Nhập Id lớp học phần muốn sửa điểm: ");
         int lopHocPhanId = scanner.nextInt();
         scanner.nextLine();
 
@@ -513,10 +526,40 @@ public class BTL_OOP {
         for (ThanhVien x : tv) {
             System.out.println(x);
         }
+        System.out.print("Nhập Id sinh viên muốn sửa điểm: ");
+        int svId = scanner.nextInt();
+        scanner.nextLine();
+        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(monHocId, lopHocPhanId);
+        System.out.println("Kết quả các đầu điểm môn học của sinh viên: ");
+        List<KetQua> kq=ketQuaController.getAllKetQuaByThamGiaAndMonHocId(tg.getId(),monHocId );
+        for(KetQua x:kq){
+            System.out.println(x);
+        }
+        
+        System.out.println("Nhập Id kết quả đầu điểm muốn sửa: ");
+        int kqid=scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Nhập điểm sửa: ");
+        float diemNhap = 0;
+            boolean hopLe = false;
+            while (!hopLe) {
+                try {
+                    diemNhap = Float.parseFloat(scanner.nextLine());
+                    hopLe = true;
+                } catch (NumberFormatException e) {
+                    System.out.println("Vui lòng nhập số hợp lệ (ví dụ: 8.5).");
+                }
+            }
+        for(KetQua x:kq){
+            if(x.getId()==kqid){
+                x.setDiem(diemNhap);
+                ketQuaController.suaKetQua(x);
+            }
+        }
     }
 
     private void menuQuanLyGiangVien() {
-        System.out.println("\n===== HỆ THỐNG QUẢN LÝ ĐIỂM SINH VIÊN =====");
+        System.out.println("\n===== HỆ THỐNG QUẢN LÝ HỌC TẬP =====");
         System.out.println("===== QUẢN LÝ GIẢNG VIÊN =====");
         System.out.println("1. Thêm giảng viên");
         System.out.println("2. Xóa giảng viên");
@@ -526,7 +569,7 @@ public class BTL_OOP {
     }
 
     private void menuQuanLyMonHoc() {
-        System.out.println("\n===== HỆ THỐNG QUẢN LÝ ĐIỂM SINH VIÊN =====");
+        System.out.println("\n===== HỆ THỐNG QUẢN LÝ HỌC TẬP =====");
         System.out.println("===== QUẢN LÝ MÔN HỌC =====");
         System.out.println("1. Thêm môn học");
         System.out.println("2. Xóa môn học");
@@ -536,7 +579,7 @@ public class BTL_OOP {
     }
 
     private void menuQuanLyDiem() {
-        System.out.println("\n===== HỆ THỐNG QUẢN LÝ ĐIỂM SINH VIÊN =====");
+        System.out.println("\n===== HỆ THỐNG QUẢN LÝ HỌC TẬP =====");
         System.out.println("===== QUẢN LÝ ĐIỂM SINH VIÊN =====");
         System.out.println("1. Thêm điểm môn học của sinh viên");
         System.out.println("2. Xóa điểm môn học của sinh viên");
@@ -550,7 +593,8 @@ public class BTL_OOP {
     private void quanLySinhVienGUI() {
         boolean running = true;
         while (running) {
-            System.out.println("\n===== QUẢN LÝ SINH VIÊN =====");
+            System.out.println("\n===== HỆ THỐNG QUẢN LÝ HỌC TẬP =====");
+            System.out.println("===== QUẢN LÝ SINH VIÊN =====");
             System.out.println("1. Thêm sinh viên");
             System.out.println("2. Sửa thông tin sinh viên");
             System.out.println("3. Xóa sinh viên");
