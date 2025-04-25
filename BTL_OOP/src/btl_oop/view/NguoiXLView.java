@@ -33,8 +33,8 @@ public class NguoiXLView {
     }
 
     public int inputIDPH() {
-        printOut("Nhập ID Phản Hồi: ");
         while (true) {
+            printOut("Nhập ID Phản Hồi: ");
             String line = sc.nextLine().trim();
             if (!line.matches("\\d+")) {
                 printOut("Vui lòng nhập đầu vào chỉ có số\n");
@@ -59,8 +59,8 @@ public class NguoiXLView {
     }
 
     public int inputIDKQ() {
-        printOut("Nhập ID KQ Cần Chỉnh: ");
         while (true) {
+            printOut("Nhập ID KQ Cần Chỉnh: ");
             String line = sc.nextLine().trim();
             if (!line.matches("\\d+")) {
                 printOut("Vui lòng nhập đầu vào chỉ có số\n");
@@ -76,8 +76,15 @@ public class NguoiXLView {
                 1. Xem Phản Hồi Chưa Xử Lý
                 2. Xem Phản Hồi Đã Xử Lý
                 0. Thoát
-                Chọn: \s""");
-        return Integer.parseInt(sc.nextLine());
+                """);
+        while (true) {
+            System.out.print("Chọn: ");
+            String line = sc.nextLine().trim();
+            if (line.matches("\\d+")) {
+                return Integer.parseInt(line);
+            }
+            printOut("Vui lòng nhập lựa chọn chỉ có số.");
+        }
     }
 
     public int ViewPhanHoiChuaXL() {
@@ -89,8 +96,15 @@ public class NguoiXLView {
                 4. Sửa Điểm
                 5. Xác Nhận Phản Hồi Đã Xử Lý
                 0. Thoát
-                Chọn:\s""");
-        return Integer.parseInt(sc.nextLine());
+                """);
+        while (true) {
+            System.out.print("Chọn: ");
+            String line = sc.nextLine().trim();
+            if (line.matches("\\d+")) {
+                return Integer.parseInt(line);
+            }
+            printOut("Vui lòng nhập lựa chọn chỉ có số.");
+        }
     }
 
     public int ViewPhanHoiDaXL() {
@@ -99,23 +113,30 @@ public class NguoiXLView {
                 1. Xem Cơn Bản
                 2. Xem Chi Tiết
                 0. Thoát
-                Chọn:\s""");
-        return Integer.parseInt(sc.nextLine());
+                """);
+        while (true) {
+            System.out.print("Chọn: ");
+            String line = sc.nextLine().trim();
+            if (line.matches("\\d+")) {
+                return Integer.parseInt(line);
+            }
+            printOut("Vui lòng nhập lựa chọn chỉ có số.");
+        }
     }
 
     public void showPHCB(List<PhacHoi> reviewList) {
         printOut("Những Phản Hồi\n");
         for (PhacHoi review : reviewList) {
-            System.out.printf("IDPH: %d ,Mã SV: %s, Kết Quả ID: %d%n", review.getIdPhanHoi(), review.getMaSV(), review.getIDKetQua());
+            System.out.printf("IDPH: %d ,Mã SV: %s, Kết Quả ID: %d\n", review.getIdPhanHoi(), review.getMaSV(), review.getIDKetQua());
         }
     }
 
     public void showPHCT(PhacHoi review) {
-        System.out.printf("IDPH: %d ,Mã SV: %s, Kết Quả ID: %d\nNội Dung: %s \nNội Dung Xử Lý: %s\n%n", review.getIdPhanHoi(), review.getMaSV(), review.getIDKetQua(), review.getNoiDungPK(), review.getNoiDungXl());
+        System.out.printf("\nIDPH: %d ,Mã SV: %s, Kết Quả ID: %d\nNội Dung: %s \nNội Dung Xử Lý: %s\n", review.getIdPhanHoi(), review.getMaSV(), review.getIDKetQua(), review.getNoiDungPK(), review.getNoiDungXl());
     }
 
     public void showDiem(Diem diem) {
-        System.out.println("|  ID  |           Môn Học          |  Đầu Điểm  |  Năm  |  Kỳ Học  |  Điểm  |");
+        System.out.println("\n|  ID  |           Môn Học          |  Đầu Điểm  |  Năm  |  Kỳ Học  |  Điểm  |");
         System.out.println(diem);
     }
 
