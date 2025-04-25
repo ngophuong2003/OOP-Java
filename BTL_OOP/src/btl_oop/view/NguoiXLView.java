@@ -90,7 +90,7 @@ public class NguoiXLView {
     public int ViewPhanHoiChuaXL() {
         System.out.print("""
                 
-                1. Xem Phản Hồi Cơn Bản
+                1. Xem Phản Hồi Cơ Bản
                 2. Xem Phản Hồi Chi Tiết
                 3. Xem Điểm Bị Phản Hồi
                 4. Sửa Điểm
@@ -110,7 +110,7 @@ public class NguoiXLView {
     public int ViewPhanHoiDaXL() {
         System.out.print("""
                 
-                1. Xem Cơn Bản
+                1. Xem Cơ Bản
                 2. Xem Chi Tiết
                 0. Thoát
                 """);
@@ -145,6 +145,6 @@ public class NguoiXLView {
     }
 
     public void checkIDKQ() {
-        printOut("IDPK Chưa Tồn Tại. Vui Lòng Nhập Lại\n");
+        printOut("IDKQ Chưa Tồn Tại.. Vui Lòng Nhập Lại\n");
     }
 }
