@@ -20,5 +20,9 @@ public class LopHocPhanController {
     public List<LopHocPhan> getLopHocPhanByMonHocKiHoc(int monHocId, String tenKiHoc){
         return lopHocPhanDAO.getAllLopHocPhanByMonHocKiHoc(monHocId, tenKiHoc);
     }
+    public List<LopHocPhan> getLopHocPhanbyGiangVien(int giangVienId) {
+    return lopHocPhanDAO.getLopHocPhanGiangVienDay(giangVienId);
+}
+
     
 }

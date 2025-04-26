@@ -70,7 +70,48 @@ public class LopHocPhanDAO extends DAO {
             System.out.println("Lỗi getAllLopHocPhanByMonHocKiHoc "+e.getMessage());
         }
         return lhp;
-    }   
+    }
+public List<LopHocPhan> getLopHocPhanGiangVienDay(int giangVienId) {
+    List<LopHocPhan> list = new ArrayList<>();
+    String sql = "SELECT lhp.*, kh.tenKiHoc, mh.tenMH, mh.soTc, mh.maMH " +
+             "FROM tblThamGia tg " +
+             "JOIN tblThanhVien tv ON tg.tblThanhVienid = tv.id " +
+             "JOIN tblLopHocPhan lhp ON tg.tblLopHocPhanid = lhp.id " +
+             "JOIN tblKiHoc kh ON lhp.tblKiHocid = kh.id " +
+             "JOIN tblMonHoc mh ON lhp.tblMonHocid = mh.id " +
+             "WHERE tv.tblChucVuid = 1 AND tv.id = ?";
+
+    try {
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setInt(1, giangVienId);
+        ResultSet rs = st.executeQuery();
+while (rs.next()) {
+    KiHoc kiHoc = new KiHoc(rs.getInt("tblKiHocid"), rs.getString("tenKiHoc"));
+    MonHoc monHoc = new MonHoc(
+        rs.getInt("tblMonHocid"), 
+        rs.getString("tenMH"),    
+        rs.getInt("soTc"),         
+        rs.getString("maMH")
+    );
+
+    LopHocPhan lopHocPhan = new LopHocPhan(
+        rs.getInt("id"),
+        kiHoc,
+        monHoc,
+        rs.getString("nhomMonHoc"),
+        rs.getInt("siSoToiDa"), // Không kiểm tra NULL
+        rs.getInt("namHoc")
+    );
+    list.add(lopHocPhan);
+}
+    } catch (SQLException e) {
+        System.out.println("Lỗi getLopHocPhanGiangVienDay: " + e.getMessage());
+    }
+    return list;
+}
+
+
+
 
     @Override
     public boolean addObject(Object object) {

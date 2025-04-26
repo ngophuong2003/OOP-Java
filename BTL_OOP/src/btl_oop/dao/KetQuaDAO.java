@@ -95,4 +95,5 @@ public class KetQuaDAO extends DAO{
         return kq;
     }
     
+
 }

@@ -98,21 +98,27 @@ public class ThanhVienController {
         }
     }
 
-    public void updateSinhVien(String maSV, String diaChiMoi, String lopMoi, String ngaySinhmoi) {
-        ThanhVien tv = thanhVienDAO.getByMa(maSV);
-        if(tv.getId() != -1){
-            tv.setDiaChi(diaChiMoi);
-            tv.setLop(lopMoi);
-            tv.setNgaySinh(ngaySinhmoi);
-            if(thanhVienDAO.updateObject(tv)){
-                System.out.println("Cập nhật thông tin sinh viên thành công!");
-            } else {
-                System.out.println("Cập nhật thất bại!");
-            }
+  public void updateSinhVien(String maSVCu, String maSVMoi, String hoTenMoi, String matKhauMoi,
+                           String diaChiMoi, String lopMoi, String ngaySinhMoi) {
+    ThanhVien tv = thanhVienDAO.getByMa(maSVCu);
+    if (tv.getId() != -1) {
+        tv.setMaSV(maSVMoi);
+        tv.setHoTen(hoTenMoi);
+        tv.setMatKhau(matKhauMoi);
+        tv.setDiaChi(diaChiMoi);
+        tv.setLop(lopMoi);
+        tv.setNgaySinh(ngaySinhMoi);
+
+        if (thanhVienDAO.updateObject(tv)) {
+            System.out.println("Cập nhật thông tin sinh viên thành công!");
         } else {
-            System.out.println("Không tìm thấy sinh viên này!");
+            System.out.println("Cập nhật thất bại!");
         }
+    } else {
+        System.out.println("Không tìm thấy sinh viên này!");
     }
+}
+
 
     public void deleteSinhVientheoMa(String maSV) {
         ThanhVien tv = thanhVienDAO.getByMa(maSV);

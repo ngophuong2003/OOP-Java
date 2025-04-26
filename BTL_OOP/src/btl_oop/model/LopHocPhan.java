@@ -20,6 +20,10 @@ public class LopHocPhan {
         this.siSoToiDa = siSoToiDa;
         this.namHoc = namHoc;
     }
+
+    public int getId() {
+        return id;
+    }
     
     public KiHoc getKiHoc() {
         return kiHoc;
@@ -64,6 +68,10 @@ public class LopHocPhan {
     @Override
     public String toString() {
         return "LopHocPhan{" + "id=" + id + ", kiHoc=" + kiHoc + ", monHoc=" + monHoc + ", nhomMonHoc=" + nhomMonHoc + ", siSoToiDa=" + siSoToiDa + ", namHoc=" + namHoc + '}';
+    }
+
+    public String getID() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }
