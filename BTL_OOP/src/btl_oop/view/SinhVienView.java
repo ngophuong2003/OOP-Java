@@ -18,29 +18,45 @@ public class SinhVienView {
     }
 
     public int inputMon() {
-        System.out.print("Nhập ID Kết Quả Cần Phản Hồi: ");
         while (true) {
+            System.out.print("Nhập ID Kết Quả Cần Phản Hồi: ");
             String line = sc.nextLine().trim();
             if (line.matches("\\d+")) {
                 return Integer.parseInt(line);
             }
-            printOut("Nhập Lại Đầu Vào Chỉ Là Số\n");
+            printOut("Vui lòng nhập lại. Chỉ nhập số.\n");
         }
     }
 
     public String inputND() {
-        System.out.print("Nội dung phúc khảo: ");
-        return sc.nextLine().trim();
+        String nd;
+        while (true) {
+            System.out.print("Nhập nội dung phúc khảo:: ");
+            nd = sc.nextLine().trim();
+            if (nd.isEmpty()) {
+                System.out.println("Vui lòng không để nội dung phản hồi trống.");
+                continue;
+            }
+            return nd;
+        }
     }
 
     public String inputKY() {
-        System.out.print("Nhập Kỳ Học Cần Xem: ");
-        return sc.nextLine().trim();
+        String ky;
+        while (true) {
+            System.out.print("Nhập kỳ học cần xem:: ");
+            ky = sc.nextLine().trim();
+            if (ky.isEmpty()) {
+                System.out.println("Vui lòng không để thông tin trống.");
+                continue;
+            }
+            return ky;
+        }
     }
 
     public int inputNamHoc() {
         while (true) {
-            System.out.print("Nhập Năm Học: ");
+            System.out.print("Nhập năm học: ");
             String line = sc.nextLine().trim();
             if (line.matches("\\d+")) {
                 return Integer.parseInt(line);
@@ -58,8 +74,15 @@ public class SinhVienView {
                 4. Xem Những Đơn Phúc Khảo Chưa XL
                 5. Xem Những Đơn Phúc Khảo Đã XL
                 0. Thoát
-                Chọn:\s""");
-        return Integer.parseInt(sc.nextLine());
+                """);
+        while (true){
+            System.out.print("Chọn: ");
+            String line = sc.nextLine().trim();
+            if (line.matches("\\d+")){
+                return Integer.parseInt(line);
+            }
+            printOut("Vui lòng nhập lựa chọn chỉ có số.");
+        }
     }
 
     public void xemDiem(List<TongKetDiem> diemThanhPhanList, List<DiemGpa> gpaResults) {
@@ -99,7 +122,7 @@ public class SinhVienView {
 
     public void hienThiDiemMH(List<Diem> diemList) {
         if (diemList.isEmpty()) {
-            System.out.println("Không Có Điểm Thành Phần Nào Thuộc Kỳ Này");
+            System.out.println("Không có điểm thành phần nào thuộc kỳ này.");
         } else {
             System.out.println("|  ID  |           Môn Học          |  Đầu Điểm  |  Năm  |  Kỳ Học  |  Điểm  |");
             for (Diem diem : diemList) {
