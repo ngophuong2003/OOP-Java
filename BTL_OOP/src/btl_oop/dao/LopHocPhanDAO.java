@@ -109,44 +109,36 @@ while (rs.next()) {
     }
     return list;
 }
-public List<LopHocPhan> getLopHocPhanGiangVienDay(int giangVienId) {
-    List<LopHocPhan> list = new ArrayList<>();
-    String sql = "SELECT lhp.*, kh.tenKiHoc, mh.tenMH, mh.soTc, mh.maMH " +
-             "FROM tblThamGia tg " +
-             "JOIN tblThanhVien tv ON tg.tblThanhVienid = tv.id " +
-             "JOIN tblLopHocPhan lhp ON tg.tblLopHocPhanid = lhp.id " +
-             "JOIN tblKiHoc kh ON lhp.tblKiHocid = kh.id " +
-             "JOIN tblMonHoc mh ON lhp.tblMonHocid = mh.id " +
-             "WHERE tv.tblChucVuid = 1 AND tv.id = ?";
+ public List<LopHocPhan> getAllLopHocPhan() {
+        MonHocDAO monHocDAO = new MonHocDAO();
+        KiHocDAO kiHocDAO = new KiHocDAO();
+        String sql = "SELECT * FROM tblLopHocPhan";
+        List<LopHocPhan> lopHocPhans = new ArrayList<>();
+        try {
+            PreparedStatement st = con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int monHocId = rs.getInt("tblMonHocid");
+                int kiHocId = rs.getInt("tblKiHocid"); 
 
-    try {
-        PreparedStatement st = con.prepareStatement(sql);
-        st.setInt(1, giangVienId);
-        ResultSet rs = st.executeQuery();
-while (rs.next()) {
-    KiHoc kiHoc = new KiHoc(rs.getInt("tblKiHocid"), rs.getString("tenKiHoc"));
-    MonHoc monHoc = new MonHoc(
-        rs.getInt("tblMonHocid"), 
-        rs.getString("tenMH"),    
-        rs.getInt("soTc"),         
-        rs.getString("maMH")
-    );
+                MonHoc monHoc = (MonHoc) monHocDAO.getById(monHocId);
+                KiHoc kiHoc = (KiHoc) kiHocDAO.getById(kiHocId); 
 
-    LopHocPhan lopHocPhan = new LopHocPhan(
-        rs.getInt("id"),
-        kiHoc,
-        monHoc,
-        rs.getString("nhomMonHoc"),
-        rs.getInt("siSoToiDa"), // Không kiểm tra NULL
-        rs.getInt("namHoc")
-    );
-    list.add(lopHocPhan);
-}
-    } catch (SQLException e) {
-        System.out.println("Lỗi getLopHocPhanGiangVienDay: " + e.getMessage());
+                LopHocPhan lopHocPhan = new LopHocPhan(
+                    rs.getInt("id"),
+                    kiHoc,
+                    monHoc,
+                    rs.getString("nhomMonHoc"),
+                    rs.getInt("siSoToiDa"),
+                    rs.getInt("namHoc")
+                );
+                lopHocPhans.add(lopHocPhan);
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi SQL trong getAllLopHocPhan: " + e.getMessage());
+        }
+        return lopHocPhans;
     }
-    return list;
-}
 
 
 
