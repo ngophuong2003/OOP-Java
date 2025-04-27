@@ -211,17 +211,17 @@ private void menuQuanLyLopHocPhan(){
         
     }
 
-   private void addLopHocPhan() {
-        KiHocDAO kiHocDAO = new KiHocDAO();
-            MonHocDAO monHocDAO = new MonHocDAO();
+    private void addLopHocPhan() {
+        kiHocController.getAllKiHoc();
+           monHocController.getAllMonHoc();
             System.out.println("Nhập ID lớp học phần");
             int ID = scanner.nextInt();
             System.out.println("Nhập kỳ học ID");
             int kyHocID = scanner.nextInt();
-            KiHoc kiHoc = (KiHoc) kiHocDAO.getById(kyHocID);
+            KiHoc kiHoc = (KiHoc) kiHocController.getById(kyHocID);
             System.out.println("Nhập môn học ID");
             int monHocID = scanner.nextInt();
-            MonHoc monHoc = (MonHoc) monHocDAO.getById(monHocID);
+            MonHoc monHoc = (MonHoc) monHocController.getMonHocById(monHocID);
             scanner.nextLine();
             System.out.println("Nhập nhóm môn học: ");
             String nhomMonhoc = scanner.nextLine();
