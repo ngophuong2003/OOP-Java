@@ -109,23 +109,91 @@ while (rs.next()) {
     }
     return list;
 }
+ public List<LopHocPhan> getAllLopHocPhan() {
+        MonHocDAO monHocDAO = new MonHocDAO();
+        KiHocDAO kiHocDAO = new KiHocDAO();
+        String sql = "SELECT * FROM tblLopHocPhan";
+        List<LopHocPhan> lopHocPhans = new ArrayList<>();
+        try {
+            PreparedStatement st = con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int monHocId = rs.getInt("tblMonHocid");
+                int kiHocId = rs.getInt("tblKiHocid"); 
+
+                MonHoc monHoc = (MonHoc) monHocDAO.getById(monHocId);
+                KiHoc kiHoc = (KiHoc) kiHocDAO.getById(kiHocId); 
+
+                LopHocPhan lopHocPhan = new LopHocPhan(
+                    rs.getInt("id"),
+                    kiHoc,
+                    monHoc,
+                    rs.getString("nhomMonHoc"),
+                    rs.getInt("siSoToiDa"),
+                    rs.getInt("namHoc")
+                );
+                lopHocPhans.add(lopHocPhan);
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi SQL trong getAllLopHocPhan: " + e.getMessage());
+        }
+        return lopHocPhans;
+    }
 
 
 
 
     @Override
     public boolean addObject(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            LopHocPhan lopHocPhan = (LopHocPhan) object;
+            String sql = "INSERT INTO tblLopHocPhan (id, tblKiHocid, tblMonHocid, nhomMonHoc, siSoToiDa, namHoc) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, lopHocPhan.getId());
+            st.setInt(2, lopHocPhan.getKiHoc().getId());
+            st.setInt(3, lopHocPhan.getMonHoc().getId());
+            st.setString(4, lopHocPhan.getNhomMonHoc());
+            st.setInt(5, lopHocPhan.getSiSoToiDa());
+            st.setInt(6, lopHocPhan.getNamHoc());
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Lỗi SQL trong addLopHocPhan: " + e.getMessage());
+            return false;
+        }
     }
 
     @Override
     public boolean updateObject(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            LopHocPhan lopHocPhan = (LopHocPhan) object;
+            String sql = "UPDATE tblLopHocPhan SET  siSoToiDa = ? WHERE id = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, lopHocPhan.getSiSoToiDa());
+            st.setInt(2, lopHocPhan.getId());
+            int rowsAffected = st.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("Lỗi SQL trong updateLopHocPhan: " + e.getMessage());
+            return false;
+        }
     }
 
     @Override
     public boolean deleteObject(int objectId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       try {
+            String sql = "DELETE FROM tblLopHocPhan WHERE id = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, objectId);
+            int rowsAffected = st.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("Lỗi SQL trong deleteLopHocPhan: " + e.getMessage());
+            return false;
+        }
     }
 
+
+
+   
 }

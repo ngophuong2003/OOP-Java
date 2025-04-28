@@ -84,10 +84,22 @@ public class BTL_OOP {
         System.out.println("2. Quản lý giảng viên");
         System.out.println("3. Quản lý môn học");
         System.out.println("4. Quản lý điểm");
-        System.out.println("5. Thoát");
+        System.out.println("5. Quản lý lớp học phần");
+        System.out.println("6. Thoát");
         System.out.print("Lựa chọn của bạn: ");
     }
-
+        
+private void menuQuanLyLopHocPhan(){
+        System.out.println("\n===== HỆ THỐNG QUẢN LÝ ĐIỂM SINH VIÊN =====");
+        System.out.println("===== QUẢN LÍ LỚP HỌC PHẦN =====");
+        System.out.println("1. Xem Lớp Học Phần");
+        System.out.println("2. Xóa Lớp Học Phần");
+        System.out.println("3. Update Sĩ số tối đa Lớp Học Phần");
+        System.out.println("4. Thêm Lớp Học Phần");
+        System.out.println("5. Xem Lớp Học Phần theo ID");
+        System.out.println("6. Thoát");
+        System.out.print("Lựa chọn của bạn: ");
+    }
     //===================== LUONG =========================
     private void loginGUI() {
         System.out.println("Đăng nhập");
@@ -143,6 +155,92 @@ public class BTL_OOP {
         }
     }
 
+
+     private void quanLyLopHocPhanGUI() {
+        boolean running = true;
+        while(running){
+            menuQuanLyLopHocPhan();
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    showLopHocPhan();
+                    break;
+                case 2:
+                    deleteLophocPhan();
+                    break;
+                case 3:
+                    updateLopHocPhan();
+                    break;
+                case 4:
+                    addLopHocPhan();
+                    break;
+                case 5:
+                    showLopHocPhanByID();
+                    break;
+                case 6:
+                    running = false;
+                    runAdmin();
+            }
+        }
+    }
+    
+    private void showLopHocPhan() {
+       lopHocPhanController.showAllLopHocPhan();
+       quanLyLopHocPhanGUI();
+    }
+
+    private void deleteLophocPhan() {
+       System.out.println("Nhập ID lớp Học Phần cần xóa:");
+        int id = scanner.nextInt();
+        lopHocPhanController.DeleteLopHocPhan(id);
+        System.out.println("Xóa thành công");
+        lopHocPhanController.showAllLopHocPhan();
+        quanLyLopHocPhanGUI();
+    }
+
+    private void updateLopHocPhan() {
+        System.out.println("Nhập ID lớp Học Phần cần update:");
+        int id = scanner.nextInt();
+        LopHocPhan lopHocPhan = lopHocPhanController.getById(id);
+        scanner.nextLine();
+        System.out.println("Nhập sĩ số: ");
+        int newss = scanner.nextInt();
+        lopHocPhan.setSiSoToiDa(newss);
+        lopHocPhanController.UpdateLopHocPhan(lopHocPhan);
+        lopHocPhanController.showAllLopHocPhan();
+        
+    }
+
+    private void addLopHocPhan() {
+        kiHocController.getAllKiHoc();
+           monHocController.getAllMonHoc();
+            System.out.println("Nhập ID lớp học phần");
+            int ID = scanner.nextInt();
+            System.out.println("Nhập kỳ học ID");
+            int kyHocID = scanner.nextInt();
+            KiHoc kiHoc = (KiHoc) kiHocController.getById(kyHocID);
+            System.out.println("Nhập môn học ID");
+            int monHocID = scanner.nextInt();
+            MonHoc monHoc = (MonHoc) monHocController.getMonHocById(monHocID);
+            scanner.nextLine();
+            System.out.println("Nhập nhóm môn học: ");
+            String nhomMonhoc = scanner.nextLine();
+            System.out.println("Nhập sĩ số: ");
+            int siso = scanner.nextInt();
+            System.out.println("Nhập năm học: ");
+            int namHoc = scanner.nextInt();
+            LopHocPhan lopHocPhan = new LopHocPhan(ID, kiHoc, monHoc, nhomMonhoc, siso, namHoc);
+            lopHocPhanController.AddLopHocPhan(lopHocPhan);
+            lopHocPhanController.showAllLopHocPhan();
+            quanLyLopHocPhanGUI();
+    }
+    private void showLopHocPhanByID() {
+        System.out.println("Nhập ID lớp Học Phần:");
+        int ID = scanner.nextInt();
+        LopHocPhan lopHocPhan = lopHocPhanController.getById(ID);
+        System.out.println(lopHocPhan.toString());
+    }
+
     //===================== PHUONG =========================
     public void runAdmin() {
         boolean running = true;
@@ -164,6 +262,9 @@ public class BTL_OOP {
                     quanLyDiemGUI();
                     break;
                 case 5:
+                    quanLyLopHocPhanGUI();
+                    break;
+                case 6:
                     running = false;
                     currentUser = null;
                     menuDangNhap();
