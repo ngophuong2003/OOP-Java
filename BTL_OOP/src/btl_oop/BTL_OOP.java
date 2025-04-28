@@ -624,7 +624,7 @@ public class BTL_OOP {
 
     //Usecase Thêm,sửa,xóa,xem danh sách sinh viên
     private void xemDanhSachSinhVien() {
-        List<ThanhVien> list = thanhVienController.getAllThanhVienByChucVu("Sinh viên");
+        List<ThanhVien> list = thanhVienController.getAllThanhVienByChucVu("SV");
         System.out.println("===== Danh sách sinh viên =====");
         for (ThanhVien sv : list) {
             System.out.println("Mã Sinh Viên: " +sv.getMaSV()+ " | Họ tên: " +sv.getHoTen()+" | Địa chỉ: "+sv.getDiaChi()+"| Lớp: " + sv.getLop()+ " | Ngày sinh: " + sv.getNgaySinh());
@@ -654,7 +654,7 @@ public class BTL_OOP {
         System.out.print("Nhập ngày sinh của sinh viên: ");
         String ngaySinh = scanner.nextLine().trim();
 
-        ChucVu chucvuSinhvien = chucVuController.getByMa("Sinh Viên");
+        ChucVu chucvuSinhvien = chucVuController.getByMa("SV");
         Khoa khoa = khoaController.getByMaKhoa(maKhoa);
         ThanhVien sv = new ThanhVien(chucvuSinhvien, khoa, maSV, matKhau, lop, hoTen, diaChi, ngaySinh);
         thanhVienController.addSinhVien(sv);
@@ -714,7 +714,7 @@ public class BTL_OOP {
         private void GiangVienquanLyDiemGUI() {
         boolean running = true;
         while (running) {
-            System.out.println("===== GIANGR VIÊN QUẢN LÝ ĐIỂM =====");
+            System.out.println("===== GIẢNG VIÊN QUẢN LÝ ĐIỂM =====");
             System.out.println("1. Xem danh sách lớp học phần giảng dạy");
             System.out.println("2. Thêm điểm lớp học phần");
             System.out.println("3. Cập nhật điểm lớp học phần");
@@ -778,7 +778,7 @@ if (!check) {
     return;
 }
        System.out.println("Danh sách sinh viên thuộc lớp học phần: " + lopHocPhanId);
-        List<ThanhVien> list = thanhVienController.getThanhVienThamGiaLopHocPhan(lopHocPhanId, "Sinh viên");
+        List<ThanhVien> list = thanhVienController.getThanhVienThamGiaLopHocPhan(lopHocPhanId, "SV");
         for (ThanhVien sv : list) {
             System.out.println("Mã Sinh Viên: " +sv.getMaSV()
                     + " | Họ tên: " +sv.getHoTen()
@@ -824,7 +824,7 @@ if (!check) {
    private void suaDiemSinhvienbyGIangvien() {
        listLopHocPhanCuaGiangVien();
       
-       System.out.print("Nhập Id lớp học phần muốn thêm điểm: ");
+       System.out.print("Nhập Id lớp học phần muốn sửa điểm: ");
        int lopHocPhanId = scanner.nextInt();
        scanner.nextLine();
        List<LopHocPhan> checklist = lopHocPhanController.getLopHocPhanbyGiangVien(currentUser.getId());
