@@ -111,6 +111,6 @@ public class ThanhVien {
 
     @Override
     public String toString() {
-        return "ThanhVien:" + "id=" + id + "|| chucVu=" + chucVu + "|| khoa=" + khoa + "|| maSV=" + maSV + "|| lop=" + lop + "|| hoTen=" + hoTen + "|| diaChi=" + diaChi + "|| ngaySinh=" + ngaySinh;
+        return "ThanhVien:" + "id=" + id + "|| chucVu=" + chucVu + "|| khoa=" + khoa + "|| ma=" + maSV + "|| lop=" + lop + "|| hoTen=" + hoTen + "|| diaChi=" + diaChi + "|| ngaySinh=" + ngaySinh;
     }
 }

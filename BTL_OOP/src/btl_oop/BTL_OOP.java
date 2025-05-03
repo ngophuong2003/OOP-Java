@@ -406,7 +406,7 @@ public class BTL_OOP {
         for (ThanhVien x : tv) {
             System.out.println(x);
         }
-        System.out.print("Nhập ID giảng viên muốn xóa:");
+        System.out.print("Nhập mã giảng viên muốn xóa:");
         int idGV = 0;
         boolean hopLe = false;
         while (!hopLe) {
@@ -488,7 +488,7 @@ public class BTL_OOP {
             tvUpdate.setDiaChi(diaChi);
         }
 
-        System.out.println("Ngày sinh hiện tại:" + tvUpdate.getDiaChi());
+        System.out.println("Ngày sinh hiện tại:" + tvUpdate.getNgaySinh());
         System.out.print("Nhập ngày sinh mới( Enter để bỏ qua):");
         String ngaySinh = scanner.nextLine().trim();
         if (!ngaySinh.equals("")) {
@@ -717,7 +717,7 @@ public class BTL_OOP {
 
         }
 
-        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(monHocId, lopHocPhanId);
+        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(sinhVienId, lopHocPhanId);
 
         List<MonHocDauDiem> mhdd = monHocController.getMonHocDauDiemByMonHoc(monHocId);
         System.out.println("Nhập lần lượt theo các đầu điểm sau: ");
@@ -770,7 +770,7 @@ public class BTL_OOP {
         System.out.print("Nhập Id sinh viên muốn xóa điểm: ");
         int svId = scanner.nextInt();
         scanner.nextLine();
-        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(monHocId, lopHocPhanId);
+        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(svId, lopHocPhanId);
         System.out.println("Kết quả các đầu điểm môn học của sinh viên: ");
         List<KetQua> kq = ketQuaController.getAllKetQuaByThamGiaAndMonHocId(tg.getId(), monHocId);
         for (KetQua x : kq) {
@@ -812,7 +812,7 @@ public class BTL_OOP {
         System.out.print("Nhập Id sinh viên muốn sửa điểm: ");
         int svId = scanner.nextInt();
         scanner.nextLine();
-        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(monHocId, lopHocPhanId);
+        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(svId, lopHocPhanId);
         System.out.println("Kết quả các đầu điểm môn học của sinh viên: ");
         List<KetQua> kq = ketQuaController.getAllKetQuaByThamGiaAndMonHocId(tg.getId(), monHocId);
         for (KetQua x : kq) {
