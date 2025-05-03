@@ -163,14 +163,16 @@ while (rs.next()) {
         }
     }
 
-    @Override
+   @Override
     public boolean updateObject(Object object) {
         try {
             LopHocPhan lopHocPhan = (LopHocPhan) object;
-            String sql = "UPDATE tblLopHocPhan SET  siSoToiDa = ? WHERE id = ?";
+            String sql = "UPDATE tblLopHocPhan SET nhomMonHoc = ? ,siSoToiDa = ? ,namHoc =?  WHERE id = ?";
             PreparedStatement st = con.prepareStatement(sql);
-            st.setInt(1, lopHocPhan.getSiSoToiDa());
-            st.setInt(2, lopHocPhan.getId());
+            st.setString(1, lopHocPhan.getNhomMonHoc());
+            st.setInt(2, lopHocPhan.getSiSoToiDa());
+            st.setInt(3, lopHocPhan.getNamHoc());
+            st.setInt(4, lopHocPhan.getId());
             int rowsAffected = st.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
@@ -178,7 +180,6 @@ while (rs.next()) {
             return false;
         }
     }
-
     @Override
     public boolean deleteObject(int objectId) {
        try {
