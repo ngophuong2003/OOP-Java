@@ -27,6 +27,23 @@ public class MonHocDAO extends DAO {
         return null;
     }
 
+    public Object getByMaMonHoc(String maMH) {
+        String sql = "select *from tblmonhoc where maMH=?";
+        try {
+            PreparedStatement st = con.prepareCall(sql);
+            st.setString(1, maMH);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                MonHoc monHoc = new MonHoc(rs.getInt("id"), rs.getString("tenMH"), rs.getInt("soTC"), rs.getString("maMH"));
+                return monHoc;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Lỗi SQL trong getById: " + e.getMessage());
+        }
+        return null;
+    }
+    
     public MonHoc getByMa(String maMH) {
         String sql = "select * from tblkhoa where maKhoa =? ";
         try {
