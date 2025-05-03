@@ -18,7 +18,8 @@ public class KhoaController {
         List<Khoa> khoa= khoaDAO.getAllKhoa();
         System.out.println("Danh sách các khoa trong hệ thống:");
         for(Khoa x: khoa){
-            System.out.println(x);
+            System.out.println("Tên khoa: "+ x.getTenKhoa()
+                               +"| Mã khoa: "+ x.getMaKhoa());
         }
     }
     
