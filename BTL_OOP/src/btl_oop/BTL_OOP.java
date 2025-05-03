@@ -183,64 +183,125 @@ private void menuQuanLyLopHocPhan(){
             }
         }
     }
-    
+
     private void showLopHocPhan() {
+       System.out.println("Danh sách các lớp học phần:");
        lopHocPhanController.showAllLopHocPhan();
+       try {
+            Thread.sleep(2000); 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
        quanLyLopHocPhanGUI();
     }
 
     private void deleteLophocPhan() {
+       System.out.println("Danh sách các lớp học phần:");
+       lopHocPhanController.showAllLopHocPhan();
        System.out.println("Nhập ID lớp Học Phần cần xóa:");
         int id = scanner.nextInt();
         lopHocPhanController.DeleteLopHocPhan(id);
-        System.out.println("Xóa thành công");
+        System.out.println("Xóa thành công!");
         lopHocPhanController.showAllLopHocPhan();
+        try {
+            Thread.sleep(2000); 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         quanLyLopHocPhanGUI();
     }
 
     private void updateLopHocPhan() {
+        System.out.println("Danh sách các lớp học phần:");
+        lopHocPhanController.showAllLopHocPhan();
         System.out.println("Nhập ID lớp Học Phần cần update:");
         int id = scanner.nextInt();
         LopHocPhan lopHocPhan = lopHocPhanController.getById(id);
         scanner.nextLine();
-        System.out.println("Nhập sĩ số: ");
-        int newss = scanner.nextInt();
-        lopHocPhan.setSiSoToiDa(newss);
+        System.out.println("Bạn có muốn update sĩ số không? Yes/No");
+        String answer = scanner.nextLine();
+        answer = answer.toLowerCase();
+        if(answer.equals("yes")){
+            System.out.println("Nhập sĩ số: ");
+            int newss = scanner.nextInt();
+            lopHocPhan.setSiSoToiDa(newss);
+        }
+        scanner.nextLine();
+        System.out.println("Bạn có muốn update nhóm môn học không?Yes/No");
+        answer = scanner.nextLine();
+        answer = answer.toLowerCase();
+        if(answer.equals("yes")){
+            System.out.println("Nhập nhóm môn học mới: ");
+            String newNhomMH = scanner.nextLine();
+            lopHocPhan.setNhomMonHoc(newNhomMH);
+        }
+        System.out.println("Bạn có muốn update năm học không? Yes/No");
+        answer = scanner.nextLine();
+        answer = answer.toLowerCase();
+        if(answer.equals("yes")){
+            System.out.println("Nhập năm học mới: ");
+            int newyear = scanner.nextInt();
+            lopHocPhan.setNamHoc(newyear);
+        }
         lopHocPhanController.UpdateLopHocPhan(lopHocPhan);
+        System.out.println("Danh sách các lớp học phần sau khi update:");
         lopHocPhanController.showAllLopHocPhan();
-        
+        try {
+            Thread.sleep(2000); 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        quanLyLopHocPhanGUI();
     }
 
     private void addLopHocPhan() {
+        System.out.println("Danh sách các kì học");
         kiHocController.getAllKiHoc();
-           monHocController.getAllMonHoc();
-            System.out.println("Nhập ID lớp học phần");
-            int ID = scanner.nextInt();
-            System.out.println("Nhập kỳ học ID");
-            int kyHocID = scanner.nextInt();
-            KiHoc kiHoc = (KiHoc) kiHocController.getById(kyHocID);
-            System.out.println("Nhập môn học ID");
-            int monHocID = scanner.nextInt();
-            MonHoc monHoc = (MonHoc) monHocController.getMonHocById(monHocID);
-            scanner.nextLine();
-            System.out.println("Nhập nhóm môn học: ");
-            String nhomMonhoc = scanner.nextLine();
-            System.out.println("Nhập sĩ số: ");
-            int siso = scanner.nextInt();
-            System.out.println("Nhập năm học: ");
-            int namHoc = scanner.nextInt();
-            LopHocPhan lopHocPhan = new LopHocPhan(ID, kiHoc, monHoc, nhomMonhoc, siso, namHoc);
-            lopHocPhanController.AddLopHocPhan(lopHocPhan);
-            lopHocPhanController.showAllLopHocPhan();
-            quanLyLopHocPhanGUI();
+        System.out.println("Nhập kỳ học ID");
+        int kyHocID = scanner.nextInt();
+        scanner.nextLine();
+        KiHoc kiHoc = (KiHoc) kiHocController.getById(kyHocID);
+        System.out.println("Danh sách các môn học: ");
+        for (MonHoc x :  monHocController.getAllMonHoc()){
+            System.out.println(x.toString());
+        }
+        System.out.println("Nhập mã môn học: ");
+        String maMonHoc = scanner.nextLine();
+        MonHoc monHoc = (MonHoc) monHocController.getMonHocByMaMonHoc(maMonHoc);
+        System.out.println(monHoc);
+        System.out.println("Nhập nhóm môn học: ");
+        String nhomMonhoc = scanner.nextLine();
+        System.out.println("Nhập sĩ số: ");
+        int siso = scanner.nextInt();
+        System.out.println("Nhập năm học: ");
+        int namHoc = scanner.nextInt();
+        LopHocPhan lopHocPhan = new LopHocPhan(kiHoc, monHoc, nhomMonhoc, siso, namHoc);
+        lopHocPhanController.AddLopHocPhan(lopHocPhan);
+        System.out.println("Thêm thành công");
+        System.out.println("Danh sách lớp học phần sau khi thêm");
+        lopHocPhanController.showAllLopHocPhan();
+        try {
+            Thread.sleep(2000); 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        quanLyLopHocPhanGUI();
     }
+
     private void showLopHocPhanByID() {
         System.out.println("Nhập ID lớp Học Phần:");
         int ID = scanner.nextInt();
         LopHocPhan lopHocPhan = lopHocPhanController.getById(ID);
         System.out.println(lopHocPhan.toString());
+        try {
+            Thread.sleep(2000); 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        quanLyLopHocPhanGUI();
     }
-
+    
+    
     //===================== PHUONG =========================
     public void runAdmin() {
         boolean running = true;
