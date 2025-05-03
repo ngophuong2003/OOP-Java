@@ -13,6 +13,12 @@ public class MonHocDauDiem {
         this.tenDauDiem = tenDauDiem;
         this.heSo = heSo;
     }
+    public MonHocDauDiem(int id, String tenDauDiem, int heSo, MonHoc monHoc) {
+        this.id = id;
+        this.tenDauDiem = tenDauDiem;
+        this.heSo = heSo;
+        this.monHoc=monHoc;
+    }
 
     public int getId() {
         return id;
