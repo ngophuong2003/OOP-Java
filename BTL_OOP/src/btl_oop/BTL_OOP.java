@@ -115,14 +115,17 @@ private void menuQuanLyLopHocPhan(){
                 System.out.println("Xin chào Admin!");
                 runAdmin();
             } else if (currentUser.getChucVu().getTenCV().equals("GV")) {
-                runGV();
                 System.out.println("Xin chào Giảng viên!");
+                runGV();
+
             } else if (currentUser.getChucVu().getTenCV().equals("SV")) {
-                runSV(currentUser.getMaSV());
                 System.out.println("Xin chào Sinh viên!");
+                runSV(currentUser.getMaSV());
+
             } else {
-                runXL();
                 System.out.println("Xin chào Người XL!");
+                runXL();
+
             }
         } else {
             System.out.println("Tài khoản hoặc mật khẩu sai!");
@@ -1191,9 +1194,15 @@ private void xemthongkediemLophocphan() {
     //===================== PHUC =========================
     public void runSV(String maSV) {
         sinhVienController.start(maSV);
+        scanner.nextLine();
+        currentUser = null;
+        run();
     }
 
     public void runXL() {
         nguoiXLController.start();
+        scanner.nextLine();
+        currentUser = null;
+        run();
     }
 }
