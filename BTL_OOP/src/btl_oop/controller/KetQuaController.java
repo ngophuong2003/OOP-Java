@@ -23,7 +23,7 @@ public class KetQuaController {
     
     public void themKetQua(KetQua ketQua){
         if(ketQuaDAO.addObject(ketQua)){
-            System.out.println("Thêm thành công điểm "+ ketQua.getMonHocDauDiem().getTenDauDiem());
+            System.out.println("Thêm thành công "+ ketQua.getMonHocDauDiem().getTenDauDiem());
         }
         else{
             System.out.println("Thêm thất bại");

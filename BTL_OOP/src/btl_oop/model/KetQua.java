@@ -49,7 +49,7 @@ public class KetQua {
 
     @Override
     public String toString() {
-        return "KetQua{" + "id=" + id + ", monHocDauDiem=" + monHocDauDiem + ", thamGia=" + thamGia + ", diem=" + diem + '}';
+        return "KetQua:" + "id=" + id + "|| monHocDauDiem=" + monHocDauDiem + "|| thamGia=" + thamGia + "|| diem=" + diem ;
     }
     
 }

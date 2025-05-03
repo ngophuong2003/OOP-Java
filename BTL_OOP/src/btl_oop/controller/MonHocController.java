@@ -20,6 +20,9 @@ public class MonHocController {
      public MonHoc getMonHocById(int monHocId){
         return (MonHoc) monHocDAO.getById(monHocId);
     }
+     public MonHoc getMonHocByMa(String maMH){
+        return (MonHoc) monHocDAO.getByMa(maMH);
+    }
     public void addMonHoc(MonHoc monHoc){
         MonHoc mh=monHocDAO.getByMa(monHoc.getMaMH());
         if(mh.getId()==-1){

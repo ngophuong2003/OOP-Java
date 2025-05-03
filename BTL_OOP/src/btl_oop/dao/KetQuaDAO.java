@@ -2,6 +2,7 @@
 package btl_oop.dao;
 
 import btl_oop.model.KetQua;
+import btl_oop.model.MonHoc;
 import btl_oop.model.MonHocDauDiem;
 import btl_oop.model.ThamGia;
 import java.sql.PreparedStatement;
@@ -79,9 +80,11 @@ public class KetQuaDAO extends DAO{
             st.setInt(1,thamGiaid);
             st.setInt(2,monHocid);
             ResultSet rs=st.executeQuery();
+            MonHocDAO monHocDAO=new MonHocDAO();
+            MonHoc monHoc=(MonHoc) monHocDAO.getById(monHocid);
             while(rs.next()){
                 ThamGia thamgia = new ThamGia(rs.getInt("id"),rs.getInt("tblThanhVienid"),rs.getInt("tblLopHocPhanid") );
-                MonHocDauDiem mhdd=new MonHocDauDiem(rs.getInt("id"),rs.getString("tenDauDiem"),rs.getInt("heSo"));
+                MonHocDauDiem mhdd=new MonHocDauDiem(rs.getInt("id"),rs.getString("tenDauDiem"),rs.getInt("heSo"),monHoc);
                 KetQua ketQua=new KetQua(
                       rs.getInt("id"),
                       mhdd,

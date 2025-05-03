@@ -22,13 +22,14 @@ public class MonHocDAO extends DAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("Lỗi SQL trong getById: " + e.getMessage());
+            System.out.println("Lỗi SQL trong getByMa: " + e.getMessage());
+            return new MonHoc(-1);
         }
-        return null;
+        return new MonHoc(-1);
     }
 
     public MonHoc getByMa(String maMH) {
-        String sql = "select * from tblkhoa where maKhoa =? ";
+        String sql = "select * from tblmonhoc where maMH =? ";
         try {
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, maMH);

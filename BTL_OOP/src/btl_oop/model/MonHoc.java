@@ -13,12 +13,18 @@ public class MonHoc {
         this.soTc = soTC;
         this.maMH = maMH;
     }
+    public MonHoc(){
+        
+    }
     public MonHoc(  String tenMH,int soTC, String maMH) {
         this.tenMH = tenMH;
         this.soTc = soTC;
         this.maMH = maMH;
     }
     public MonHoc(int id){
+        this.id=id;
+    }
+    public void setId(int id){
         this.id=id;
     }
 
@@ -51,7 +57,7 @@ public class MonHoc {
 
     @Override
     public String toString() {
-        return "MonHoc{" + "id=" + id + ", tenMH=" + tenMH + ", soTc=" + soTc + ", maMH=" + maMH + '}';
+        return "MonHoc:" + "id=" + id + "|| tenMH=" + tenMH + "|| soTc=" + soTc + "|| maMH=" + maMH ;
     }
 
    

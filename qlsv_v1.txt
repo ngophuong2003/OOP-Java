@@ -1,3 +1,5 @@
+drop database quanlysinhvien;
+
 CREATE DATABASE QuanLySinhVien;
 USE QuanLySinhVien;
 
@@ -78,26 +80,6 @@ CREATE TABLE tblDiemChu (
     diemHe10ToiDa FLOAT
 );
 
--- Thêm dữ liệu mẫu
-INSERT INTO tblChucVu (tenCV) VALUES ('Giảng viên'), ('Sinh viên');
-INSERT INTO tblKhoa (tenKhoa) VALUES ('Công nghệ thông tin'), ('Quản trị kinh doanh');
-INSERT INTO tblThanhVien (tblChucVuid, tblKhoaid, maSV, lop, hoTen, diaChi, ngaySinh)
-VALUES (2, 1, 'SV001', 'CNTT1', 'Nguyễn Văn A', 'Hà Nội', '2001-01-01'),
-       (2, 2, 'SV002', 'QTKD1', 'Trần Thị B', 'Hồ Chí Minh', '2000-02-15');
-
-INSERT INTO tblKiHoc (tenKiHoc) VALUES ('Học kỳ 1'), ('Học kỳ 2');
-INSERT INTO tblMonHoc (tenMH, soTc) VALUES ('Toán cao cấp', 3), ('Lập trình Java', 4);
-INSERT INTO tblMonHocDauDiem (tenDauDiem, heSo, tblMonHocid) 
-VALUES ('Điểm giữa kỳ', 40, 1), ('Điểm cuối kỳ', 60, 2);
-
-INSERT INTO tblLopHocPhan (tblKiHocid, tblMonHocid, nhomMonHoc, siSoToiDa, namHoc)
-VALUES (1, 1, 'Nhóm 1', '50', 2023), (2, 2, 'Nhóm 2', '60', 2023);
-
-INSERT INTO tblThamGia (tblThanhVienid, tblLopHocPhanid)
-VALUES (1, 1), (2, 2);
-
-INSERT INTO tblKetQua (tblMonHocDauDiemid, tblThamGiaid, diem)
-VALUES (1, 1, 8.5), (2, 2, 9.0);
 
 ALTER TABLE `quanlysinhvien`.`tblthanhvien` 
 ADD COLUMN `matKhau` VARCHAR(255) NOT NULL DEFAULT '1' AFTER `ngaySinh`;
@@ -106,9 +88,6 @@ ADD COLUMN `maKhoa` VARCHAR(45) NOT NULL AFTER `tenKhoa`;
 ALTER TABLE `quanlysinhvien`.`tblmonhoc` 
 ADD COLUMN `maMH` VARCHAR(255) NULL AFTER `soTc`,
 ADD UNIQUE INDEX `maMH_UNIQUE` (`maMH` ASC) VISIBLE;
-
-UPDATE `quanlysinhvien`.`tblmonhoc` SET `maMH` = 'MH001' WHERE (`id` = '1');
-UPDATE `quanlysinhvien`.`tblmonhoc` SET `maMH` = 'MH002' WHERE (`id` = '2');
 
 -- Phúc
 -- Thêm bảng phản hồi
@@ -129,10 +108,286 @@ ALTER TABLE tblDiemChu ADD COLUMN diemthang4 FLOAT;
 -- Cập nhật kiểu dữ liệu cho trường ngaySinh nếu cần
 -- ALTER TABLE tblThanhVien MODIFY COLUMN ngaySinh DATE;
 
---Sửa kiểu dữ liệu siSoToiDa
+
 ALTER TABLE `quanlysinhvien`.`tbllophocphan`
 CHANGE COLUMN `siSoToiDa` `siSoToiDa` INT NULL DEFAULT NULL ;
 
---update tên kì học để dạng 12025 (kì 1 năm học 2025)
-UPDATE `quanlysinhvien`.`tblkihoc` SET `tenKiHoc` = '12025' WHERE (`id` = '2');
-UPDATE `quanlysinhvien`.`tblkihoc` SET `tenKiHoc` = '22025' WHERE (`id` = '1');
+-- Tắt tạm thời foreign key checks để xóa dữ liệu
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- Xóa dữ liệu cũ từ tất cả các bảng
+TRUNCATE TABLE tblKetQua;
+TRUNCATE TABLE tblThamGia;
+TRUNCATE TABLE tblLopHocPhan;
+TRUNCATE TABLE tblMonHocDauDiem;
+TRUNCATE TABLE tblThanhVien;
+TRUNCATE TABLE tblDiemChu;
+TRUNCATE TABLE tblMonHoc;
+TRUNCATE TABLE tblKiHoc;
+TRUNCATE TABLE tblKhoa;
+TRUNCATE TABLE tblChucVu;
+TRUNCATE TABLE tblPhucKhao;
+
+-- Bật lại foreign key checks
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- Thêm dữ liệu cho bảng tblChucVu với ID cụ thể
+INSERT INTO tblChucVu (id, tenCV) VALUES 
+(1, 'GV'), -- Giảng viên
+(2, 'SV'), -- Sinh viên
+(3, 'Admin'), -- Quản trị viên
+(4, 'XL'); -- Xử lý (phúc khảo)
+
+-- Thêm dữ liệu cho bảng tblKhoa với ID cụ thể
+INSERT INTO tblKhoa (id, tenKhoa, maKhoa) VALUES 
+(1, 'Công nghệ thông tin', 'CNTT'),
+(2, 'Quản trị kinh doanh', 'QTKD'),
+(3, 'Khoa học máy tính', 'KHMT'),
+(4, 'Kỹ thuật phần mềm', 'KTPM'),
+(5, 'Hệ thống thông tin', 'HTTT'),
+(6, 'Kế toán', 'KT'),
+(7, 'Marketing', 'MKT'),
+(8, 'Ngôn ngữ Anh', 'NNA');
+
+-- Thêm dữ liệu kì học
+INSERT INTO tblKiHoc (id, tenKiHoc) VALUES 
+(1, '12025'), -- Kì 1 năm học 2025
+(2, '22025'), -- Kì 2 năm học 2025
+(3, '32025'), -- Kì hè năm học 2025
+(4, '12026'), -- Kì 1 năm học 2026
+(5, '22026'); -- Kì 2 năm học 2026
+
+-- Thêm dữ liệu bảng tblMonHoc
+INSERT INTO tblMonHoc (id, tenMH, soTc, maMH) VALUES 
+(1, 'Cơ sở dữ liệu', 3, 'CSDL001'),
+(2, 'Lập trình web', 4, 'LTWD001'),
+(3, 'Cấu trúc dữ liệu và giải thuật', 4, 'CTDL001'),
+(4, 'Trí tuệ nhân tạo', 3, 'TTNT001'),
+(5, 'An toàn thông tin', 3, 'ATTT001'),
+(6, 'Quản trị học', 3, 'QTH001'),
+(7, 'Nguyên lý kế toán', 3, 'NLKT001'),
+(8, 'Marketing căn bản', 3, 'MKT001'),
+(9, 'Tiếng Anh chuyên ngành CNTT', 3, 'TACN001'),
+(10, 'Phân tích thiết kế hệ thống', 4, 'PTHT001');
+
+-- Thêm dữ liệu bảng tblThanhVien
+INSERT INTO tblThanhVien (id, tblChucVuid, tblKhoaid, maSV, lop, hoTen, diaChi, ngaySinh, matKhau) VALUES
+-- Giảng viên
+(1, 1, 1, 'GV001', NULL, 'Nguyễn Thị Minh', 'Hà Nội', '1985-05-15', 'password123'),
+(2, 1, 1, 'GV002', NULL, 'Trần Văn Hùng', 'Hà Nội', '1980-08-21', 'password123'),
+(3, 1, 2, 'GV003', NULL, 'Phạm Thị Hương', 'Hồ Chí Minh', '1982-12-10', 'password123'),
+(4, 1, 3, 'GV004', NULL, 'Lê Minh Tuấn', 'Đà Nẵng', '1979-11-05', 'password123'),
+(5, 1, 4, 'GV005', NULL, 'Hoàng Văn Nam', 'Cần Thơ', '1983-07-22', 'password123'),
+
+-- Admin
+(6, 3, 1, 'AD001', NULL, 'Trần Minh Quân', 'Hà Nội', '1975-03-12', 'admin123'),
+(7, 3, 1, 'AD002', NULL, 'Lê Thị Hồng', 'Hà Nội', '1978-06-25', 'admin123'),
+
+-- Xử lý phúc khảo
+(8, 4, 1, 'XL001', NULL, 'Phạm Văn Chính', 'Hà Nội', '1980-10-05', 'password123'),
+(9, 4, 2, 'XL002', NULL, 'Nguyễn Thị Mai', 'Hồ Chí Minh', '1982-09-15', 'password123'),
+
+-- Sinh viên CNTT
+(10, 2, 1, 'SV001', 'CNTT01', 'Nguyễn Văn An', 'Hà Nội', '2002-05-10', 'student123'),
+(11, 2, 1, 'SV002', 'CNTT01', 'Trần Thị Bình', 'Nam Định', '2002-08-20', 'student123'),
+(12, 2, 1, 'SV003', 'CNTT01', 'Lê Văn Cường', 'Hải Phòng', '2001-12-15', 'student123'),
+(13, 2, 1, 'SV004', 'CNTT02', 'Phạm Thị Dung', 'Hà Nội', '2002-03-25', 'student123'),
+(14, 2, 1, 'SV005', 'CNTT02', 'Hoàng Văn Đức', 'Bắc Ninh', '2001-07-18', 'student123'),
+
+-- Sinh viên KTPM
+(15, 2, 4, 'SV006', 'KTPM01', 'Vũ Thị Giang', 'Quảng Ninh', '2003-01-12', 'student123'),
+(16, 2, 4, 'SV007', 'KTPM01', 'Đặng Văn Hùng', 'Hải Dương', '2002-09-30', 'student123'),
+(17, 2, 4, 'SV008', 'KTPM01', 'Bùi Thị Hoa', 'Thái Bình', '2003-04-05', 'student123'),
+
+-- Sinh viên QTKD
+(18, 2, 2, 'SV009', 'QTKD01', 'Ngô Văn Khoa', 'Hà Nội', '2002-11-22', 'student123'),
+(19, 2, 2, 'SV010', 'QTKD01', 'Mai Thị Lan', 'Hải Phòng', '2003-02-18', 'student123'),
+(20, 2, 2, 'SV011', 'QTKD02', 'Trịnh Văn Minh', 'Hà Nam', '2001-10-07', 'student123'),
+(21, 2, 2, 'SV012', 'QTKD02', 'Chu Thị Ngọc', 'Ninh Bình', '2002-06-29', 'student123'),
+
+-- Sinh viên KT
+(22, 2, 6, 'SV013', 'KT01', 'Dương Văn Phúc', 'Hà Nội', '2003-03-15', 'student123'),
+(23, 2, 6, 'SV014', 'KT01', 'Lý Thị Quỳnh', 'Hồ Chí Minh', '2002-07-08', 'student123'),
+(24, 2, 6, 'SV015', 'KT01', 'Hà Văn Sơn', 'Đà Nẵng', '2001-09-19', 'student123');
+
+-- Thêm dữ liệu cho bảng tblMonHocDauDiem
+INSERT INTO tblMonHocDauDiem (id, tenDauDiem, heSo, tblMonHocid) VALUES
+-- Đầu điểm cho môn Cơ sở dữ liệu
+(1, 'Điểm chuyên cần', 10, 1),
+(2, 'Điểm bài tập', 20, 1),
+(3, 'Điểm giữa kỳ', 20, 1),
+(4, 'Điểm cuối kỳ', 50, 1),
+
+-- Đầu điểm cho môn Lập trình web
+(5, 'Điểm chuyên cần', 10, 2),
+(6, 'Điểm bài tập', 20, 2),
+(7, 'Điểm đồ án', 30, 2),
+(8, 'Điểm cuối kỳ', 40, 2),
+
+-- Đầu điểm cho môn CTDL và giải thuật
+(9, 'Điểm chuyên cần', 10, 3),
+(10, 'Điểm bài tập', 20, 3),
+(11, 'Điểm giữa kỳ', 30, 3),
+(12, 'Điểm cuối kỳ', 40, 3),
+
+-- Đầu điểm cho môn Trí tuệ nhân tạo
+(13, 'Điểm chuyên cần', 10, 4),
+(14, 'Điểm bài tập', 15, 4),
+(15, 'Điểm thực hành', 25, 4),
+(16, 'Điểm cuối kỳ', 50, 4),
+
+-- Đầu điểm cho các môn khác
+(17, 'Điểm chuyên cần', 10, 5),
+(18, 'Điểm giữa kỳ', 30, 5),
+(19, 'Điểm cuối kỳ', 60, 5),
+
+-- Đầu điểm cho môn Quản trị học
+(20, 'Điểm chuyên cần', 10, 6),
+(21, 'Điểm giữa kỳ', 30, 6),
+(22, 'Điểm cuối kỳ', 60, 6),
+
+-- Đầu điểm cho môn Nguyên lý kế toán
+(23, 'Điểm chuyên cần', 10, 7),
+(24, 'Điểm bài tập', 20, 7),
+(25, 'Điểm giữa kỳ', 20, 7),
+(26, 'Điểm cuối kỳ', 50, 7);
+
+-- Thêm dữ liệu cho bảng tblLopHocPhan
+INSERT INTO tblLopHocPhan (id, tblKiHocid, tblMonHocid, nhomMonHoc, siSoToiDa, namHoc) VALUES
+-- Kì 1-2025
+(1, 1, 1, 'CSDL.01', 40, 2025),
+(2, 1, 1, 'CSDL.02', 40, 2025),
+(3, 1, 2, 'LTWD.01', 35, 2025),
+(4, 1, 3, 'CTDL.01', 40, 2025),
+(5, 1, 4, 'TTNT.01', 30, 2025),
+(6, 1, 9, 'TACN.01', 35, 2025),
+
+-- Kì 2-2025
+(7, 2, 1, 'CSDL.03', 40, 2025),
+(8, 2, 2, 'LTWD.02', 35, 2025),
+(9, 2, 6, 'QTH.01', 45, 2025),
+(10, 2, 7, 'NLKT.01', 50, 2025),
+(11, 2, 10, 'PTHT.01', 40, 2025),
+
+-- Kì 3-2025 (kì hè)
+(12, 3, 3, 'CTDL.02', 30, 2025),
+(13, 3, 8, 'MKT.01', 40, 2025),
+(14, 3, 5, 'ATTT.01', 35, 2025),
+
+-- Kì 1-2026
+(15, 4, 2, 'LTWD.03', 35, 2026),
+(16, 4, 1, 'CSDL.04', 40, 2026),
+(17, 4, 10, 'PTHT.02', 35, 2026),
+
+-- Kì 2-2026
+(18, 5, 3, 'CTDL.03', 40, 2026),
+(19, 5, 4, 'TTNT.02', 30, 2026),
+(20, 5, 5, 'ATTT.02', 35, 2026);
+
+-- Thêm dữ liệu cho bảng tblThamGia
+INSERT INTO tblThamGia (id, tblThanhVienid, tblLopHocPhanid) VALUES
+-- Sinh viên tham gia lớp học phần kì 1-2025
+(1, 10, 1), -- SV001 học CSDL.01
+(2, 11, 1), -- SV002 học CSDL.01
+(3, 12, 1), -- SV003 học CSDL.01
+(4, 13, 2), -- SV004 học CSDL.02
+(5, 14, 2), -- SV005 học CSDL.02
+(6, 10, 3), -- SV001 học LTWD.01
+(7, 11, 3), -- SV002 học LTWD.01
+(8, 12, 4), -- SV003 học CTDL.01
+(9, 13, 4), -- SV004 học CTDL.01
+(10, 14, 5), -- SV005 học TTNT.01
+
+-- Sinh viên KTPM tham gia lớp học
+(11, 15, 4), -- SV006 học CTDL.01
+(12, 16, 4), -- SV007 học CTDL.01
+(13, 17, 3), -- SV008 học LTWD.01
+
+-- Sinh viên QTKD tham gia lớp học
+(14, 18, 6), -- SV009 học TACN.01
+(15, 19, 6), -- SV010 học TACN.01
+
+-- Sinh viên tham gia lớp học phần kì 2-2025
+(16, 10, 11), -- SV001 học PTHT.01
+(17, 11, 11), -- SV002 học PTHT.01
+(18, 12, 7), -- SV003 học CSDL.03
+(19, 13, 8), -- SV004 học LTWD.02
+(20, 14, 8), -- SV005 học LTWD.02
+(21, 18, 9), -- SV009 học QTH.01
+(22, 19, 9), -- SV010 học QTH.01
+(23, 20, 10), -- SV011 học NLKT.01
+(24, 21, 10); -- SV012 học NLKT.01
+
+-- Thêm dữ liệu cho bảng tblKetQua
+INSERT INTO tblKetQua (id, tblMonHocDauDiemid, tblThamGiaid, diem) VALUES
+-- Điểm của SV001 cho môn CSDL
+(1, 1, 1, 9), -- Điểm chuyên cần
+(2, 2, 1, 8.5), -- Điểm bài tập
+(3, 3, 1, 7.5), -- Điểm giữa kỳ
+(4, 4, 1, 8), -- Điểm cuối kỳ
+
+-- Điểm của SV002 cho môn CSDL
+(5, 1, 2, 10), -- Điểm chuyên cần
+(6, 2, 2, 9), -- Điểm bài tập
+(7, 3, 2, 8.5), -- Điểm giữa kỳ
+(8, 4, 2, 9), -- Điểm cuối kỳ
+
+-- Điểm của SV003 cho môn CSDL
+(9, 1, 3, 8), -- Điểm chuyên cần
+(10, 2, 3, 7.5), -- Điểm bài tập
+(11, 3, 3, 6.5), -- Điểm giữa kỳ
+(12, 4, 3, 7), -- Điểm cuối kỳ
+
+-- Điểm của SV004 cho môn CSDL
+(13, 1, 4, 9.5), -- Điểm chuyên cần
+(14, 2, 4, 8.0), -- Điểm bài tập
+(15, 3, 4, 7.0), -- Điểm giữa kỳ
+(16, 4, 4, 7.5), -- Điểm cuối kỳ
+
+-- Điểm của SV005 cho môn CSDL
+(17, 1, 5, 10), -- Điểm chuyên cần
+(18, 2, 5, 8.5), -- Điểm bài tập
+(19, 3, 5, 7.5), -- Điểm giữa kỳ
+(20, 4, 5, 8.0), -- Điểm cuối kỳ
+
+-- Điểm của SV001 cho môn LTWD
+(21, 5, 6, 9), -- Điểm chuyên cần
+(22, 6, 6, 7), -- Điểm bài tập
+(23, 7, 6, 8), -- Điểm đồ án
+(24, 8, 6, 7.5), -- Điểm cuối kỳ
+
+-- Điểm của SV002 cho môn LTWD
+(25, 5, 7, 8.5), -- Điểm chuyên cần
+(26, 6, 7, 8.0), -- Điểm bài tập
+(27, 7, 7, 8.5), -- Điểm đồ án
+(28, 8, 7, 8.0), -- Điểm cuối kỳ
+
+-- Điểm của SV003 cho môn CTDL
+(29, 9, 8, 9.0), -- Điểm chuyên cần
+(30, 10, 8, 8.5), -- Điểm bài tập
+(31, 11, 8, 7.5), -- Điểm giữa kỳ
+(32, 12, 8, 8.0), -- Điểm cuối kỳ
+
+-- Điểm của SV004 cho môn CTDL
+(33, 9, 9, 8.0), -- Điểm chuyên cần
+(34, 10, 9, 7.5), -- Điểm bài tập
+(35, 11, 9, 7.0), -- Điểm giữa kỳ
+(36, 12, 9, 7.5), -- Điểm cuối kỳ
+
+-- Điểm của SV005 cho môn TTNT
+(37, 13, 10, 9.0), -- Điểm chuyên cần
+(38, 14, 10, 8.5), -- Điểm bài tập
+(39, 15, 10, 8.0), -- Điểm thực hành
+(40, 16, 10, 8.5); -- Điểm cuối kỳ
+
+-- Thêm dữ liệu cho bảng tblDiemChu
+INSERT INTO tblDiemChu (id, diemChu, diemHe10ToiThieu, diemHe10ToiDa, diemthang4) VALUES
+(1, 'A+', 9.0, 10.0, 4.0),
+(2, 'A', 8.5, 8.9, 3.7),
+(3, 'B+', 8.0, 8.4, 3.5),
+(4, 'B', 7.0, 7.9, 3.0),
+(5, 'C+', 6.5, 6.9, 2.5),
+(6, 'C', 5.5, 6.4, 2.0),
+(7, 'D+', 5.0, 5.4, 1.5),
+(8, 'D', 4.0, 4.9, 1.0),
+(9, 'F', 0.0, 3.9, 0.0);

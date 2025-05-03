@@ -29,7 +29,9 @@ public class ThanhVien {
         this.diaChi = diaChi;
         this.ngaySinh = ngaySinh;
     }
-    
+    public ThanhVien(){
+        
+    }
     
     public ThanhVien(int id){
         this.id=id;
@@ -57,6 +59,10 @@ public class ThanhVien {
 
     public Khoa getKhoa() {
         return khoa;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setKhoa(Khoa khoa) {
@@ -105,6 +111,6 @@ public class ThanhVien {
 
     @Override
     public String toString() {
-        return "ThanhVien{" + "id=" + id + ", chucVu=" + chucVu + ", khoa=" + khoa + ", maSV=" + maSV + ", lop=" + lop + ", hoTen=" + hoTen + ", diaChi=" + diaChi + ", ngaySinh=" + ngaySinh + '}';
+        return "ThanhVien:" + "id=" + id + "|| chucVu=" + chucVu + "|| khoa=" + khoa + "|| maSV=" + maSV + "|| lop=" + lop + "|| hoTen=" + hoTen + "|| diaChi=" + diaChi + "|| ngaySinh=" + ngaySinh;
     }
 }
