@@ -11,6 +11,14 @@ public class LopHocPhan {
     private String nhomMonHoc;
     private int siSoToiDa;
     private int namHoc;
+    
+    public LopHocPhan(KiHoc kiHoc, MonHoc monHoc, String nhomMonHoc, int siSoToiDa, int namHoc) {
+        this.kiHoc = kiHoc;
+        this.monHoc = monHoc;
+        this.nhomMonHoc = nhomMonHoc;
+        this.siSoToiDa = siSoToiDa;
+        this.namHoc = namHoc;
+    }
 
     public LopHocPhan(int id, KiHoc kiHoc, MonHoc monHoc, String nhomMonHoc, int siSoToiDa, int namHoc) {
         this.id = id;
