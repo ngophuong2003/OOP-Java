@@ -95,7 +95,7 @@ private void menuQuanLyLopHocPhan(){
         System.out.println("===== QUẢN LÍ LỚP HỌC PHẦN =====");
         System.out.println("1. Xem Lớp Học Phần");
         System.out.println("2. Xóa Lớp Học Phần");
-        System.out.println("3. Update Sĩ số tối đa Lớp Học Phần");
+        System.out.println("3. Update Lớp Học Phần");
         System.out.println("4. Thêm Lớp Học Phần");
         System.out.println("5. Xem Lớp Học Phần theo ID");
         System.out.println("6. Thoát");
