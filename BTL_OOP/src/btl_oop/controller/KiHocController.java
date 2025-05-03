@@ -21,4 +21,8 @@ public class KiHocController {
         }
     }
 
+    public boolean tenKiHocDaTonTai(String tenKiHoc){
+        return kiHocDAO.tenKiHocDaTonTai(tenKiHoc);
+    }
+
 }
