@@ -17,11 +17,11 @@ public class MonHocController {
     public List<MonHoc> getAllMonHoc(){
         return monHocDAO.getAllMonHoc();
     }
-     public MonHoc getMonHocById(int monHocId){
+    public MonHoc getMonHocById(int monHocId){
         return (MonHoc) monHocDAO.getById(monHocId);
     }
-     public MonHoc getMonHocByMa(String maMH){
-        return (MonHoc) monHocDAO.getByMa(maMH);
+    public MonHoc getMonHocByMaMonHoc(String maMH){
+        return monHocDAO.getByMa(maMH);
     }
     public void addMonHoc(MonHoc monHoc){
         MonHoc mh=monHocDAO.getByMa(monHoc.getMaMH());
