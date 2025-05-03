@@ -640,7 +640,7 @@ public class BTL_OOP {
         }
 
         System.out.print("Nhập Id sinh viên muốn thêm điểm: ");
-        int sinhVienId = 0;
+        int sinhVsienId = 0;
         boolean hopLe3 = false;
         while (!hopLe3) {
             int idSinhVien = scanner.nextInt();
