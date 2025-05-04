@@ -137,7 +137,7 @@ public class BTL_OOP {
     //===================== LUONG =========================
     private void resetMatKhauGUI() {
         System.out.println("\n===== RESET MẬT KHẨU =====");
-        System.out.print("Nhập mã sinh viên (tên đăng nhập): ");
+        System.out.print("Nhập tài khoản (tên đăng nhập): ");
         String maSV = scanner.nextLine().trim();
 
         ThanhVien tv = thanhVienController.getThanhVienByMa(maSV);

@@ -167,10 +167,12 @@ while (rs.next()) {
     public boolean updateObject(Object object) {
         try {
             LopHocPhan lopHocPhan = (LopHocPhan) object;
-            String sql = "UPDATE tblLopHocPhan SET  siSoToiDa = ? WHERE id = ?";
+            String sql = "UPDATE tblLopHocPhan SET  siSoToiDa = ?, nhomMonHoc = ?, namHoc = ?  WHERE id = ?";
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, lopHocPhan.getSiSoToiDa());
-            st.setInt(2, lopHocPhan.getId());
+            st.setString(2, lopHocPhan.getNhomMonHoc());
+            st.setInt(3, lopHocPhan.getNamHoc());
+            st.setInt(4, lopHocPhan.getId());
             int rowsAffected = st.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {

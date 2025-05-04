@@ -10,10 +10,10 @@ import java.util.List;
 
 public class LopHocPhanController {
     private LopHocPhanDAO lopHocPhanDAO;
-//    private List<LopHocPhan> lopHocPhans;
+
     public LopHocPhanController(){
         this.lopHocPhanDAO=new LopHocPhanDAO();
-//        this.lopHocPhans = lopHocPhanDAO.getAllLopHocPhan();
+
     }
     public LopHocPhan getById(int id){
         return (LopHocPhan) lopHocPhanDAO.getById(id);
@@ -28,19 +28,19 @@ public class LopHocPhanController {
     
     public void AddLopHocPhan(LopHocPhan lopHocPhan){
         lopHocPhanDAO.addObject(lopHocPhan);
-//        lopHocPhans = lopHocPhanDAO.getAllLopHocPhan();
+
     }
     public void DeleteLopHocPhan(int ID){
         lopHocPhanDAO.deleteObject(ID);
-//        lopHocPhans = lopHocPhanDAO.getAllLopHocPhan();
+
     }
     public void UpdateLopHocPhan(LopHocPhan lopHocPhan){
         lopHocPhanDAO.updateObject(lopHocPhan);
-//        lopHocPhans = lopHocPhanDAO.getAllLopHocPhan();
+
     }
     public void showAllLopHocPhan(){
-        List<LopHocPhan> lopHocPhans =lopHocPhanDAO.getAllLopHocPhan();
-        for(LopHocPhan x : lopHocPhans){
+        List<LopHocPhan> lopHocPhan =lopHocPhanDAO.getAllLopHocPhan();
+        for(LopHocPhan x : lopHocPhan){
             System.out.println(x.toString());
         }
     }
