@@ -779,15 +779,17 @@ public class BTL_OOP {
             String idLopHocPhanStr =  scanner.nextLine().trim();
             try{
                 lopHocPhanId = Integer.parseInt(idLopHocPhanStr);
-                LopHocPhan tmp = lopHocPhanController.getById(lopHocPhanId);
-                if (tmp.getId() != -1) {
-                    hopLe2 = true;
-                } else {
+                for(LopHocPhan x:lhp){
+                    if(lopHocPhanId==x.getId()){
+                        hopLe2=true;
+                    }
+                }
+                if(!hopLe2){
                     System.out.print("Nhập lại Id lớp học phần cho đúng: ");
                 }
             }
             catch(NumberFormatException e){
-                System.out.print("Nhập lại Id lớp học phần cho đúng: ");
+                System.out.print("Nhập lại Id lớp học phần đúng định dạng số: ");
             }
         }
 
@@ -799,15 +801,19 @@ public class BTL_OOP {
 
         System.out.print("Nhập mã sinh viên muốn thêm điểm: ");
 
-        int sinhVienId=0;
+       int sinhVienId=0;
         boolean hopLe3 = false;
         while (!hopLe3) {
+            int check=0;
             String maSinhVien= scanner.nextLine().trim();
-            ThanhVien tmp = thanhVienController.getThanhVienByMa(maSinhVien);
-            if (tmp.getId() != -1) {
-                sinhVienId = tmp.getId();
-                hopLe3 = true;
-            } else {
+            for(ThanhVien x:tv){
+                if(maSinhVien.equals(x.getMaSV())){
+                    sinhVienId=x.getId();
+                    hopLe3=true;
+                    check=1;
+                }
+            }
+            if(check==0){
                 System.out.print("Nhập lại mã sinh viên cho đúng: ");
             }
         }
@@ -880,15 +886,17 @@ public class BTL_OOP {
             String idLopHocPhanStr =  scanner.nextLine().trim();
             try{
                 lopHocPhanId = Integer.parseInt(idLopHocPhanStr);
-                LopHocPhan tmp = lopHocPhanController.getById(lopHocPhanId);
-                if (tmp.getId() != -1) {
-                    hopLe2 = true;
-                } else {
+                for(LopHocPhan x:lhp){
+                    if(lopHocPhanId==x.getId()){
+                        hopLe2=true;
+                    }
+                }
+                if(!hopLe2){
                     System.out.print("Nhập lại Id lớp học phần cho đúng: ");
                 }
             }
             catch(NumberFormatException e){
-                System.out.print("Nhập lại Id lớp học phần cho đúng: ");
+                System.out.print("Nhập lại Id lớp học phần đúng định dạng số: ");
             }
         }
 
@@ -903,12 +911,16 @@ public class BTL_OOP {
         int sinhVienId=0;
         boolean hopLe3 = false;
         while (!hopLe3) {
+            int check=0;
             String maSinhVien= scanner.nextLine().trim();
-            ThanhVien tmp = thanhVienController.getThanhVienByMa(maSinhVien);
-            if (tmp.getId() != -1) {
-                sinhVienId = tmp.getId();
-                hopLe3 = true;
-            } else {
+            for(ThanhVien x:tv){
+                if(maSinhVien.equals(x.getMaSV())){
+                    sinhVienId=x.getId();
+                    hopLe3=true;
+                    check=1;
+                }
+            }
+            if(check==0){
                 System.out.print("Nhập lại mã sinh viên cho đúng: ");
             }
         }
@@ -918,9 +930,26 @@ public class BTL_OOP {
         for (KetQua x : kq) {
             System.out.println(x);
         }
-        System.out.println("Nhập Id kết quả đầu điểm muốn xóa: ");
-        int kqid = scanner.nextInt();
-        scanner.nextLine();
+        System.out.print("Nhập Id kết quả đầu điểm muốn xóa: ");
+        int kqid=0;
+        boolean hopLe4 = false;
+        while (!hopLe4) {
+            String tmp=scanner.nextLine().trim();
+            try{
+                kqid = Integer.parseInt(tmp);
+                for(KetQua x:kq){
+                    if(kqid==x.getId()){
+                        hopLe4=true;
+                    }
+                }
+                if(!hopLe4){
+                    System.out.print("Nhập lại Id kết quả đầu điểm muốn xóa cho đúng: ");
+                }
+            }
+            catch(NumberFormatException e){
+                System.out.print("Nhập lại Id kết quả đầu điểm muốn sửa đúng định dạng số: "); 
+            }         
+        }
         ketQuaController.xoaKetQua(kqid);
     }
 
@@ -971,15 +1000,17 @@ public class BTL_OOP {
             String idLopHocPhanStr =  scanner.nextLine().trim();
             try{
                 lopHocPhanId = Integer.parseInt(idLopHocPhanStr);
-                LopHocPhan tmp = lopHocPhanController.getById(lopHocPhanId);
-                if (tmp.getId() != -1) {
-                    hopLe2 = true;
-                } else {
+                for(LopHocPhan x:lhp){
+                    if(lopHocPhanId==x.getId()){
+                        hopLe2=true;
+                    }
+                }
+                if(!hopLe2){
                     System.out.print("Nhập lại Id lớp học phần cho đúng: ");
                 }
             }
             catch(NumberFormatException e){
-                System.out.print("Nhập lại Id lớp học phần cho đúng: ");
+                System.out.print("Nhập lại Id lớp học phần đúng định dạng số: ");
             }
         }
 
@@ -994,15 +1025,20 @@ public class BTL_OOP {
         int sinhVienId=0;
         boolean hopLe3 = false;
         while (!hopLe3) {
+            int check=0;
             String maSinhVien= scanner.nextLine().trim();
-            ThanhVien tmp = thanhVienController.getThanhVienByMa(maSinhVien);
-            if (tmp.getId() != -1) {
-                sinhVienId = tmp.getId();
-                hopLe3 = true;
-            } else {
+            for(ThanhVien x:tv){
+                if(maSinhVien.equals(x.getMaSV())){
+                    sinhVienId=x.getId();
+                    hopLe3=true;
+                    check=1;
+                }
+            }
+            if(check==0){
                 System.out.print("Nhập lại mã sinh viên cho đúng: ");
             }
         }
+            
 
         ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(sinhVienId, lopHocPhanId);
         System.out.println("Kết quả các đầu điểm môn học của sinh viên: ");
@@ -1011,16 +1047,33 @@ public class BTL_OOP {
             System.out.println(x);
         }
 
-        System.out.println("Nhập Id kết quả đầu điểm muốn sửa: ");
-        int kqid = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Nhập điểm sửa: ");
-        float diemNhap = 0;
+        System.out.print("Nhập Id kết quả đầu điểm muốn sửa: ");
+        int kqid=0;
         boolean hopLe4 = false;
         while (!hopLe4) {
+            String tmp=scanner.nextLine().trim();
+            try{
+                kqid = Integer.parseInt(tmp);
+                for(KetQua x:kq){
+                    if(kqid==x.getId()){
+                        hopLe4=true;
+                    }
+                }
+                if(!hopLe4){
+                    System.out.print("Nhập lại Id kết quả đầu điểm cho đúng: ");
+                }
+            }
+            catch(NumberFormatException e){
+                System.out.print("Nhập lại Id kết quả đầu điểm muốn sửa đúng định dạng số: "); 
+            }         
+        }
+        System.out.println("Nhập điểm sửa: ");
+        float diemNhap = 0;
+        boolean hopLe5 = false;
+        while (!hopLe5) {
             try {
                 diemNhap = Float.parseFloat(scanner.nextLine());
-                hopLe4 = true;
+                hopLe5 = true;
             } catch (NumberFormatException e) {
                 System.out.println("Vui lòng nhập số hợp lệ (ví dụ: 8.5).");
             }
@@ -1032,7 +1085,7 @@ public class BTL_OOP {
             }
         }
     }
-
+    
     private void menuQuanLyGiangVien() {
         System.out.println("\n===== HỆ THỐNG QUẢN LÝ HỌC TẬP =====");
         System.out.println("===== QUẢN LÝ GIẢNG VIÊN =====");

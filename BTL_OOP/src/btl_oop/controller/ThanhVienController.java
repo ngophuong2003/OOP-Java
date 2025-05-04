@@ -72,7 +72,7 @@ public class ThanhVienController {
         if(thanhVienDAO.deleteObject(id)){
             System.out.println("Xóa giảng viên thành công!");
         } else {
-            System.out.println("Xóa giảng viên thất bại!");
+            System.out.println("Xóa giảng viên thất bại do giảng viên đã tham gia một lớp học phần nào đó, vui lòng xóa các thông tin liên quan đến giảng viên trong bảng tham gia");
         }
     }
     public void updateGiangVien(ThanhVien thanhvien){

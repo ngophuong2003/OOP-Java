@@ -42,7 +42,7 @@ public class MonHocController {
             System.out.println("Xóa môn học thành công!");
         }
         else{
-            System.out.println("Xóa môn học thất bại!");
+            System.out.println("Xóa môn học thất bại do có lớp học phần của môn học này đang tồn tại");
         }
     }
     public void updateMonHoc(MonHoc monHoc){
