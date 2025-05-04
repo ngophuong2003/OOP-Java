@@ -1324,7 +1324,7 @@ public class BTL_OOP {
             String confirm = scanner.nextLine().trim();
             if (confirm.equals("y")) {
                 thanhVienController.deleteSinhVientheoMa(sv.getMaSV());
-                System.out.println("Đã xóa sinh viên thành công.");
+                
             }
         } else {
             System.out.println("Mã sinh viên không được để trống.");
@@ -1429,7 +1429,7 @@ public class BTL_OOP {
         MonHoc monHoc = lhp.getMonHoc();
         int monHocId = monHoc.getId();
         ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(sv.getId(), lopHocPhanId);
-        System.out.println(tg);
+        
         List<MonHocDauDiem> mhdd = monHocController.getMonHocDauDiemByMonHoc(monHocId);
         List<KetQua> exsist = ketQuaController.getAllKetQuaByThamGiaId(tg.getId());
         System.out.println("Nhập lần lượt theo các đầu điểm sau: ");

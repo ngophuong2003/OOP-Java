@@ -246,3 +246,9 @@ INSERT INTO tblDiemChu (id, diemChu, diemHe10ToiThieu, diemHe10ToiDa, diemthang4
 (8, 'D', 4.0, 4.9, 1.0),
 (9, 'F', 0.0, 3.9, 0.0);
 
+INSERT INTO tblPhucKhao (maSV, tblKetQuaId, noiDungPK)
+VALUES ('SV001', 3, 'Tôi nghĩ điểm giữa kỳ chưa phản ánh đúng năng lực của tôi.');
+INSERT INTO tblPhucKhao (maSV, tblKetQuaId, noiDungPK, noiDungXL, trangThaiXL)
+VALUES ('SV001', 16, 'Tôi xin được xem xét lại điểm cuối kỳ môn Lập trình web.',
+        'Sau khi kiểm tra bài thi, điểm đã được xác nhận là chính xác.', 'Đã xử lý');
+
