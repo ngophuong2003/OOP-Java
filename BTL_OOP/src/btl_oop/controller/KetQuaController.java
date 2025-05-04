@@ -49,6 +49,15 @@ public class KetQuaController {
             System.out.println("Sửa điểm thất bại!");
         }
     }
-    
-    
+    public void suaKetQuaNoprint(KetQua kq){
+        if(ketQuaDAO.updateObject(kq)){
+            System.out.println("Sửa điểm thành công!");
+        }
+        else{
+            System.out.println("Sửa điểm thất bại!");
+        }
+    } 
+    public List<KetQua> getAllKetQuaByThamGiaId(int thamGiaid){
+        return ketQuaDAO.getAllKetQuaByThamGiaId(thamGiaid);
+    }
 }

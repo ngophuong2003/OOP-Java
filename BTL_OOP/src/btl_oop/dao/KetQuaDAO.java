@@ -98,5 +98,35 @@ public class KetQuaDAO extends DAO{
         return kq;
     }
     
+    public List<KetQua> getAllKetQuaByThamGiaId(int thamGiaId) {
+        String sql = "SELECT * FROM tblketqua AS kq "
+                + "JOIN tblmonhocdaudiem AS mhdd ON kq.tblMonHocDauDiemid = mhdd.id "
+                + "WHERE kq.tblThamGiaid = ?";
+        List<KetQua> kq = new ArrayList<>();
+        try {
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, thamGiaId);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                MonHocDauDiem mhdd = new MonHocDauDiem(
+                        rs.getInt("mhdd.id"),
+                        rs.getString("mhdd.tenDauDiem"),
+                        rs.getInt("mhdd.heSo"));
+
+                KetQua ketQua = new KetQua(
+                        rs.getInt("kq.id"),
+                        mhdd,
+                        null,
+                        rs.getFloat("kq.diem"));
+
+                kq.add(ketQua);
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi trong getAllKetQuaByThamGiaId: " + e.getMessage());
+        }
+        return kq;
+    }
+
 
 }

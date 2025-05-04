@@ -902,6 +902,8 @@ public class BTL_OOP {
                     break;
                 case 5:
                     running = false;
+                    currentUser = null;
+                    menuDangNhap();
                     break;
             }
         }
@@ -912,18 +914,63 @@ public class BTL_OOP {
         List<ThanhVien> list = thanhVienController.getAllThanhVienByChucVu("SV");
         System.out.println("===== Danh sách sinh viên =====");
         for (ThanhVien sv : list) {
-            System.out.println("Mã Sinh Viên: " +sv.getMaSV()+ " | Họ tên: " +sv.getHoTen()+" | Địa chỉ: "+sv.getDiaChi()+"| Lớp: " + sv.getLop()+ " | Ngày sinh: " + sv.getNgaySinh());
+            System.out.println("Mã Sinh Viên: " + sv.getMaSV()
+                    + " | Họ tên: " + sv.getHoTen()
+                    + " | Địa chỉ: " + sv.getDiaChi()
+                    + " | Lớp: " + sv.getLop()
+                    + " | Ngày sinh: " + sv.getNgaySinh());
         }
     }
 
     private void themSinhVienGUI() {
         khoaController.getByAllKhoa();
-        System.out.print("Nhập mã khoa cho sinh viên: ");
-        String maKhoa = scanner.nextLine().trim();
+        String maKhoa = "";
+        while (true) {
+            System.out.print("Nhập mã khoa cho sinh viên: ");
+            String input = scanner.nextLine().trim();
+            if (input.equals("")) {
+                System.out.println("Mã khoa không được để trống. Xin vui lòng nhập lại!");
+                continue;
+            }
+            List<Khoa> danhSachKhoa = khoaController.getlistKhoa();
 
-        System.out.print("Nhập mã sinh viên: ");
-        String maSV = scanner.nextLine().trim();
-
+            boolean check = false;
+            for (Khoa x : danhSachKhoa) {
+                if (input.equalsIgnoreCase(x.getMaKhoa())) {
+                    check = true;
+                    maKhoa = x.getMaKhoa();
+                    break;
+                }
+            }
+            if (check) {
+                break;
+            } else {
+                System.out.println("Mã khoa không tồn tại. Xin vui lòng nhập lại!");
+            }
+        }
+        String maSV = "";
+        while (true) {
+            System.out.print("Nhập mã sinh viên: ");
+            String input = scanner.nextLine().trim();
+            if (input.equals("")) {
+                System.out.println("Mã sinh viên không được để trống. Xin vui lòng nhập lại!");
+                continue;
+            }
+            List<ThanhVien> danhSachSV = thanhVienController.getAllSinhVien();
+            boolean check = false;
+            for (ThanhVien sv : danhSachSV) {
+                if (input.equals(sv.getMaSV())) {
+                    check = true;
+                    break;
+                }
+            }
+            if (check) {
+                System.out.println("Mã sinh viên đã tồn tại. Vui lòng nhập mã khác!");
+            } else {
+                maSV = input;
+                break;
+            }
+        }
         System.out.print("Nhập mật khẩu cho sinh viên: ");
         String matKhau = scanner.nextLine().trim();
 
@@ -942,36 +989,47 @@ public class BTL_OOP {
         ChucVu chucvuSinhvien = chucVuController.getByMa("SV");
         Khoa khoa = khoaController.getByMaKhoa(maKhoa);
         ThanhVien sv = new ThanhVien(chucvuSinhvien, khoa, maSV, matKhau, lop, hoTen, diaChi, ngaySinh);
+
         thanhVienController.addSinhVien(sv);
     }
 
     private void suaThongTinSinhVienGUI() {
         xemDanhSachSinhVien();
-        System.out.print("Nhập mã sinh viên muốn sửa: ");
-        String maSV = scanner.nextLine().trim();
 
-        ThanhVien sv = thanhVienController.getThanhVienByMa(maSV);
-        if (sv.getId() == -1) {
-            System.out.println("Không tìm thấy sinh viên!");
-            return;
+        ThanhVien sv = null;
+        String maSV = "";
+
+        while (true) {
+            System.out.print("Nhập mã sinh viên muốn sửa: ");
+            maSV = scanner.nextLine().trim();
+
+            sv = thanhVienController.getThanhVienByMa(maSV);
+            if (sv != null && sv.getId() != -1) {
+                break;
+            } else {
+                System.out.println("Không tìm thấy sinh viên có mã này. Vui lòng nhập lại!");
+            }
         }
+
         System.out.print("Nhập mã sinh viên mới: ");
         String newMaSV = scanner.nextLine().trim();
-        if (!newMaSV.equals("")) sv.setMaSV(newMaSV);
-        else{
-            newMaSV=sv.getMaSV();
+        if (!newMaSV.isEmpty()) {
             sv.setMaSV(newMaSV);
+        } else {
+            newMaSV = sv.getMaSV();
         }
+
         System.out.print("Nhập họ và tên mới: ");
         String hoTen = scanner.nextLine().trim();
-        if (!hoTen.equals("")) {
+        if (!hoTen.isEmpty()) {
             sv.setHoTen(hoTen);
         } else {
             hoTen = sv.getHoTen();
         }
+
         System.out.print("Nhập địa chỉ mới: ");
         String diaChi = scanner.nextLine().trim();
-        if (!diaChi.equals("")) {
+        if (!diaChi.isEmpty()) {
             sv.setDiaChi(diaChi);
         } else {
             diaChi = sv.getDiaChi();
@@ -979,31 +1037,29 @@ public class BTL_OOP {
 
         System.out.print("Nhập mật khẩu mới: ");
         String matKhau = scanner.nextLine().trim();
-        if (!matKhau.equals("")) {
+        if (!matKhau.isEmpty()) {
             sv.setMatKhau(matKhau);
         } else {
             matKhau = sv.getMatKhau();
         }
 
-
         System.out.print("Nhập lớp mới: ");
         String lop = scanner.nextLine().trim();
-        if (!lop.equals("")) {
+        if (!lop.isEmpty()) {
             sv.setLop(lop);
         } else {
-            lop = sv.getLop(); // Giữ nguyên lớp cũ
+            lop = sv.getLop();
         }
 
         System.out.print("Nhập ngày sinh mới: ");
         String ngaySinh = scanner.nextLine().trim();
-        if (!ngaySinh.equals("")) {
+        if (!ngaySinh.isEmpty()) {
             sv.setNgaySinh(ngaySinh);
         } else {
-            ngaySinh = sv.getNgaySinh(); // Giữ nguyên ngày sinh cũ
-        };
+            ngaySinh = sv.getNgaySinh();
+        }
 
-
-        thanhVienController.updateSinhVien(maSV,newMaSV,hoTen,matKhau,diaChi,lop,ngaySinh);
+        thanhVienController.updateSinhVien(maSV, newMaSV, hoTen, matKhau, diaChi, lop, ngaySinh);
         System.out.println("Cập nhật thông tin sinh viên thành công!");
     }
 
@@ -1011,16 +1067,23 @@ public class BTL_OOP {
         xemDanhSachSinhVien();
         System.out.print("Nhập mã sinh viên muốn xóa: ");
         String maSV = scanner.nextLine().trim();
-        if(!maSV.equals("")){
-            ThanhVien Sv = thanhVienController.getThanhVienByMa(maSV);
-            if (Sv.getId() == -1) {
-                System.out.println("Không tìm thấy sinh viên!");
+
+        if (!maSV.isEmpty()) {
+            ThanhVien sv = thanhVienController.getThanhVienByMa(maSV);
+            if (sv == null || sv.getId() == -1) {
+                System.out.println("Không tìm thấy sinh viên !");
                 return;
             }
 
-            thanhVienController.deleteSinhVientheoMa(Sv.getMaSV());
+            System.out.print("Bạn có chắc chắn muốn xóa sinh viên này? (y/n): ");
+            String confirm = scanner.nextLine().trim();
+            if (confirm.equals("y")) {
+                thanhVienController.deleteSinhVientheoMa(sv.getMaSV());
+                System.out.println("Đã xóa sinh viên thành công.");
+            }
+        } else {
+            System.out.println("Mã sinh viên không được để trống.");
         }
-
     }
 
     private void runGV() {
@@ -1049,10 +1112,14 @@ public class BTL_OOP {
                     break;
                 case 5:
                     running = false;
+                    currentUser = null;
+                    menuDangNhap();
                     break;
             }
         }
+        
     }
+
     private void listLopHocPhanCuaGiangVien() {
         List<LopHocPhan> list = lopHocPhanController.getLopHocPhanbyGiangVien(currentUser.getId());
 
@@ -1063,16 +1130,17 @@ public class BTL_OOP {
 
         System.out.println("===== Danh sách lớp học phần đang giảng dạy =====");
         for (LopHocPhan lhp : list) {
-            System.out.println("ID lớp học phần: "+lhp.getId()
-                    +"| Môn học: " + lhp.getMonHoc().getTenMH()
+            System.out.println("ID lớp học phần: " + lhp.getId()
+                    + "| Môn học: " + lhp.getMonHoc().getTenMH()
                     + " | Mã môn học: " + lhp.getMonHoc().getMaMH()
                     + " | Nhóm: " + lhp.getNhomMonHoc()
                     + " | Năm học: " + lhp.getNamHoc()
                     + " | Kì: " + lhp.getKiHoc().getTenKiHoc());
         }
+
     }
 
-    private void themdiemSinhvienbyGiangvien(){
+    private void themdiemSinhvienbyGiangvien() {
         listLopHocPhanCuaGiangVien();
         System.out.print("Nhập Id lớp học phần muốn thêm điểm: ");
         int lopHocPhanId = scanner.nextInt();
@@ -1092,45 +1160,82 @@ public class BTL_OOP {
         System.out.println("Danh sách sinh viên thuộc lớp học phần: " + lopHocPhanId);
         List<ThanhVien> list = thanhVienController.getThanhVienThamGiaLopHocPhan(lopHocPhanId, "SV");
         for (ThanhVien sv : list) {
-            System.out.println("Mã Sinh Viên: " +sv.getMaSV()
-                    + " | Họ tên: " +sv.getHoTen()
-                    +" | Địa chỉ: "+sv.getDiaChi()
-                    +"| Lớp: " + sv.getLop()
+            System.out.println("Mã Sinh Viên: " + sv.getMaSV()
+                    + " | Họ tên: " + sv.getHoTen()
+                    + " | Địa chỉ: " + sv.getDiaChi()
+                    + " | Lớp: " + sv.getLop()
                     + " | Ngày sinh: " + sv.getNgaySinh());
         }
         System.out.print("Nhập mã sinh viên muốn thêm điểm: ");
         String maSV = scanner.nextLine();
-        ThanhVien sv=thanhVienController.getThanhVienByMa(maSV);
+        ThanhVien sv = null;
+        for (ThanhVien svd : list) {
+            if (svd.getMaSV().equals(maSV)) {
+                sv = svd;
+                break;
+            }
+        }
         if (sv == null) {
-            System.out.println("Mã sinh viên không hợp lệ hoặc không thuộc lớp học phần này.");
+            System.out.println("Mã sinh viên không thuộc lớp học phần này.");
             return;
         }
-
         LopHocPhan lhp = lopHocPhanController.getById(lopHocPhanId);
-
 
         MonHoc monHoc = lhp.getMonHoc();
         int monHocId = monHoc.getId();
-        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(monHocId, lopHocPhanId);
-
+        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(sv.getId(), lopHocPhanId);
+        System.out.println(tg);
         List<MonHocDauDiem> mhdd = monHocController.getMonHocDauDiemByMonHoc(monHocId);
+        List<KetQua> exsist = ketQuaController.getAllKetQuaByThamGiaId(tg.getId());
         System.out.println("Nhập lần lượt theo các đầu điểm sau: ");
         for (MonHocDauDiem x : mhdd) {
-            float diemNhap = 0;
-            boolean hopLe = false;
-            while (!hopLe) {
-                System.out.print(x.getTenDauDiem() + " " + x.getHeSo() + ": ");
-                try {
-                    diemNhap = Float.parseFloat(scanner.nextLine());
-                    hopLe = true;
-                } catch (NumberFormatException e) {
-                    System.out.println("Vui lòng nhập số hợp lệ (ví dụ: 8.5).");
+            boolean isCapnhat = false;
+            for (KetQua kqcheck : exsist) {
+                if (x.getId() == kqcheck.getMonHocDauDiem().getId()) {
+                    System.out.println("Đầu điểm '" + x.getTenDauDiem() + "' đã tồn tại với điểm: " + kqcheck.getDiem());
+                    System.out.print("Bạn có muốn cập nhật điểm này không? (y/n): ");
+                    String res = scanner.nextLine();
+                    if (res.equals("y")) {
+                        float diemNhapMoi = 0;
+                        boolean hopLeCapNhat = false;
+                        while (!hopLeCapNhat) {
+                            System.out.print("Nhập điểm mới cho " + x.getTenDauDiem() + ": ");
+                            try {
+                                diemNhapMoi = Float.parseFloat(scanner.nextLine());
+                                hopLeCapNhat = true;
+                            } catch (NumberFormatException e) {
+                                System.out.println("Vui lòng nhập số hợp lệ (ví dụ: 8.5).");
+                            }
+                        }
+
+                        kqcheck.setDiem(diemNhapMoi);
+                        ketQuaController.suaKetQua(kqcheck);
+                        isCapnhat = true;
+                        break;
+                    } else {
+                        isCapnhat = true;
+                        break;
+                    }
                 }
             }
-            KetQua kq = new KetQua(x, tg, diemNhap);
-            ketQuaController.themKetQua(kq);
+
+            if (!isCapnhat) {
+                float diemNhap = 0;
+                boolean hopLe = false;
+                while (!hopLe) {
+                    System.out.print("Nhập điểm mới cho " + x.getTenDauDiem() + " " + x.getHeSo() + ": ");
+                    try {
+                        diemNhap = Float.parseFloat(scanner.nextLine());
+                        hopLe = true;
+                    } catch (NumberFormatException e) {
+                        System.out.println("Vui lòng nhập số hợp lệ (ví dụ: 8.5).");
+                    }
+                }
+                KetQua kqMoi = new KetQua(x, tg, diemNhap);
+                ketQuaController.themKetQua(kqMoi);
+
+            }
         }
-        System.out.println("Thêm xong!");
     }
 
     private void suaDiemSinhvienbyGIangvien() {
@@ -1155,38 +1260,62 @@ public class BTL_OOP {
         System.out.println("Danh sách sinh viên thuộc lớp học phần: " + lopHocPhanId);
         List<ThanhVien> list = thanhVienController.getThanhVienThamGiaLopHocPhan(lopHocPhanId, "SV");
         for (ThanhVien sv : list) {
-            System.out.println("Mã Sinh Viên: " +sv.getMaSV()
-                    + " | Họ tên: " +sv.getHoTen()
-                    +" | Địa chỉ: "+sv.getDiaChi()
-                    +"| Lớp: " + sv.getLop()
+            System.out.println("Mã Sinh Viên: " + sv.getMaSV()
+                    + " | Họ tên: " + sv.getHoTen()
+                    + " | Địa chỉ: " + sv.getDiaChi()
+                    + " | Lớp: " + sv.getLop()
                     + " | Ngày sinh: " + sv.getNgaySinh());
         }
         System.out.print("Nhập mã sinh viên muốn sửa điểm: ");
         String maSV = scanner.nextLine();
-        ThanhVien sv=thanhVienController.getThanhVienByMa(maSV);
-        if (sv == null) {
+        boolean legit1 = false;
+        for (ThanhVien checkSv : list) {
+            if (checkSv.getMaSV().equals(maSV)) {
+                legit1 = true;
+            }
+        }
+        ThanhVien sv = thanhVienController.getThanhVienByMa(maSV);
+        if (sv.getId() == -1 || legit1 == false) {
             System.out.println("Mã sinh viên không hợp lệ hoặc không thuộc lớp học phần này.");
             return;
-        }LopHocPhan lhp = lopHocPhanController.getById(lopHocPhanId);
-
+        }
+        LopHocPhan lhp = lopHocPhanController.getById(lopHocPhanId);
 
         MonHoc monHoc = lhp.getMonHoc();
         int monHocId = monHoc.getId();
-        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(monHocId, lopHocPhanId);
+        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(sv.getId(), lopHocPhanId);
+        List<KetQua> kq = ketQuaController.getAllKetQuaByThamGiaAndMonHocId(tg.getId(), monHocId);
+        if (kq.isEmpty()) {
+            System.out.println("Sinh viên này chưa có đầu điểm nào !");
+            return;
+        } else {
 
-
-        List<KetQua> kq=ketQuaController.getAllKetQuaByThamGiaAndMonHocId(tg.getId(),monHocId );
-        System.out.println("Kết quả các đầu điểm môn học của sinh viên: ");
-        for (KetQua x : kq) {
-            System.out.println("Id đầu điểm: "+ x.getMonHocDauDiem().getId()
-                    +"| Đầu điểm: " + x.getMonHocDauDiem().getTenDauDiem()
-                    + " | Hệ số: " + x.getMonHocDauDiem().getHeSo()
-                    + " | Điểm: " + x.getDiem());
+            System.out.println("Kết quả các đầu điểm môn học của sinh viên: ");
+            for (KetQua x : kq) {
+                System.out.println("Id đầu điểm: " + x.getMonHocDauDiem().getId()
+                        + "| Đầu điểm: " + x.getMonHocDauDiem().getTenDauDiem()
+                        + " | Hệ số: " + x.getMonHocDauDiem().getHeSo()
+                        + " | Điểm: " + x.getDiem());
+            }
         }
-
-        System.out.println("Nhập Id kết quả đầu điểm muốn sửa: ");
-        int kqid=scanner.nextInt();
-        scanner.nextLine();
+        int kqid;
+        while (true) {
+            System.out.println("Nhập Id đầu điểm muốn sửa: ");
+            kqid = scanner.nextInt();
+            boolean legit = false;
+            scanner.nextLine();
+            for (KetQua checkkq : kq) {
+                if (kqid == checkkq.getMonHocDauDiem().getId()) {
+                    legit = true;
+                    break;
+                }
+            }
+            if (!legit) {
+                System.out.println("Không tìm thấy Id này hãy nhập lại!");
+            } else {
+                break;
+            }
+        }
         System.out.println("Nhập điểm sửa: ");
         float diemNhap = 0;
         boolean hopLe = false;
@@ -1198,15 +1327,15 @@ public class BTL_OOP {
                 System.out.println("Vui lòng nhập số hợp lệ (ví dụ: 8.5).");
             }
         }
-        for(KetQua x:kq){
-            if(x.getId()==kqid){
+        for (KetQua x : kq) {
+            if (x.getId() == kqid) {
                 x.setDiem(diemNhap);
-                ketQuaController.suaKetQua(x);
+                ketQuaController.suaKetQuaNoprint(x);
             }
         }
         for (KetQua x : kq) {
-            System.out.println("ID đầu điểm: "+ x.getMonHocDauDiem().getId()
-                    +" | Đầu điểm: " + x.getMonHocDauDiem().getTenDauDiem()
+            System.out.println("ID đầu điểm: " + x.getMonHocDauDiem().getId()
+                    + " | Đầu điểm: " + x.getMonHocDauDiem().getTenDauDiem()
                     + " | Hệ số: " + x.getMonHocDauDiem().getHeSo()
                     + " | Điểm: " + x.getDiem());
         }
@@ -1237,11 +1366,11 @@ public class BTL_OOP {
         int monHocId = lhp.getMonHoc().getId();
         List<MonHocDauDiem> dauDiemList = monHocController.getMonHocDauDiemByMonHoc(monHocId);
 
-        System.out.println("Chọn đầu điểm cần xếp hạng:");
+        System.out.println("Chọn đầu điểm cần xem thống kê:");
         for (int i = 0; i < dauDiemList.size(); i++) {
             System.out.println((i + 1) + ". " + dauDiemList.get(i).getTenDauDiem());
         }
-
+        System.out.print("Chọn đầu điểm: ");
         int chon = getChoice(dauDiemList.size());
         MonHocDauDiem dauDiemDuocChon = dauDiemList.get(chon - 1);
 
@@ -1257,9 +1386,10 @@ public class BTL_OOP {
 
         System.out.println("\n===== THỐNG KÊ ĐIỂM '" + dauDiemDuocChon.getTenDauDiem() + "' =====");
         for (ThanhVien sv : danhSachSV) {
-            ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(monHocId, lopHocPhanId);
+            ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(sv.getId(), lopHocPhanId);
+
             if (tg != null) {
-                List<KetQua> kqList = ketQuaController.getAllKetQuaByThamGiaAndMonHocId(tg.getId(), monHocId);
+                List<KetQua> kqList = ketQuaController.getAllKetQuaByThamGiaId(tg.getId());
                 for (KetQua kq : kqList) {
                     if (kq.getMonHocDauDiem().getId() == dauDiemDuocChon.getId()) {
                         System.out.println("Mã SV: " + sv.getMaSV()
@@ -1281,17 +1411,20 @@ public class BTL_OOP {
         float diemTB = tongDiem / cnt;
         String capDo;
 
-        if (diemTB >= 8) capDo = "A";
-        else if (diemTB >= 7) capDo = "B";
-        else if (diemTB >= 6) capDo = "C";
-        else if (diemTB >= 5) capDo = "D";
-        else capDo = "F";
+        if (diemTB >= 8) {
+            capDo = "A";
+        } else if (diemTB >= 7) {
+            capDo = "B";
+        } else if (diemTB >= 6) {
+            capDo = "C";
+        } else if (diemTB >= 5) {
+            capDo = "D";
+        } else {
+            capDo = "F";
+        }
 
-        System.out.printf(">> Trung bình điểm '%s' của lớp: %.2f → Xếp hạng: %s\n",
-                dauDiemDuocChon.getTenDauDiem(), diemTB, capDo);
+        System.out.printf(">> Trung bình điểm %s của lớp: %.2f → Loại: %s\n", dauDiemDuocChon.getTenDauDiem(), diemTB, capDo);
     }
-
-
 
     //===================== THANH =========================
     public int getChoice(int maxChoice) {
