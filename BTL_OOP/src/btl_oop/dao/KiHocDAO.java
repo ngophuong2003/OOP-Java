@@ -57,5 +57,19 @@ public class KiHocDAO extends DAO {
     public boolean deleteObject(int objectId) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
+    public boolean tenKiHocDaTonTai(String tenKiHoc){
+        String sql = "select * from tblKiHoc where tenKiHoc = ?";
+        try {
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, tenKiHoc);
+            ResultSet rs = st.executeQuery();
+            boolean tonTai = rs.next();
+            return tonTai;
+        } catch (SQLException e) {
+            System.out.println("Lỗi SQL trong tenKiHocDaTonTai: " + e.getMessage());
+            return false;
+        }
+    }
+
 }

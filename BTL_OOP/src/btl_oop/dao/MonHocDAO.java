@@ -108,7 +108,6 @@ public class MonHocDAO extends DAO {
             st.executeUpdate();
             return true;
         } catch(SQLException e ){
-            System.out.println("Lỗi SQL trong deleteThanhVien"+ e.getMessage());
             return false;
         }
     }

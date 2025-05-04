@@ -31,7 +31,7 @@ public class SinhVienView {
     public String inputND() {
         String nd;
         while (true) {
-            System.out.print("Nhập nội dung phúc khảo:: ");
+            System.out.print("Nhập nội dung phúc khảo: ");
             nd = sc.nextLine().trim();
             if (nd.isEmpty()) {
                 System.out.println("Vui lòng không để nội dung phản hồi trống.");
@@ -44,7 +44,7 @@ public class SinhVienView {
     public String inputKY() {
         String ky;
         while (true) {
-            System.out.print("Nhập kỳ học cần xem:: ");
+            System.out.print("Nhập kỳ học cần xem: ");
             ky = sc.nextLine().trim();
             if (ky.isEmpty()) {
                 System.out.println("Vui lòng không để thông tin trống.");

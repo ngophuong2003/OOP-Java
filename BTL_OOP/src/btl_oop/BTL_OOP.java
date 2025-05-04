@@ -10,6 +10,8 @@ import btl_oop.model.MonHoc;
 import btl_oop.model.MonHocDauDiem;
 import btl_oop.model.ThamGia;
 import btl_oop.model.ThanhVien;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Scanner;
 
@@ -363,6 +365,7 @@ public class BTL_OOP {
     }
 
     private void xemDanhSachGiangVienGUI() {
+        System.out.println("Danh sách giảng viên: ");
         List<ThanhVien> tv = thanhVienController.getAllThanhVienByChucVu("GV");
         for (ThanhVien x : tv) {
             System.out.println(x);
@@ -373,7 +376,17 @@ public class BTL_OOP {
 
         khoaController.getByAllKhoa();
         System.out.print("Nhập mã khoa:");
-        String maKhoa = scanner.nextLine().trim();
+        String maKhoa = "";
+        boolean hopLe = false;
+        while (!hopLe) {
+            maKhoa = scanner.nextLine().trim();
+            Khoa tmp = khoaController.getByMaKhoa(maKhoa);
+            if (tmp.getId() != -1) {
+                hopLe = true;
+            } else {
+                System.out.print("Nhập lại mã khoa cho đúng: ");
+            }
+        }
 
         System.out.print("Nhập mã giảng viên:");
         String maGV = scanner.nextLine().trim();
@@ -391,7 +404,17 @@ public class BTL_OOP {
         String diaChi = scanner.nextLine().trim();
 
         System.out.print("Nhập ngày sinh:");
-        String ngaySinh = scanner.nextLine().trim();
+
+        String ngaySinh = "";
+        boolean hopLe1 = false;
+        while (!hopLe1) {
+            ngaySinh = scanner.nextLine().trim();
+            if(kiemTraNgaySinh(ngaySinh)) {
+                hopLe1 = true;
+            } else {
+                System.out.print("Ngày sinh không hợp lệ! Vui lòng nhập theo định dạng yyyy-MM-dd: ");
+            }
+        }
 
         ChucVu giaoVienCV = chucVuController.getByMa("GV");
         Khoa khoa = khoaController.getByMaKhoa(maKhoa);
@@ -441,7 +464,7 @@ public class BTL_OOP {
                 tvUpdate.setMaSV(tmp.getMaSV());
                 tvUpdate.setLop(tmp.getLop());
                 tvUpdate.setHoTen(tmp.getHoTen());
-                tvUpdate.setDiaChi(maGV);
+                tvUpdate.setDiaChi(tmp.getDiaChi());
                 tvUpdate.setNgaySinh(tmp.getNgaySinh());
                 tvUpdate.setMatKhau(tmp.getMatKhau());
                 hopLe = true;
@@ -454,11 +477,23 @@ public class BTL_OOP {
         khoaController.getByAllKhoa();
         System.out.println("Khoa hiện tại:" + tvUpdate.getKhoa());
         System.out.print("Nhập mã khoa mới( Enter để bỏ qua):");
-        String maKhoa = scanner.nextLine().trim();
-        if (!maKhoa.equals("")) {
+        String maKhoa = "";
+        boolean hopLe1 = false;
+        while (!hopLe1) {
+            maKhoa = scanner.nextLine().trim();
+            if(maKhoa.equals("")){
+                hopLe1=true;
+                break;
+            }
             Khoa khoa = khoaController.getByMaKhoa(maKhoa);
-            tvUpdate.setKhoa(khoa);
+            if(khoa.getId()!= -1) {
+                tvUpdate.setKhoa(khoa);
+                hopLe1 = true;
+            } else {
+                System.out.print("Nhập lại mã khoa cho đúng: ");
+            }
         }
+
 
         System.out.println("Mật khẩu hiện tại:" + tvUpdate.getMatKhau());
         System.out.print("Nhập mật khẩu mới( Enter để bỏ qua):");
@@ -490,9 +525,20 @@ public class BTL_OOP {
 
         System.out.println("Ngày sinh hiện tại:" + tvUpdate.getNgaySinh());
         System.out.print("Nhập ngày sinh mới( Enter để bỏ qua):");
-        String ngaySinh = scanner.nextLine().trim();
-        if (!ngaySinh.equals("")) {
-            tvUpdate.setNgaySinh(ngaySinh);
+        String ngaySinh = "";
+        boolean hopLe2 = false;
+        while (!hopLe2) {
+            ngaySinh = scanner.nextLine().trim();
+            if(ngaySinh.equals("")){
+                hopLe2=true;
+                break;
+            }
+            if(kiemTraNgaySinh(ngaySinh)) {
+                hopLe2 = true;
+                tvUpdate.setNgaySinh(ngaySinh);
+            } else {
+                System.out.print("Ngày sinh không hợp lệ! Vui lòng nhập theo định dạng yyyy-MM-dd: ");
+            }
         }
 
         System.out.println(tvUpdate);
@@ -526,6 +572,7 @@ public class BTL_OOP {
     }
 
     private void xemDanhSachMonHocGUI() {
+        System.out.println("Danh sách môn học: ");
         List<MonHoc> mh = monHocController.getAllMonHoc();
         for (MonHoc x : mh) {
             System.out.println(x);
@@ -550,7 +597,19 @@ public class BTL_OOP {
         }
 
         System.out.print("Nhập mã môn học:");
-        String maMH = scanner.nextLine().trim();
+        String maMH ="";
+        boolean hopLe1 = false;
+        while (!hopLe1) {
+            maMH= scanner.nextLine().trim();
+            MonHoc mh= monHocController.getMonHocByMaMonHoc(maMH);
+            if(mh.getId()==-1){
+                hopLe1=true;
+            }
+            else{
+                System.out.print("Mã môn học đã tồn tại, vui lòng nhập mã khác: ");
+            }
+
+        }
         MonHoc mh = new MonHoc(tenMH, soTC, maMH);
         monHocController.addMonHoc(mh);
     }
@@ -610,16 +669,42 @@ public class BTL_OOP {
 
         System.out.println("Số tín chỉ hiện tại:" + mhUpdate.getSoTc());
         System.out.print("Nhập số tín chỉ mới( Enter để bỏ qua):");
-        String soTC = scanner.nextLine().trim();
-        if (!soTC.equals("")) {
-            int t = Integer.parseInt(soTC);
-            mhUpdate.setSoTc(t);
+        int soTC = 0;
+        boolean hopLe1 = false;
+        while (!hopLe1) {
+            String tmp = scanner.nextLine().trim();
+            if (tmp.equals("")) {
+                hopLe1 = true;
+                break;
+            }
+            try {
+                soTC = Integer.parseInt(tmp);
+                mhUpdate.setSoTc(soTC);
+                hopLe1 = true;
+            } catch (NumberFormatException e) {
+                System.out.print("Vui lòng nhập số hợp lệ: ");
+            }
         }
+
         System.out.println("Mã môn học hiện tại:" + mhUpdate.getMaMH());
         System.out.print("Nhập mã môn học mới( Enter để bỏ qua):");
-        String maMH = scanner.nextLine().trim();
-        if (!maMH.equals("")) {
-            mhUpdate.setMaMH(maMH);
+
+
+        String maMH = "";
+        boolean hopLe2 = false;
+        while (!hopLe2) {
+            maMH = scanner.nextLine().trim();
+            if(maMH.equals("")){
+                hopLe2 = true;
+                break;
+            }
+            MonHoc tmp= monHocController.getMonHocByMaMonHoc(maMH);
+            if(tmp.getId()== -1) {
+                mhUpdate.setMaMH(maMH);
+                hopLe2 = true;
+            } else {
+                System.out.print("Mã môn học đã tồn tại, vui lòng nhập mã môn học khác: ");
+            }
         }
 
         System.out.println(mhUpdate);
@@ -651,25 +736,254 @@ public class BTL_OOP {
     private void themDiemMonHocGUI() {
         kiHocController.getAllKiHoc();
         System.out.print("Nhập tên kì học: ");
-        String tenKiHoc = scanner.nextLine();
-
+        String tenKiHoc = "";
+        boolean hopLe = false;
+        while (!hopLe) {
+            tenKiHoc = scanner.nextLine().trim();
+            boolean tenKiHocTonTai = kiHocController.tenKiHocDaTonTai(tenKiHoc);
+            if (tenKiHocTonTai) {
+                hopLe = true;
+            } else {
+                System.out.print("Nhập lại tên kì học cho đúng: ");
+            }
+        }
 
         List<MonHoc> monHoc = monHocController.getAllMonHoc();
+        System.out.println("Danh sách các môn học: ");
         for (MonHoc x : monHoc) {
             System.out.println(x);
         }
-        System.out.print("Nhập Id môn học muốn thêm điểm: ");
+        System.out.print("Nhập mã môn học muốn thêm điểm: ");
         int monHocId = 0;
         boolean hopLe1 = false;
         while (!hopLe1) {
-            int idMonHoc = scanner.nextInt();
-            scanner.nextLine();
-            MonHoc tmp = monHocController.getMonHocById(idMonHoc);
+            String maMH = scanner.nextLine().trim();
+            MonHoc tmp = monHocController.getMonHocByMaMonHoc(maMH);
             if (tmp.getId() != -1) {
-                monHocId = idMonHoc;
+                monHocId = tmp.getId();
                 hopLe1 = true;
             } else {
-                System.out.print("Nhập lại Id môn học cho đúng: ");
+                System.out.print("Nhập lại mã môn học cho đúng: ");
+            }
+        }
+
+        List<LopHocPhan> lhp = lopHocPhanController.getLopHocPhanByMonHocKiHoc(monHocId, tenKiHoc);
+        for (LopHocPhan x : lhp) {
+            System.out.println(x);
+        }
+
+        System.out.print("Nhập Id lớp học phần muốn thêm điểm: ");
+        int lopHocPhanId = 0;
+        boolean hopLe2 = false;
+        while (!hopLe2) {
+            String idLopHocPhanStr =  scanner.nextLine().trim();
+            try{
+                lopHocPhanId = Integer.parseInt(idLopHocPhanStr);
+                for(LopHocPhan x:lhp){
+                    if(lopHocPhanId==x.getId()){
+                        hopLe2=true;
+                    }
+                }
+                if(!hopLe2){
+                    System.out.print("Nhập lại Id lớp học phần cho đúng: ");
+                }
+            }
+            catch(NumberFormatException e){
+                System.out.print("Nhập lại Id lớp học phần đúng định dạng số: ");
+            }
+        }
+
+        System.out.println("Danh sách sinh viên thuộc lớp học phần: " + lopHocPhanId);
+        List<ThanhVien> tv = thanhVienController.getThanhVienThamGiaLopHocPhan(lopHocPhanId, "SV");
+        for (ThanhVien x : tv) {
+            System.out.println(x);
+        }
+
+        System.out.print("Nhập mã sinh viên muốn thêm điểm: ");
+
+       int sinhVienId=0;
+        boolean hopLe3 = false;
+        while (!hopLe3) {
+            int check=0;
+            String maSinhVien= scanner.nextLine().trim();
+            for(ThanhVien x:tv){
+                if(maSinhVien.equals(x.getMaSV())){
+                    sinhVienId=x.getId();
+                    hopLe3=true;
+                    check=1;
+                }
+            }
+            if(check==0){
+                System.out.print("Nhập lại mã sinh viên cho đúng: ");
+            }
+        }
+
+        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(sinhVienId, lopHocPhanId);
+
+        List<MonHocDauDiem> mhdd = monHocController.getMonHocDauDiemByMonHoc(monHocId);
+        System.out.println("Nhập lần lượt theo các đầu điểm sau: ");
+        for (MonHocDauDiem x : mhdd) {
+            float diemNhap = 0;
+            boolean hopLe4 = false;
+            while (!hopLe4) {
+                System.out.print(x.getTenDauDiem() + " " + x.getHeSo() + ": ");
+                try {
+                    diemNhap = Float.parseFloat(scanner.nextLine());
+                    hopLe4 = true;
+                } catch (NumberFormatException e) {
+                    System.out.println("Vui lòng nhập số hợp lệ (ví dụ: 8.5).");
+                }
+            }
+            KetQua kq = new KetQua(x, tg, diemNhap);
+            ketQuaController.themKetQua(kq);
+        }
+        System.out.println("Thêm xong!");
+    }
+
+    private void xoaDiemMonHocGUI() {
+        kiHocController.getAllKiHoc();
+        System.out.print("Nhập tên kì học: ");
+        String tenKiHoc = "";
+        boolean hopLe = false;
+        while (!hopLe) {
+            tenKiHoc = scanner.nextLine().trim();
+            boolean tenKiHocTonTai = kiHocController.tenKiHocDaTonTai(tenKiHoc);
+            if (tenKiHocTonTai) {
+                hopLe = true;
+            } else {
+                System.out.print("Nhập lại tên kì học cho đúng: ");
+            }
+        }
+
+        List<MonHoc> monHoc = monHocController.getAllMonHoc();
+        System.out.println("Danh sách các môn học: ");
+        for (MonHoc x : monHoc) {
+            System.out.println(x);
+        }
+        System.out.print("Nhập mã môn học muốn thêm điểm: ");
+        int monHocId = 0;
+        boolean hopLe1 = false;
+        while (!hopLe1) {
+            String maMH = scanner.nextLine().trim();
+            MonHoc tmp = monHocController.getMonHocByMaMonHoc(maMH);
+            if (tmp.getId() != -1) {
+                monHocId = tmp.getId();
+                hopLe1 = true;
+            } else {
+                System.out.print("Nhập lại mã môn học cho đúng: ");
+            }
+        }
+
+        List<LopHocPhan> lhp = lopHocPhanController.getLopHocPhanByMonHocKiHoc(monHocId, tenKiHoc);
+        for (LopHocPhan x : lhp) {
+            System.out.println(x);
+        }
+
+        System.out.print("Nhập Id lớp học phần muốn thêm điểm: ");
+        int lopHocPhanId = 0;
+        boolean hopLe2 = false;
+        while (!hopLe2) {
+            String idLopHocPhanStr =  scanner.nextLine().trim();
+            try{
+                lopHocPhanId = Integer.parseInt(idLopHocPhanStr);
+                for(LopHocPhan x:lhp){
+                    if(lopHocPhanId==x.getId()){
+                        hopLe2=true;
+                    }
+                }
+                if(!hopLe2){
+                    System.out.print("Nhập lại Id lớp học phần cho đúng: ");
+                }
+            }
+            catch(NumberFormatException e){
+                System.out.print("Nhập lại Id lớp học phần đúng định dạng số: ");
+            }
+        }
+
+        System.out.println("Danh sách sinh viên thuộc lớp học phần: " + lopHocPhanId);
+        List<ThanhVien> tv = thanhVienController.getThanhVienThamGiaLopHocPhan(lopHocPhanId, "SV");
+        for (ThanhVien x : tv) {
+            System.out.println(x);
+        }
+
+        System.out.print("Nhập mã sinh viên muốn thêm điểm: ");
+
+        int sinhVienId=0;
+        boolean hopLe3 = false;
+        while (!hopLe3) {
+            int check=0;
+            String maSinhVien= scanner.nextLine().trim();
+            for(ThanhVien x:tv){
+                if(maSinhVien.equals(x.getMaSV())){
+                    sinhVienId=x.getId();
+                    hopLe3=true;
+                    check=1;
+                }
+            }
+            if(check==0){
+                System.out.print("Nhập lại mã sinh viên cho đúng: ");
+            }
+        }
+        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(sinhVienId, lopHocPhanId);
+        System.out.println("Kết quả các đầu điểm môn học của sinh viên: ");
+        List<KetQua> kq = ketQuaController.getAllKetQuaByThamGiaAndMonHocId(tg.getId(), monHocId);
+        for (KetQua x : kq) {
+            System.out.println(x);
+        }
+        System.out.print("Nhập Id kết quả đầu điểm muốn xóa: ");
+        int kqid=0;
+        boolean hopLe4 = false;
+        while (!hopLe4) {
+            String tmp=scanner.nextLine().trim();
+            try{
+                kqid = Integer.parseInt(tmp);
+                for(KetQua x:kq){
+                    if(kqid==x.getId()){
+                        hopLe4=true;
+                    }
+                }
+                if(!hopLe4){
+                    System.out.print("Nhập lại Id kết quả đầu điểm muốn xóa cho đúng: ");
+                }
+            }
+            catch(NumberFormatException e){
+                System.out.print("Nhập lại Id kết quả đầu điểm muốn sửa đúng định dạng số: ");
+            }
+        }
+        ketQuaController.xoaKetQua(kqid);
+    }
+
+    private void suaDiemMonHocGUI() {
+        kiHocController.getAllKiHoc();
+        System.out.print("Nhập tên kì học: ");
+        String tenKiHoc = "";
+        boolean hopLe = false;
+        while (!hopLe) {
+            tenKiHoc = scanner.nextLine().trim();
+            boolean tenKiHocTonTai = kiHocController.tenKiHocDaTonTai(tenKiHoc);
+            if (tenKiHocTonTai) {
+                hopLe = true;
+            } else {
+                System.out.print("Nhập lại tên kì học cho đúng: ");
+            }
+        }
+
+        List<MonHoc> monHoc = monHocController.getAllMonHoc();
+        System.out.println("Danh sách các môn học: ");
+        for (MonHoc x : monHoc) {
+            System.out.println(x);
+        }
+        System.out.print("Nhập mã môn học muốn thêm điểm: ");
+        int monHocId = 0;
+        boolean hopLe1 = false;
+        while (!hopLe1) {
+            String maMH = scanner.nextLine().trim();
+            MonHoc tmp = monHocController.getMonHocByMaMonHoc(maMH);
+            if (tmp.getId() != -1) {
+                monHocId = tmp.getId();
+                hopLe1 = true;
+            } else {
+                System.out.print("Nhập lại mã môn học cho đúng: ");
             }
 
         }
@@ -683,152 +997,83 @@ public class BTL_OOP {
         int lopHocPhanId = 0;
         boolean hopLe2 = false;
         while (!hopLe2) {
-            int idLopHocPhan = scanner.nextInt();
-            scanner.nextLine();
-            LopHocPhan tmp = lopHocPhanController.getById(idLopHocPhan);
-            if (tmp.getId() != -1) {
-                lopHocPhanId = idLopHocPhan;
-                hopLe2 = true;
-            } else {
-                System.out.print("Nhập lại Id lớp học phần cho đúng: ");
-            }
-
-        }
-
-        System.out.println("Danh sách sinh viên thuộc lớp học phần: " + lopHocPhanId);
-        List<ThanhVien> tv = thanhVienController.getThanhVienThamGiaLopHocPhan(lopHocPhanId, "SV");
-        for (ThanhVien x : tv) {
-            System.out.println(x);
-        }
-
-        System.out.print("Nhập Id sinh viên muốn thêm điểm: ");
-        int sinhVienId = 0;
-        boolean hopLe3 = false;
-        while (!hopLe3) {
-            int idSinhVien = scanner.nextInt();
-            scanner.nextLine();
-            ThanhVien tmp = thanhVienController.getThanhVienById(idSinhVien);
-            if (tmp.getId() != -1) {
-                sinhVienId = idSinhVien;
-                hopLe3 = true;
-            } else {
-                System.out.print("Nhập lại Id sinh viên cho đúng: ");
-            }
-
-        }
-
-        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(sinhVienId, lopHocPhanId);
-
-        List<MonHocDauDiem> mhdd = monHocController.getMonHocDauDiemByMonHoc(monHocId);
-        System.out.println("Nhập lần lượt theo các đầu điểm sau: ");
-        for (MonHocDauDiem x : mhdd) {
-            float diemNhap = 0;
-            boolean hopLe = false;
-            while (!hopLe) {
-                System.out.print(x.getTenDauDiem() + " " + x.getHeSo() + ": ");
-                try {
-                    diemNhap = Float.parseFloat(scanner.nextLine());
-                    hopLe = true;
-                } catch (NumberFormatException e) {
-                    System.out.println("Vui lòng nhập số hợp lệ (ví dụ: 8.5).");
+            String idLopHocPhanStr =  scanner.nextLine().trim();
+            try{
+                lopHocPhanId = Integer.parseInt(idLopHocPhanStr);
+                for(LopHocPhan x:lhp){
+                    if(lopHocPhanId==x.getId()){
+                        hopLe2=true;
+                    }
+                }
+                if(!hopLe2){
+                    System.out.print("Nhập lại Id lớp học phần cho đúng: ");
                 }
             }
-            KetQua kq = new KetQua(x, tg, diemNhap);
-            ketQuaController.themKetQua(kq);
+            catch(NumberFormatException e){
+                System.out.print("Nhập lại Id lớp học phần đúng định dạng số: ");
+            }
         }
-        System.out.println("Thêm xong!");
-
-    }
-
-    private void xoaDiemMonHocGUI() {
-        kiHocController.getAllKiHoc();
-        System.out.print("Nhập tên kì học: ");
-        String tenKiHoc = scanner.nextLine();
-
-        List<MonHoc> monHoc = monHocController.getAllMonHoc();
-        for (MonHoc x : monHoc) {
-            System.out.println(x);
-        }
-        System.out.print("Nhập Id môn học muốn xóa điểm: ");
-        int monHocId = scanner.nextInt();
-        scanner.nextLine();
-
-        List<LopHocPhan> lhp = lopHocPhanController.getLopHocPhanByMonHocKiHoc(monHocId, tenKiHoc);
-        for (LopHocPhan x : lhp) {
-            System.out.println(x);
-        }
-
-        System.out.print("Nhập Id lớp học phần muốn xóa điểm: ");
-        int lopHocPhanId = scanner.nextInt();
-        scanner.nextLine();
 
         System.out.println("Danh sách sinh viên thuộc lớp học phần: " + lopHocPhanId);
         List<ThanhVien> tv = thanhVienController.getThanhVienThamGiaLopHocPhan(lopHocPhanId, "SV");
         for (ThanhVien x : tv) {
             System.out.println(x);
         }
-        System.out.print("Nhập Id sinh viên muốn xóa điểm: ");
-        int svId = scanner.nextInt();
-        scanner.nextLine();
-        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(svId, lopHocPhanId);
-        System.out.println("Kết quả các đầu điểm môn học của sinh viên: ");
-        List<KetQua> kq = ketQuaController.getAllKetQuaByThamGiaAndMonHocId(tg.getId(), monHocId);
-        for (KetQua x : kq) {
-            System.out.println(x);
-        }
-        System.out.println("Nhập Id kết quả đầu điểm muốn xóa: ");
-        int kqid = scanner.nextInt();
-        scanner.nextLine();
-        ketQuaController.xoaKetQua(kqid);
-    }
 
-    private void suaDiemMonHocGUI() {
-        kiHocController.getAllKiHoc();
-        System.out.print("Nhập tên kì học: ");
-        String tenKiHoc = scanner.nextLine();
+        System.out.print("Nhập mã sinh viên muốn thêm điểm: ");
 
-        List<MonHoc> monHoc = monHocController.getAllMonHoc();
-        for (MonHoc x : monHoc) {
-            System.out.println(x);
-        }
-        System.out.print("Nhập Id môn học muốn sửa điểm: ");
-        int monHocId = scanner.nextInt();
-        scanner.nextLine();
-
-        List<LopHocPhan> lhp = lopHocPhanController.getLopHocPhanByMonHocKiHoc(monHocId, tenKiHoc);
-        for (LopHocPhan x : lhp) {
-            System.out.println(x);
+        int sinhVienId=0;
+        boolean hopLe3 = false;
+        while (!hopLe3) {
+            int check=0;
+            String maSinhVien= scanner.nextLine().trim();
+            for(ThanhVien x:tv){
+                if(maSinhVien.equals(x.getMaSV())){
+                    sinhVienId=x.getId();
+                    hopLe3=true;
+                    check=1;
+                }
+            }
+            if(check==0){
+                System.out.print("Nhập lại mã sinh viên cho đúng: ");
+            }
         }
 
-        System.out.print("Nhập Id lớp học phần muốn sửa điểm: ");
-        int lopHocPhanId = scanner.nextInt();
-        scanner.nextLine();
 
-        System.out.println("Danh sách sinh viên thuộc lớp học phần: " + lopHocPhanId);
-        List<ThanhVien> tv = thanhVienController.getThanhVienThamGiaLopHocPhan(lopHocPhanId, "SV");
-        for (ThanhVien x : tv) {
-            System.out.println(x);
-        }
-        System.out.print("Nhập Id sinh viên muốn sửa điểm: ");
-        int svId = scanner.nextInt();
-        scanner.nextLine();
-        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(svId, lopHocPhanId);
+        ThamGia tg = ketQuaController.getThamGiaByThanhVienAndLopHocPhan(sinhVienId, lopHocPhanId);
         System.out.println("Kết quả các đầu điểm môn học của sinh viên: ");
         List<KetQua> kq = ketQuaController.getAllKetQuaByThamGiaAndMonHocId(tg.getId(), monHocId);
         for (KetQua x : kq) {
             System.out.println(x);
         }
 
-        System.out.println("Nhập Id kết quả đầu điểm muốn sửa: ");
-        int kqid = scanner.nextInt();
-        scanner.nextLine();
+        System.out.print("Nhập Id kết quả đầu điểm muốn sửa: ");
+        int kqid=0;
+        boolean hopLe4 = false;
+        while (!hopLe4) {
+            String tmp=scanner.nextLine().trim();
+            try{
+                kqid = Integer.parseInt(tmp);
+                for(KetQua x:kq){
+                    if(kqid==x.getId()){
+                        hopLe4=true;
+                    }
+                }
+                if(!hopLe4){
+                    System.out.print("Nhập lại Id kết quả đầu điểm cho đúng: ");
+                }
+            }
+            catch(NumberFormatException e){
+                System.out.print("Nhập lại Id kết quả đầu điểm muốn sửa đúng định dạng số: ");
+            }
+        }
         System.out.println("Nhập điểm sửa: ");
         float diemNhap = 0;
-        boolean hopLe = false;
-        while (!hopLe) {
+        boolean hopLe5 = false;
+        while (!hopLe5) {
             try {
                 diemNhap = Float.parseFloat(scanner.nextLine());
-                hopLe = true;
+                hopLe5 = true;
             } catch (NumberFormatException e) {
                 System.out.println("Vui lòng nhập số hợp lệ (ví dụ: 8.5).");
             }
@@ -1117,7 +1362,7 @@ public class BTL_OOP {
                     break;
             }
         }
-        
+
     }
 
     private void listLopHocPhanCuaGiangVien() {
@@ -1457,5 +1702,17 @@ public class BTL_OOP {
         scanner.nextLine();
         currentUser = null;
         run();
+    }
+
+    public static boolean kiemTraNgaySinh(String ngaySinh) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(false);
+
+        try {
+            sdf.parse(ngaySinh);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
     }
 }
